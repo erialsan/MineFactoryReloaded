@@ -10,15 +10,15 @@ import net.minecraftforge.common.util.ForgeDirection;
  */
 public interface IFactoryLaserSource {
 
-	/**
-	 * Used to determine if laser blocks can remain in the world when emitted
-	 * from <tt>from</tt>
-	 *
-	 * @param from
-	 *            The direction the laser is oriented
-	 *
-	 * @return True if the beam should be sustained from this side
-	 */
-	public boolean canFormBeamFrom(ForgeDirection from);
+    /**
+     * Used to determine if laser blocks can remain in the world when emitted
+     * from <tt>from</tt>
+     *
+     * @param from
+     *             The direction the laser is oriented
+     *
+     * @return True if the beam should be sustained from this side
+     */
+    public boolean canFormBeamFrom(ForgeDirection from);
 
 }

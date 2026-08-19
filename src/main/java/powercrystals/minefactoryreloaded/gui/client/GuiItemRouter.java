@@ -6,43 +6,39 @@ import powercrystals.minefactoryreloaded.gui.container.ContainerFactoryInventory
 import powercrystals.minefactoryreloaded.net.Packets;
 import powercrystals.minefactoryreloaded.tile.machine.TileEntityItemRouter;
 
-public class GuiItemRouter extends GuiFactoryInventory
-{
-	private TileEntityItemRouter _router;
+public class GuiItemRouter extends GuiFactoryInventory {
 
-	private GuiButton _matchLevels;
+    private TileEntityItemRouter _router;
 
-	public GuiItemRouter(ContainerFactoryInventory container, TileEntityItemRouter router)
-	{
-		super(container, router);
-		_router = router;
-		ySize = 226;
-	}
+    private GuiButton _matchLevels;
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public void initGui()
-	{
-		super.initGui();
+    public GuiItemRouter(ContainerFactoryInventory container, TileEntityItemRouter router) {
+        super(container, router);
+        _router = router;
+        ySize = 226;
+    }
 
-		int xOffset = (this.width - this.xSize) / 2;
-		int yOffset = (this.height - this.ySize) / 2;
+    @SuppressWarnings("unchecked")
+    @Override
+    public void initGui() {
+        super.initGui();
 
-		_matchLevels =  new GuiButton(1, xOffset + 7,  yOffset + 15, 120, 20, "Reject Unmapped: NO");
+        int xOffset = (this.width - this.xSize) / 2;
+        int yOffset = (this.height - this.ySize) / 2;
 
-		buttonList.add(_matchLevels);
-	}
+        _matchLevels = new GuiButton(1, xOffset + 7, yOffset + 15, 120, 20, "Reject Unmapped: NO");
 
-	@Override
-	public void updateScreen()
-	{
-		super.updateScreen();
-		_matchLevels.displayString  = _router.getRejectUnmapped() ? "Reject Unmapped: YES" : "Reject Unmapped: NO";
-	}
+        buttonList.add(_matchLevels);
+    }
 
-	@Override
-	protected void actionPerformed(GuiButton button)
-	{
-		Packets.sendToServer(Packets.RouterButton, _tileEntity, button.id);
-	}
+    @Override
+    public void updateScreen() {
+        super.updateScreen();
+        _matchLevels.displayString = _router.getRejectUnmapped() ? "Reject Unmapped: YES" : "Reject Unmapped: NO";
+    }
+
+    @Override
+    protected void actionPerformed(GuiButton button) {
+        Packets.sendToServer(Packets.RouterButton, _tileEntity, button.id);
+    }
 }

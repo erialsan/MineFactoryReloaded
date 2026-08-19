@@ -23,93 +23,96 @@ import powercrystals.minefactoryreloaded.item.base.ItemFactoryTool;
 
 public class ItemStraw extends ItemFactoryTool {
 
-	@Override
-	public ItemStack onEaten(ItemStack stack, World world, EntityPlayer player) {
+    @Override
+    public ItemStack onEaten(ItemStack stack, World world, EntityPlayer player) {
 
-		if (!world.isRemote) {
-			MovingObjectPosition mop = getMovingObjectPositionFromPlayer(world, player, true);
-			Map<String, ILiquidDrinkHandler> map = MFRRegistry.getLiquidDrinkHandlers();
-			if (mop != null && mop.typeOfHit == MovingObjectType.BLOCK) {
-				int x = mop.blockX, y = mop.blockY, z = mop.blockZ;
-				Block block = world.getBlock(x, y, z);
-				Fluid fluid = FluidRegistry.lookupFluidForBlock(block);
-				if (fluid != null && map.containsKey(fluid.getName())) {
-					map.get(fluid.getName()).onDrink(player);
-					world.setBlockToAir(mop.blockX, mop.blockY, mop.blockZ);
-				} else if (block.hasTileEntity(world.getBlockMetadata(x, y, z))) {
-					TileEntity tile = world.getTileEntity(x, y, z);
-					if (tile instanceof IFluidHandler) {
-						IFluidHandler handler = (IFluidHandler) tile;
-						FluidTankInfo[] info = handler.getTankInfo(ForgeDirection.getOrientation(mop.sideHit));
-						for (int i = info.length; i-- > 0;) {
-							FluidStack fstack = info[i].fluid;
-							if (fstack != null) {
-								fluid = fstack.getFluid();
-								if (fluid != null && map.containsKey(fluid.getName()) && fstack.amount >= 1000) {
-									fstack = fstack.copy();
-									fstack.amount = 1000;
-									FluidStack r = handler.drain(ForgeDirection.getOrientation(mop.sideHit), fstack.copy(), false);
-									if (r != null && r.amount >= 1000) {
-										map.get(fluid.getName()).onDrink(player);
-										handler.drain(ForgeDirection.getOrientation(mop.sideHit), fstack, true);
-										break;
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
+        if (!world.isRemote) {
+            MovingObjectPosition mop = getMovingObjectPositionFromPlayer(world, player, true);
+            Map<String, ILiquidDrinkHandler> map = MFRRegistry.getLiquidDrinkHandlers();
+            if (mop != null && mop.typeOfHit == MovingObjectType.BLOCK) {
+                int x = mop.blockX, y = mop.blockY, z = mop.blockZ;
+                Block block = world.getBlock(x, y, z);
+                Fluid fluid = FluidRegistry.lookupFluidForBlock(block);
+                if (fluid != null && map.containsKey(fluid.getName())) {
+                    map.get(fluid.getName())
+                        .onDrink(player);
+                    world.setBlockToAir(mop.blockX, mop.blockY, mop.blockZ);
+                } else if (block.hasTileEntity(world.getBlockMetadata(x, y, z))) {
+                    TileEntity tile = world.getTileEntity(x, y, z);
+                    if (tile instanceof IFluidHandler) {
+                        IFluidHandler handler = (IFluidHandler) tile;
+                        FluidTankInfo[] info = handler.getTankInfo(ForgeDirection.getOrientation(mop.sideHit));
+                        for (int i = info.length; i-- > 0;) {
+                            FluidStack fstack = info[i].fluid;
+                            if (fstack != null) {
+                                fluid = fstack.getFluid();
+                                if (fluid != null && map.containsKey(fluid.getName()) && fstack.amount >= 1000) {
+                                    fstack = fstack.copy();
+                                    fstack.amount = 1000;
+                                    FluidStack r = handler
+                                        .drain(ForgeDirection.getOrientation(mop.sideHit), fstack.copy(), false);
+                                    if (r != null && r.amount >= 1000) {
+                                        map.get(fluid.getName())
+                                            .onDrink(player);
+                                        handler.drain(ForgeDirection.getOrientation(mop.sideHit), fstack, true);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
-		return stack;
-	}
+        return stack;
+    }
 
-	@Override
-	public int getMaxItemUseDuration(ItemStack stack) {
+    @Override
+    public int getMaxItemUseDuration(ItemStack stack) {
 
-		return 32;
-	}
+        return 32;
+    }
 
-	@Override
-	public EnumAction getItemUseAction(ItemStack stack) {
+    @Override
+    public EnumAction getItemUseAction(ItemStack stack) {
 
-		return EnumAction.drink;
-	}
+        return EnumAction.drink;
+    }
 
-	@Override
-	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
+    @Override
+    public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 
-		MovingObjectPosition mop = getMovingObjectPositionFromPlayer(world, player, true);
-		Map<String, ?> map = MFRRegistry.getLiquidDrinkHandlers();
-		if (mop != null && mop.typeOfHit == MovingObjectType.BLOCK) {
-			int x = mop.blockX, y = mop.blockY, z = mop.blockZ;
-			Block block = world.getBlock(x, y, z);
-			Fluid fluid = FluidRegistry.lookupFluidForBlock(block);
-			if (fluid != null && map.containsKey(fluid.getName())) {
-				player.setItemInUse(stack, this.getMaxItemUseDuration(stack));
-			} else if (block.hasTileEntity(world.getBlockMetadata(x, y, z))) {
-				TileEntity tile = world.getTileEntity(x, y, z);
-				if (tile instanceof IFluidHandler) {
-					IFluidHandler handler = (IFluidHandler) tile;
-					FluidTankInfo[] info = handler.getTankInfo(ForgeDirection.getOrientation(mop.sideHit));
-					for (int i = info.length; i-- > 0;) {
-						FluidStack fstack = info[i].fluid;
-						if (fstack != null) {
-							fluid = fstack.getFluid();
-							if (fluid != null && map.containsKey(fluid.getName()) && fstack.amount >= 1000) {
-								FluidStack r = handler.drain(ForgeDirection.getOrientation(mop.sideHit), fstack, false);
-								if (r != null && r.amount >= 1000) {
-									player.setItemInUse(stack, this.getMaxItemUseDuration(stack));
-									break;
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-		return stack;
-	}
+        MovingObjectPosition mop = getMovingObjectPositionFromPlayer(world, player, true);
+        Map<String, ?> map = MFRRegistry.getLiquidDrinkHandlers();
+        if (mop != null && mop.typeOfHit == MovingObjectType.BLOCK) {
+            int x = mop.blockX, y = mop.blockY, z = mop.blockZ;
+            Block block = world.getBlock(x, y, z);
+            Fluid fluid = FluidRegistry.lookupFluidForBlock(block);
+            if (fluid != null && map.containsKey(fluid.getName())) {
+                player.setItemInUse(stack, this.getMaxItemUseDuration(stack));
+            } else if (block.hasTileEntity(world.getBlockMetadata(x, y, z))) {
+                TileEntity tile = world.getTileEntity(x, y, z);
+                if (tile instanceof IFluidHandler) {
+                    IFluidHandler handler = (IFluidHandler) tile;
+                    FluidTankInfo[] info = handler.getTankInfo(ForgeDirection.getOrientation(mop.sideHit));
+                    for (int i = info.length; i-- > 0;) {
+                        FluidStack fstack = info[i].fluid;
+                        if (fstack != null) {
+                            fluid = fstack.getFluid();
+                            if (fluid != null && map.containsKey(fluid.getName()) && fstack.amount >= 1000) {
+                                FluidStack r = handler.drain(ForgeDirection.getOrientation(mop.sideHit), fstack, false);
+                                if (r != null && r.amount >= 1000) {
+                                    player.setItemInUse(stack, this.getMaxItemUseDuration(stack));
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return stack;
+    }
 
 }

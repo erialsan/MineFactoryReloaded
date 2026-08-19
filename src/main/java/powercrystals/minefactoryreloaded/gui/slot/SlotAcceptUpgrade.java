@@ -6,25 +6,22 @@ import net.minecraft.util.IIcon;
 
 import powercrystals.minefactoryreloaded.tile.base.TileEntityFactoryInventory;
 
-public class SlotAcceptUpgrade extends Slot
-{
-	protected TileEntityFactoryInventory _inv;
+public class SlotAcceptUpgrade extends Slot {
 
-	public SlotAcceptUpgrade(TileEntityFactoryInventory inv, int index, int x, int y)
-	{
-		super(inv, index, x, y);
-		_inv = inv;
-	}
+    protected TileEntityFactoryInventory _inv;
 
-	public SlotAcceptUpgrade(TileEntityFactoryInventory inv, int index, int x, int y, IIcon icon)
-	{
-		this(inv, index, x, y);
-		setBackgroundIcon(icon);
-	}
+    public SlotAcceptUpgrade(TileEntityFactoryInventory inv, int index, int x, int y) {
+        super(inv, index, x, y);
+        _inv = inv;
+    }
 
-	@Override
-	public boolean isItemValid(ItemStack stack)
-	{
-		return _inv.isUsableAugment(stack);
-	}
+    public SlotAcceptUpgrade(TileEntityFactoryInventory inv, int index, int x, int y, IIcon icon) {
+        this(inv, index, x, y);
+        setBackgroundIcon(icon);
+    }
+
+    @Override
+    public boolean isItemValid(ItemStack stack) {
+        return _inv.isUsableAugment(stack);
+    }
 }

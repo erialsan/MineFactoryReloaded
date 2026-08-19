@@ -1,9 +1,5 @@
 package powercrystals.minefactoryreloaded.tile.machine;
 
-import cofh.core.util.fluid.FluidTankAdv;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
 import java.util.List;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -13,6 +9,9 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
+import cofh.core.util.fluid.FluidTankAdv;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import powercrystals.minefactoryreloaded.MFRRegistry;
 import powercrystals.minefactoryreloaded.api.IFactoryRanchable;
 import powercrystals.minefactoryreloaded.api.RanchedItem;
@@ -25,127 +24,132 @@ import powercrystals.minefactoryreloaded.tile.base.TileEntityFactoryPowered;
 
 public class TileEntityRancher extends TileEntityFactoryPowered implements ITankContainerBucketable {
 
-	public TileEntityRancher() {
+    public TileEntityRancher() {
 
-		super(Machine.Rancher);
-		setManageSolids(true);
-		createEntityHAM(this);
-		setCanRotate(true);
-	}
+        super(Machine.Rancher);
+        setManageSolids(true);
+        createEntityHAM(this);
+        setCanRotate(true);
+    }
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public GuiFactoryInventory getGui(InventoryPlayer inventoryPlayer) {
+    @Override
+    @SideOnly(Side.CLIENT)
+    public GuiFactoryInventory getGui(InventoryPlayer inventoryPlayer) {
 
-		return new GuiFactoryPowered(getContainer(inventoryPlayer), this);
-	}
+        return new GuiFactoryPowered(getContainer(inventoryPlayer), this);
+    }
 
-	@Override
-	public ContainerFactoryPowered getContainer(InventoryPlayer inventoryPlayer) {
+    @Override
+    public ContainerFactoryPowered getContainer(InventoryPlayer inventoryPlayer) {
 
-		return new ContainerFactoryPowered(this, inventoryPlayer);
-	}
+        return new ContainerFactoryPowered(this, inventoryPlayer);
+    }
 
-	@Override
-	protected boolean shouldPumpLiquid() {
+    @Override
+    protected boolean shouldPumpLiquid() {
 
-		return true;
-	}
+        return true;
+    }
 
-	@Override
-	public int getWorkMax() {
+    @Override
+    public int getWorkMax() {
 
-		return 1;
-	}
+        return 1;
+    }
 
-	@Override
-	public int getIdleTicksMax() {
+    @Override
+    public int getIdleTicksMax() {
 
-		return 400;
-	}
+        return 400;
+    }
 
-	@Override
-	public boolean activateMachine() {
+    @Override
+    public boolean activateMachine() {
 
-		boolean didDrop = false;
+        boolean didDrop = false;
 
-		List<?> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, _areaManager.getHarvestArea().toAxisAlignedBB());
+        List<?> entities = worldObj.getEntitiesWithinAABB(
+            EntityLivingBase.class,
+            _areaManager.getHarvestArea()
+                .toAxisAlignedBB());
 
-		for (Object o : entities) {
-			EntityLivingBase e = (EntityLivingBase) o;
-			if (MFRRegistry.getRanchables().containsKey(e.getClass())) {
-				IFactoryRanchable r = MFRRegistry.getRanchables().get(e.getClass());
-				List<RanchedItem> drops = r.ranch(worldObj, e, this);
-				if (drops != null) {
-					for (RanchedItem s : drops) {
-						if (s.hasFluid()) {
-							// whitelist fluids? multiple tanks?
-							fill((FluidStack) s.getResult(), true);
-							didDrop = true;
-							continue;
-						}
+        for (Object o : entities) {
+            EntityLivingBase e = (EntityLivingBase) o;
+            if (MFRRegistry.getRanchables()
+                .containsKey(e.getClass())) {
+                IFactoryRanchable r = MFRRegistry.getRanchables()
+                    .get(e.getClass());
+                List<RanchedItem> drops = r.ranch(worldObj, e, this);
+                if (drops != null) {
+                    for (RanchedItem s : drops) {
+                        if (s.hasFluid()) {
+                            // whitelist fluids? multiple tanks?
+                            fill((FluidStack) s.getResult(), true);
+                            didDrop = true;
+                            continue;
+                        }
 
-						doDrop((ItemStack) s.getResult());
-						didDrop = true;
-					}
-					if (didDrop) {
-						setIdleTicks(20);
-						return true;
-					}
-				}
-			}
-		}
+                        doDrop((ItemStack) s.getResult());
+                        didDrop = true;
+                    }
+                    if (didDrop) {
+                        setIdleTicks(20);
+                        return true;
+                    }
+                }
+            }
+        }
 
-		setIdleTicks(getIdleTicksMax());
-		return false;
-	}
+        setIdleTicks(getIdleTicksMax());
+        return false;
+    }
 
-	@Override
-	public int getSizeInventory() {
+    @Override
+    public int getSizeInventory() {
 
-		return 9;
-	}
+        return 9;
+    }
 
-	@Override
-	public boolean allowBucketDrain(ItemStack stack) {
+    @Override
+    public boolean allowBucketDrain(ItemStack stack) {
 
-		return true;
-	}
+        return true;
+    }
 
-	@Override
-	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+    @Override
+    public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
 
-		return 0;
-	}
+        return 0;
+    }
 
-	@Override
-	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
+    @Override
+    public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
 
-		return drain(maxDrain, doDrain);
-	}
+        return drain(maxDrain, doDrain);
+    }
 
-	@Override
-	public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
+    @Override
+    public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
 
-		return drain(resource, doDrain);
-	}
+        return drain(resource, doDrain);
+    }
 
-	@Override
-	protected FluidTankAdv[] createTanks() {
+    @Override
+    protected FluidTankAdv[] createTanks() {
 
-		return new FluidTankAdv[] { new FluidTankAdv(4 * BUCKET_VOLUME) };
-	}
+        return new FluidTankAdv[] { new FluidTankAdv(4 * BUCKET_VOLUME) };
+    }
 
-	@Override
-	public boolean canFill(ForgeDirection from, Fluid fluid) {
+    @Override
+    public boolean canFill(ForgeDirection from, Fluid fluid) {
 
-		return false;
-	}
+        return false;
+    }
 
-	@Override
-	public boolean canDrain(ForgeDirection from, Fluid fluid) {
+    @Override
+    public boolean canDrain(ForgeDirection from, Fluid fluid) {
 
-		return true;
-	}
+        return true;
+    }
 
 }

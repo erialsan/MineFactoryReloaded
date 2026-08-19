@@ -6,24 +6,22 @@ import net.minecraft.entity.player.EntityPlayer;
 
 import powercrystals.minefactoryreloaded.MineFactoryReloadedClient;
 
-public class ClientProxy extends CommonProxy
-{
-	@Override
-	public void init()
-	{
-		super.init();
-		MineFactoryReloadedClient.init();
-	}
+public class ClientProxy extends CommonProxy {
 
-	@Override
-	public EntityPlayer getPlayer() {
+    @Override
+    public void init() {
+        super.init();
+        MineFactoryReloadedClient.init();
+    }
 
-		return Minecraft.getMinecraft().thePlayer;
-	}
+    @Override
+    public EntityPlayer getPlayer() {
 
-	@Override
-	public void movePlayerToCoordinates(EntityLivingBase e, double x, double y, double z)
-	{
-		e.setPositionAndUpdate(x, y, z);
-	}
+        return Minecraft.getMinecraft().thePlayer;
+    }
+
+    @Override
+    public void movePlayerToCoordinates(EntityLivingBase e, double x, double y, double z) {
+        e.setPositionAndUpdate(x, y, z);
+    }
 }

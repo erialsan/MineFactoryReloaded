@@ -7,47 +7,48 @@ import powercrystals.minefactoryreloaded.setup.MFRThings;
 import powercrystals.minefactoryreloaded.setup.Machine;
 import powercrystals.minefactoryreloaded.tile.base.TileEntityFactory;
 
-public class TileEntityMobCounter extends TileEntityFactory
-{
-	private int _lastMobCount;
+public class TileEntityMobCounter extends TileEntityFactory {
 
-	public TileEntityMobCounter()
-	{
-		super(Machine.MobCounter);
-		createEntityHAM(this);
-		setCanRotate(true);
-	}
+    private int _lastMobCount;
 
-	@Override
-	public boolean canUpdate()
-	{
-		return true;
-	}
+    public TileEntityMobCounter() {
+        super(Machine.MobCounter);
+        createEntityHAM(this);
+        setCanRotate(true);
+    }
 
-	@Override
-	public void updateEntity()
-	{
-		super.updateEntity();
+    @Override
+    public boolean canUpdate() {
+        return true;
+    }
 
-		if (worldObj == null)
-		{
-			return;
-		}
+    @Override
+    public void updateEntity() {
+        super.updateEntity();
 
-		int mobCount = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, _areaManager.getHarvestArea().toAxisAlignedBB()).size();
-		if (mobCount != _lastMobCount)
-		{
-			_lastMobCount = mobCount;
-			if (!worldObj.isRemote)
-			{
-				worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, MFRThings.machineBlocks.get(Machine.MobCounter.getBlockIndex()));
-			}
-		}
-	}
+        if (worldObj == null) {
+            return;
+        }
 
-	@Override
-	public int getRedNetOutput(ForgeDirection side)
-	{
-		return _lastMobCount;
-	}
+        int mobCount = worldObj.getEntitiesWithinAABB(
+            EntityLivingBase.class,
+            _areaManager.getHarvestArea()
+                .toAxisAlignedBB())
+            .size();
+        if (mobCount != _lastMobCount) {
+            _lastMobCount = mobCount;
+            if (!worldObj.isRemote) {
+                worldObj.notifyBlocksOfNeighborChange(
+                    xCoord,
+                    yCoord,
+                    zCoord,
+                    MFRThings.machineBlocks.get(Machine.MobCounter.getBlockIndex()));
+            }
+        }
+    }
+
+    @Override
+    public int getRedNetOutput(ForgeDirection side) {
+        return _lastMobCount;
+    }
 }

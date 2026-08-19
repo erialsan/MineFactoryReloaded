@@ -10,43 +10,45 @@ import net.minecraft.util.StatCollector;
 
 public class GrindingDamage extends DamageSource {
 
-	protected int _msgCount;
-	protected Random _rand;
+    protected int _msgCount;
+    protected Random _rand;
 
-	public GrindingDamage() {
+    public GrindingDamage() {
 
-		this(null, 1);
-	}
+        this(null, 1);
+    }
 
-	public GrindingDamage(String type) {
+    public GrindingDamage(String type) {
 
-		this(type, 1);
-	}
+        this(type, 1);
+    }
 
-	public GrindingDamage(String type, int deathMessages) {
+    public GrindingDamage(String type, int deathMessages) {
 
-		super(type == null ? "mfr.grinder" : type);
-		setDamageIsAbsolute();
-		setDamageBypassesArmor();
-		setDamageAllowedInCreativeMode();
-		_msgCount = Math.max(deathMessages, 1);
-		_rand = new Random();
-	}
+        super(type == null ? "mfr.grinder" : type);
+        setDamageIsAbsolute();
+        setDamageBypassesArmor();
+        setDamageAllowedInCreativeMode();
+        _msgCount = Math.max(deathMessages, 1);
+        _rand = new Random();
+    }
 
-	@Override
-	public IChatComponent func_151519_b(EntityLivingBase entity) {
+    @Override
+    public IChatComponent func_151519_b(EntityLivingBase entity) {
 
-		EntityLivingBase entityliving1 = entity.func_94060_bK();
-		String s = "death.attack." + this.damageType;
-		if (_msgCount > 1) {
-			int msg = _rand.nextInt(_msgCount);
-			if (msg != 0) {
-				s += "." + msg;
-			}
-		}
-		String s1 = s + ".player";
-		if (entityliving1 != null && StatCollector.canTranslate(s1))
-			return new ChatComponentTranslation(s1, entity.getCommandSenderName(), entityliving1.getCommandSenderName());
-		return new ChatComponentTranslation(s, entity.getCommandSenderName());
-	}
+        EntityLivingBase entityliving1 = entity.func_94060_bK();
+        String s = "death.attack." + this.damageType;
+        if (_msgCount > 1) {
+            int msg = _rand.nextInt(_msgCount);
+            if (msg != 0) {
+                s += "." + msg;
+            }
+        }
+        String s1 = s + ".player";
+        if (entityliving1 != null && StatCollector.canTranslate(s1)) return new ChatComponentTranslation(
+            s1,
+            entity.getCommandSenderName(),
+            entityliving1.getCommandSenderName());
+        return new ChatComponentTranslation(s, entity.getCommandSenderName());
+    }
 }

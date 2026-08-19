@@ -9,54 +9,43 @@ import net.minecraft.world.World;
 
 import powercrystals.minefactoryreloaded.api.ReplacementBlock;
 
-public class PlantableCocoa extends PlantableStandard
-{
+public class PlantableCocoa extends PlantableStandard {
 
-	public PlantableCocoa(Item source, Block plantedBlock)
-	{
-		this(source, plantedBlock, WILDCARD);
-	}
+    public PlantableCocoa(Item source, Block plantedBlock) {
+        this(source, plantedBlock, WILDCARD);
+    }
 
-	public PlantableCocoa(Item source, Block plantedBlock, int validMeta)
-	{
-		super(source, plantedBlock, validMeta);
-		_plantedBlock = new ReplacementBlock(_block) {
-			@Override
-			public int getMeta(World world, int x, int y, int z, ItemStack stack)
-			{
-				int meta = 3; // NORTH
-				if (isGoodLog(world, x-1, y, z))
-					meta = 1; // SOUTH
-				else if (isGoodLog(world, x, y, z+1))
-					meta = 0; // EAST
-				else if (isGoodLog(world, x, y, z-1))
-					meta = 2; // WEST
+    public PlantableCocoa(Item source, Block plantedBlock, int validMeta) {
+        super(source, plantedBlock, validMeta);
+        _plantedBlock = new ReplacementBlock(_block) {
 
-				return meta;
-			}
-		};
-	}
+            @Override
+            public int getMeta(World world, int x, int y, int z, ItemStack stack) {
+                int meta = 3; // NORTH
+                if (isGoodLog(world, x - 1, y, z)) meta = 1; // SOUTH
+                else if (isGoodLog(world, x, y, z + 1)) meta = 0; // EAST
+                else if (isGoodLog(world, x, y, z - 1)) meta = 2; // WEST
 
-	@Override
-	public boolean canBePlantedHere(World world, int x, int y, int z, ItemStack stack)
-	{
-		if (!world.isAirBlock(x, y, z))
-			return false;
+                return meta;
+            }
+        };
+    }
 
-		return isNextToAcceptableLog(world, x, y, z);
-	}
+    @Override
+    public boolean canBePlantedHere(World world, int x, int y, int z, ItemStack stack) {
+        if (!world.isAirBlock(x, y, z)) return false;
 
-	protected boolean isNextToAcceptableLog(World world, int x, int y, int z)
-	{
-		return isGoodLog(world, x+1, y, z) ||
-				isGoodLog(world, x-1, y, z) ||
-				isGoodLog(world, x, y, z+1) ||
-				isGoodLog(world, x, y, z-1);
-	}
+        return isNextToAcceptableLog(world, x, y, z);
+    }
 
-	protected boolean isGoodLog(World world, int x, int y, int z)
-	{
-		return world.getBlock(x, y, z).equals(Blocks.log) &&
-				BlockLog.func_150165_c(world.getBlockMetadata(x, y, z)) == 3;
-	}
+    protected boolean isNextToAcceptableLog(World world, int x, int y, int z) {
+        return isGoodLog(world, x + 1, y, z) || isGoodLog(world, x - 1, y, z)
+            || isGoodLog(world, x, y, z + 1)
+            || isGoodLog(world, x, y, z - 1);
+    }
+
+    protected boolean isGoodLog(World world, int x, int y, int z) {
+        return world.getBlock(x, y, z)
+            .equals(Blocks.log) && BlockLog.func_150165_c(world.getBlockMetadata(x, y, z)) == 3;
+    }
 }

@@ -10,23 +10,23 @@ import net.minecraft.item.ItemStack;
  */
 public interface IFactoryFertilizer {
 
-	/**
-	 * @return The ID of this fertilizer item.
-	 */
-	Item getFertilizer();
+    /**
+     * @return The ID of this fertilizer item.
+     */
+    Item getFertilizer();
 
-	/**
-	 * @return The type of fertilizer this is.
-	 */
-	FertilizerType getFertilizerType(ItemStack stack);
+    /**
+     * @return The type of fertilizer this is.
+     */
+    FertilizerType getFertilizerType(ItemStack stack);
 
-	/**
-	 * Called when a fertilization is successful. If you set the ItemStack size
-	 * to 0, it will be deleted by the fertilizer.
-	 *
-	 * @param fertilizer
-	 *            The ItemStack used to fertilize.
-	 */
-	void consume(ItemStack fertilizer);
+    /**
+     * Called when a fertilization is successful. If you set the ItemStack size
+     * to 0, it will be deleted by the fertilizer.
+     *
+     * @param fertilizer
+     *                   The ItemStack used to fertilize.
+     */
+    void consume(ItemStack fertilizer);
 
 }

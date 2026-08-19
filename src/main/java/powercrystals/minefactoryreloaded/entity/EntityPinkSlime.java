@@ -11,69 +11,57 @@ import net.minecraft.world.World;
 import powercrystals.minefactoryreloaded.setup.MFRConfig;
 import powercrystals.minefactoryreloaded.setup.MFRThings;
 
-public class EntityPinkSlime extends EntitySlime
-{
-	public EntityPinkSlime(World world)
-	{
-		super(world);
-		setSlimeSize(1);
-	}
+public class EntityPinkSlime extends EntitySlime {
 
-	@Override
-	protected int getJumpDelay()
-	{
-		return this.rand.nextInt(10) + 5;
-	}
+    public EntityPinkSlime(World world) {
+        super(world);
+        setSlimeSize(1);
+    }
 
-	@Override
-	protected Item getDropItem()
-	{
-		boolean drop = MFRConfig.largeSlimesDrop.getBoolean() ? getSlimeSize() > 1 : getSlimeSize() == 1;
-		return drop ? MFRThings.pinkSlimeItem : Item.getItemById(0);
-	}
+    @Override
+    protected int getJumpDelay() {
+        return this.rand.nextInt(10) + 5;
+    }
 
-	@Override
-	public void setSlimeSize(int size)
-	{
-		if (size > 4)
-		{
-			worldObj.newExplosion(this, posX, posY, posZ, 0.1F, false, true);
-			this.attackEntityFrom(DamageSource.generic, 50);
+    @Override
+    protected Item getDropItem() {
+        boolean drop = MFRConfig.largeSlimesDrop.getBoolean() ? getSlimeSize() > 1 : getSlimeSize() == 1;
+        return drop ? MFRThings.pinkSlimeItem : Item.getItemById(0);
+    }
 
-			if(!worldObj.isRemote)
-			{
-				ItemStack meats = new ItemStack(MFRThings.meatNuggetRawItem, worldObj.rand.nextInt(12) + size);
-				EntityItem e = new EntityItem(worldObj, posX, posY, posZ, meats);
-				e.motionX = rand.nextDouble() - 0.5D;
-				e.motionY = rand.nextDouble() - 0.5D;
-				e.motionZ = rand.nextDouble() - 0.5D;
-				worldObj.spawnEntityInWorld(e);
-			}
-		}
-		else
-		{
-			super.setSlimeSize(size);
-		}
-	}
+    @Override
+    public void setSlimeSize(int size) {
+        if (size > 4) {
+            worldObj.newExplosion(this, posX, posY, posZ, 0.1F, false, true);
+            this.attackEntityFrom(DamageSource.generic, 50);
 
-	@Override
-	protected String getSlimeParticle()
-	{
-		return "";
-	}
+            if (!worldObj.isRemote) {
+                ItemStack meats = new ItemStack(MFRThings.meatNuggetRawItem, worldObj.rand.nextInt(12) + size);
+                EntityItem e = new EntityItem(worldObj, posX, posY, posZ, meats);
+                e.motionX = rand.nextDouble() - 0.5D;
+                e.motionY = rand.nextDouble() - 0.5D;
+                e.motionZ = rand.nextDouble() - 0.5D;
+                worldObj.spawnEntityInWorld(e);
+            }
+        } else {
+            super.setSlimeSize(size);
+        }
+    }
 
-	@Override
-	protected EntityPinkSlime createInstance()
-	{
-		return new EntityPinkSlime(this.worldObj);
-	}
+    @Override
+    protected String getSlimeParticle() {
+        return "";
+    }
 
-	@Override
-    public void onStruckByLightning(EntityLightningBolt par1EntityLightningBolt)
-    {
-        if (!this.worldObj.isRemote)
-        {
-        	this.setSlimeSize(this.getSlimeSize() + 3);
+    @Override
+    protected EntityPinkSlime createInstance() {
+        return new EntityPinkSlime(this.worldObj);
+    }
+
+    @Override
+    public void onStruckByLightning(EntityLightningBolt par1EntityLightningBolt) {
+        if (!this.worldObj.isRemote) {
+            this.setSlimeSize(this.getSlimeSize() + 3);
         }
     }
 }

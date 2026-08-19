@@ -1,12 +1,5 @@
 package powercrystals.minefactoryreloaded.render.item;
 
-import cofh.repack.codechicken.lib.lighting.LightModel;
-import cofh.repack.codechicken.lib.render.CCModel;
-import cofh.repack.codechicken.lib.render.CCRenderState;
-import cofh.repack.codechicken.lib.vec.Scale;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
 import java.util.Map;
 
 import net.minecraft.client.Minecraft;
@@ -20,96 +13,95 @@ import net.minecraftforge.client.IItemRenderer;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import cofh.repack.codechicken.lib.lighting.LightModel;
+import cofh.repack.codechicken.lib.render.CCModel;
+import cofh.repack.codechicken.lib.render.CCRenderState;
+import cofh.repack.codechicken.lib.vec.Scale;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import powercrystals.minefactoryreloaded.MineFactoryReloadedCore;
 
 @SideOnly(Side.CLIENT)
-public class NeedleGunItemRenderer implements IItemRenderer
-{
-	private static final ResourceLocation needleGun =
-			new ResourceLocation(MineFactoryReloadedCore.modelTextureFolder + "NeedleGun.png");
-	private static CCModel base;
-	private static CCModel mag;
+public class NeedleGunItemRenderer implements IItemRenderer {
 
-	public static void updateModel() {
-		try
-		{
-			Map<String, CCModel> gunModels = CCModel.parseObjModels(new ResourceLocation(
-					MineFactoryReloadedCore.modelFolder + "NeedleGun.obj"), 4, new Scale(0.03, 0.03, 0.03));
-			base = gunModels.get("gun").backfacedCopy();
-			mag = gunModels.get("magazine").backfacedCopy();
+    private static final ResourceLocation needleGun = new ResourceLocation(
+        MineFactoryReloadedCore.modelTextureFolder + "NeedleGun.png");
+    private static CCModel base;
+    private static CCModel mag;
 
-			base.computeNormals();
-			base.computeLighting(LightModel.standardLightModel);
+    public static void updateModel() {
+        try {
+            Map<String, CCModel> gunModels = CCModel.parseObjModels(
+                new ResourceLocation(MineFactoryReloadedCore.modelFolder + "NeedleGun.obj"),
+                4,
+                new Scale(0.03, 0.03, 0.03));
+            base = gunModels.get("gun")
+                .backfacedCopy();
+            mag = gunModels.get("magazine")
+                .backfacedCopy();
 
-			mag.computeNormals();
-			mag.computeLighting(LightModel.standardLightModel);
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
+            base.computeNormals();
+            base.computeLighting(LightModel.standardLightModel);
 
-	@Override
-	public boolean handleRenderType(ItemStack item, ItemRenderType type)
-	{
-		return true;
-	}
+            mag.computeNormals();
+            mag.computeLighting(LightModel.standardLightModel);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-	@Override
-	public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper)
-	{
-		return helper != ItemRendererHelper.EQUIPPED_BLOCK;
-	}
+    @Override
+    public boolean handleRenderType(ItemStack item, ItemRenderType type) {
+        return true;
+    }
 
-	@Override
-	public void renderItem(ItemRenderType type, ItemStack item, Object... data)
-	{
-		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-		TextureManager renderengine = Minecraft.getMinecraft().renderEngine;
+    @Override
+    public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper) {
+        return helper != ItemRendererHelper.EQUIPPED_BLOCK;
+    }
 
-		if (renderengine != null)
-		{
-			renderengine.bindTexture(needleGun);
-		}
+    @Override
+    public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
+        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+        TextureManager renderengine = Minecraft.getMinecraft().renderEngine;
 
-		CCRenderState.reset();
-		RenderHelper.disableStandardItemLighting();
-		GL11.glPushMatrix();
+        if (renderengine != null) {
+            renderengine.bindTexture(needleGun);
+        }
 
-		if (type == ItemRenderType.EQUIPPED_FIRST_PERSON)
-		{
-			GL11.glRotatef(270, 0, 1, 0);
-			GL11.glRotatef(300, 1, 0, 0);
-			GL11.glTranslatef(-0.2F, 0.5F, 0.2F);
-		}
-		else if (type == ItemRenderType.EQUIPPED)
-		{
-			GL11.glRotatef(270, 1, 0, 0);
-			GL11.glTranslatef(1.0F, 0, 0.2F);
-		}
-		else
-		{
-			GL11.glRotatef(270, 1, 0, 0);
-			GL11.glTranslatef(0, -0.4F, 0);
-		}
-		if (type == ItemRenderType.INVENTORY) {
-			GL11.glNormal3f(0.0F, 0.0F, 1.0F);
-			RenderHelper.enableGUIStandardItemLighting();
-		} else {
-			GL11.glNormal3f(0.0F, 0.0F, -1.0F);
-			RenderHelper.enableStandardItemLighting();
-		}
+        CCRenderState.reset();
+        RenderHelper.disableStandardItemLighting();
+        GL11.glPushMatrix();
 
-		Tessellator.instance.startDrawing(4);
-		base.render();
-		if (item.stackTagCompound != null && item.stackTagCompound.hasKey("ammo") &&
-				!item.stackTagCompound.getCompoundTag("ammo").hasNoTags())
-			mag.render();
-		Tessellator.instance.draw();
+        if (type == ItemRenderType.EQUIPPED_FIRST_PERSON) {
+            GL11.glRotatef(270, 0, 1, 0);
+            GL11.glRotatef(300, 1, 0, 0);
+            GL11.glTranslatef(-0.2F, 0.5F, 0.2F);
+        } else if (type == ItemRenderType.EQUIPPED) {
+            GL11.glRotatef(270, 1, 0, 0);
+            GL11.glTranslatef(1.0F, 0, 0.2F);
+        } else {
+            GL11.glRotatef(270, 1, 0, 0);
+            GL11.glTranslatef(0, -0.4F, 0);
+        }
+        if (type == ItemRenderType.INVENTORY) {
+            GL11.glNormal3f(0.0F, 0.0F, 1.0F);
+            RenderHelper.enableGUIStandardItemLighting();
+        } else {
+            GL11.glNormal3f(0.0F, 0.0F, -1.0F);
+            RenderHelper.enableStandardItemLighting();
+        }
 
-		GL11.glPopMatrix();
-		GL11.glNormal3f(0.0F, 0.0F, 0.0F);
-		RenderHelper.enableStandardItemLighting();
-	}
+        Tessellator.instance.startDrawing(4);
+        base.render();
+        if (item.stackTagCompound != null && item.stackTagCompound.hasKey("ammo")
+            && !item.stackTagCompound.getCompoundTag("ammo")
+                .hasNoTags())
+            mag.render();
+        Tessellator.instance.draw();
+
+        GL11.glPopMatrix();
+        GL11.glNormal3f(0.0F, 0.0F, 0.0F);
+        RenderHelper.enableStandardItemLighting();
+    }
 }

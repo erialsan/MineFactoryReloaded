@@ -1,213 +1,196 @@
 package powercrystals.minefactoryreloaded.tile.base;
 
-import cofh.api.energy.IEnergyProvider;
-import cofh.api.energy.IEnergyReceiver;
-import cofh.core.util.CoreUtils;
-import cofh.lib.util.helpers.EnergyHelper;
-
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import cofh.api.energy.IEnergyProvider;
+import cofh.api.energy.IEnergyReceiver;
+import cofh.core.util.CoreUtils;
+import cofh.lib.util.helpers.EnergyHelper;
 import powercrystals.minefactoryreloaded.setup.Machine;
 
-public abstract class TileEntityFactoryGenerator extends TileEntityFactoryInventory
-										implements IEnergyProvider {
-	private boolean deadCache;
-	private IEnergyReceiver[] receiverCache;
+public abstract class TileEntityFactoryGenerator extends TileEntityFactoryInventory implements IEnergyProvider {
 
-	private int _ticksBetweenConsumption;
-	private int _outputPulseSize;
+    private boolean deadCache;
+    private IEnergyReceiver[] receiverCache;
 
-	private int _ticksSinceLastConsumption = 0;
-	private int _energyMax;
-	private int _energy;
+    private int _ticksBetweenConsumption;
+    private int _outputPulseSize;
 
-	protected TileEntityFactoryGenerator(Machine machine, int ticksBetweenConsumption) {
-		super(machine);
-		if (machine.getActivationEnergy() <= 0)
-			throw new IllegalStateException("Generators cannot produce 0 energy.");
-		_ticksBetweenConsumption = ticksBetweenConsumption;
-		_outputPulseSize = machine.getActivationEnergy();
-		_energyMax = machine.getMaxEnergyStorage();
-	}
+    private int _ticksSinceLastConsumption = 0;
+    private int _energyMax;
+    private int _energy;
 
-	@Override
-	public void validate() {
-		super.validate();
-		deadCache = true;
-		receiverCache = null;
-	}
+    protected TileEntityFactoryGenerator(Machine machine, int ticksBetweenConsumption) {
+        super(machine);
+        if (machine.getActivationEnergy() <= 0) throw new IllegalStateException("Generators cannot produce 0 energy.");
+        _ticksBetweenConsumption = ticksBetweenConsumption;
+        _outputPulseSize = machine.getActivationEnergy();
+        _energyMax = machine.getMaxEnergyStorage();
+    }
 
-	@Override
-	public void updateEntity() {
-		super.updateEntity();
-		if (!worldObj.isRemote) {
-			if (deadCache) reCache();
+    @Override
+    public void validate() {
+        super.validate();
+        deadCache = true;
+        receiverCache = null;
+    }
 
-			boolean skipConsumption = ++_ticksSinceLastConsumption < _ticksBetweenConsumption;
+    @Override
+    public void updateEntity() {
+        super.updateEntity();
+        if (!worldObj.isRemote) {
+            if (deadCache) reCache();
 
-			if (_rednetState != 0 || CoreUtils.isRedstonePowered(this)) {
-				setIsActive(false);
-				return;
-			}
+            boolean skipConsumption = ++_ticksSinceLastConsumption < _ticksBetweenConsumption;
 
-			setIsActive(hasFuel());
+            if (_rednetState != 0 || CoreUtils.isRedstonePowered(this)) {
+                setIsActive(false);
+                return;
+            }
 
-			int pulse = Math.min(_energy, _outputPulseSize);
-			_energy -= pulse - transmitEnergy(pulse);
+            setIsActive(hasFuel());
 
-			if (skipConsumption || !canConsumeFuel(_energyMax - _energy))
-				return;
+            int pulse = Math.min(_energy, _outputPulseSize);
+            _energy -= pulse - transmitEnergy(pulse);
 
-			if (consumeFuel()) {
-				_energy += produceEnergy();
-				_ticksSinceLastConsumption = 0;
-			}
-		}
-	}
+            if (skipConsumption || !canConsumeFuel(_energyMax - _energy)) return;
 
-	protected abstract boolean canConsumeFuel(int space);
-	protected abstract boolean consumeFuel();
-	protected abstract boolean hasFuel();
-	protected abstract int produceEnergy();
+            if (consumeFuel()) {
+                _energy += produceEnergy();
+                _ticksSinceLastConsumption = 0;
+            }
+        }
+    }
 
-	protected final int transmitEnergy(int energy) {
-		if (_inventory[0] != null)
-			energy -= EnergyHelper.insertEnergyIntoContainer(_inventory[0], energy, false);
-		if (energy <= 0)
-			return 0;
+    protected abstract boolean canConsumeFuel(int space);
 
-		if (receiverCache != null)
-			for (int i = receiverCache.length; i --> 0; ) {
-				IEnergyReceiver tile = receiverCache[i];
-				if (tile == null)
-					continue;
+    protected abstract boolean consumeFuel();
 
-				ForgeDirection from = ForgeDirection.VALID_DIRECTIONS[i];
-				if (tile.receiveEnergy(from, energy, true) > 0)
-					energy -= tile.receiveEnergy(from, energy, false);
-				if (energy <= 0)
-					return 0;
-			}
+    protected abstract boolean hasFuel();
 
-		return energy;
-	}
+    protected abstract int produceEnergy();
 
-	public int getBuffer() {
-		return _energy;
-	}
+    protected final int transmitEnergy(int energy) {
+        if (_inventory[0] != null) energy -= EnergyHelper.insertEnergyIntoContainer(_inventory[0], energy, false);
+        if (energy <= 0) return 0;
 
-	public void setBuffer(int buffer) {
-		_energy = buffer;
-	}
+        if (receiverCache != null) for (int i = receiverCache.length; i-- > 0;) {
+            IEnergyReceiver tile = receiverCache[i];
+            if (tile == null) continue;
 
-	public int getBufferMax() {
-		return _energyMax;
-	}
+            ForgeDirection from = ForgeDirection.VALID_DIRECTIONS[i];
+            if (tile.receiveEnergy(from, energy, true) > 0) energy -= tile.receiveEnergy(from, energy, false);
+            if (energy <= 0) return 0;
+        }
 
-	@Override
-	public int getSizeInventory() {
-		return 1;
-	}
+        return energy;
+    }
 
-	@Override
-	public boolean canInsertItem(int slot, ItemStack itemstack, int side) {
-		return EnergyHelper.isEnergyContainerItem(itemstack);
-	}
+    public int getBuffer() {
+        return _energy;
+    }
 
-	@Override
-	public boolean canExtractItem(int slot, ItemStack itemstack, int side) {
-		return _inventory[0] != null && EnergyHelper.insertEnergyIntoContainer(_inventory[0], 2, true) < 2;
-	}
+    public void setBuffer(int buffer) {
+        _energy = buffer;
+    }
 
-	private void reCache() {
-		if (deadCache) {
-			for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
-				onNeighborTileChange(xCoord + dir.offsetX,
-						yCoord + dir.offsetY, zCoord + dir.offsetZ);
-			deadCache = false;
-		}
-	}
+    public int getBufferMax() {
+        return _energyMax;
+    }
 
-	@Override
-	public void onNeighborTileChange(int x, int y, int z) {
-		TileEntity tile = worldObj.getTileEntity(x, y, z);
+    @Override
+    public int getSizeInventory() {
+        return 1;
+    }
 
-		if (x < xCoord)
-			addCache(tile, 5);
-		else if (x > xCoord)
-			addCache(tile, 4);
-		else if (z < zCoord)
-			addCache(tile, 3);
-		else if (z > zCoord)
-			addCache(tile, 2);
-		else if (y < yCoord)
-			addCache(tile, 1);
-		else if (y > yCoord)
-			addCache(tile, 0);
-	}
+    @Override
+    public boolean canInsertItem(int slot, ItemStack itemstack, int side) {
+        return EnergyHelper.isEnergyContainerItem(itemstack);
+    }
 
-	private void addCache(TileEntity tile, int side) {
-		if (receiverCache != null)
-			receiverCache[side] = null;
+    @Override
+    public boolean canExtractItem(int slot, ItemStack itemstack, int side) {
+        return _inventory[0] != null && EnergyHelper.insertEnergyIntoContainer(_inventory[0], 2, true) < 2;
+    }
 
-		if (tile instanceof IEnergyReceiver) {
-			if (((IEnergyReceiver)tile).canConnectEnergy(ForgeDirection.VALID_DIRECTIONS[side])) {
-				if (receiverCache == null) receiverCache = new IEnergyReceiver[6];
-				receiverCache[side] = (IEnergyReceiver)tile;
-			}
-		}
-	}
+    private void reCache() {
+        if (deadCache) {
+            for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
+                onNeighborTileChange(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
+            deadCache = false;
+        }
+    }
 
-	@Override
-	public void writeToNBT(NBTTagCompound tag) {
-		super.writeToNBT(tag);
-		if (_ticksSinceLastConsumption > 0)
-			tag.setInteger("ticksSinceLastConsumption", _ticksSinceLastConsumption);
-	}
+    @Override
+    public void onNeighborTileChange(int x, int y, int z) {
+        TileEntity tile = worldObj.getTileEntity(x, y, z);
 
-	@Override
-	public void writeItemNBT(NBTTagCompound tag) {
-		super.writeItemNBT(tag);
+        if (x < xCoord) addCache(tile, 5);
+        else if (x > xCoord) addCache(tile, 4);
+        else if (z < zCoord) addCache(tile, 3);
+        else if (z > zCoord) addCache(tile, 2);
+        else if (y < yCoord) addCache(tile, 1);
+        else if (y > yCoord) addCache(tile, 0);
+    }
 
-		if (_energy > 0)
-			tag.setInteger("energyStored", _energy);
-	}
+    private void addCache(TileEntity tile, int side) {
+        if (receiverCache != null) receiverCache[side] = null;
 
-	@Override
-	public void readFromNBT(NBTTagCompound tag) {
-		super.readFromNBT(tag);
+        if (tile instanceof IEnergyReceiver) {
+            if (((IEnergyReceiver) tile).canConnectEnergy(ForgeDirection.VALID_DIRECTIONS[side])) {
+                if (receiverCache == null) receiverCache = new IEnergyReceiver[6];
+                receiverCache[side] = (IEnergyReceiver) tile;
+            }
+        }
+    }
 
-		_ticksSinceLastConsumption = tag.getInteger("ticksSinceLastConsumption");
-		_energy = tag.getInteger(tag.hasKey("energyStored") ? "energyStored" : "buffer");
-	}
+    @Override
+    public void writeToNBT(NBTTagCompound tag) {
+        super.writeToNBT(tag);
+        if (_ticksSinceLastConsumption > 0) tag.setInteger("ticksSinceLastConsumption", _ticksSinceLastConsumption);
+    }
 
-	// TE methods
+    @Override
+    public void writeItemNBT(NBTTagCompound tag) {
+        super.writeItemNBT(tag);
 
-	@Override
-	public boolean canConnectEnergy(ForgeDirection from) {
-		return true;
-	}
+        if (_energy > 0) tag.setInteger("energyStored", _energy);
+    }
 
-	@Override
-	public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
-		maxExtract = Math.min(_energy, Math.min(_outputPulseSize, maxExtract));
-		if (maxExtract <= 0) return 0;
+    @Override
+    public void readFromNBT(NBTTagCompound tag) {
+        super.readFromNBT(tag);
 
-		if (!simulate)
-			_energy -= maxExtract;
-		return maxExtract;
-	}
+        _ticksSinceLastConsumption = tag.getInteger("ticksSinceLastConsumption");
+        _energy = tag.getInteger(tag.hasKey("energyStored") ? "energyStored" : "buffer");
+    }
 
-	@Override
-	public int getEnergyStored(ForgeDirection from) {
-		return _energy;
-	}
+    // TE methods
 
-	@Override
-	public int getMaxEnergyStored(ForgeDirection from) {
-		return _energyMax;
-	}
+    @Override
+    public boolean canConnectEnergy(ForgeDirection from) {
+        return true;
+    }
+
+    @Override
+    public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
+        maxExtract = Math.min(_energy, Math.min(_outputPulseSize, maxExtract));
+        if (maxExtract <= 0) return 0;
+
+        if (!simulate) _energy -= maxExtract;
+        return maxExtract;
+    }
+
+    @Override
+    public int getEnergyStored(ForgeDirection from) {
+        return _energy;
+    }
+
+    @Override
+    public int getMaxEnergyStored(ForgeDirection from) {
+        return _energyMax;
+    }
 }

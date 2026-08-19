@@ -1,39 +1,34 @@
 package powercrystals.minefactoryreloaded.gui;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import powercrystals.minefactoryreloaded.setup.MFRThings;
 
-public class MFRCreativeTab extends CreativeTabs
-{
-	public static final MFRCreativeTab tab = new MFRCreativeTab("MineFactory Reloaded");
+public class MFRCreativeTab extends CreativeTabs {
 
-	public MFRCreativeTab(String label)
-	{
-		super(label);
-	}
+    public static final MFRCreativeTab tab = new MFRCreativeTab("MineFactory Reloaded");
 
-	@Override
-	public ItemStack getIconItemStack()
-	{
-		return new ItemStack(MFRThings.conveyorBlock, 1, 16);
-	}
+    public MFRCreativeTab(String label) {
+        super(label);
+    }
 
-	@Override
-	public String getTranslatedTabLabel()
-	{
-		return this.getTabLabel();
-	}
+    @Override
+    public ItemStack getIconItemStack() {
+        return new ItemStack(MFRThings.conveyorBlock, 1, 16);
+    }
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public Item getTabIconItem()
-	{
-		return null;
-	}
+    @Override
+    public String getTranslatedTabLabel() {
+        return this.getTabLabel();
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public Item getTabIconItem() {
+        return null;
+    }
 }

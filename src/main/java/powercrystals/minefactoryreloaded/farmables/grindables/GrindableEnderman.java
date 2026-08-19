@@ -14,29 +14,25 @@ import net.minecraft.world.World;
 import powercrystals.minefactoryreloaded.api.IFactoryGrindable;
 import powercrystals.minefactoryreloaded.api.MobDrop;
 
-public class GrindableEnderman implements IFactoryGrindable
-{
-	@Override
-	public Class<? extends EntityLivingBase> getGrindableEntity()
-	{
-		return EntityEnderman.class;
-	}
+public class GrindableEnderman implements IFactoryGrindable {
 
-	@Override
-	public List<MobDrop> grind(World world, EntityLivingBase entity, Random random)
-	{
-		List<MobDrop> drops = new LinkedList<MobDrop>();
-		Block block = ((EntityEnderman)entity).func_146080_bZ();
-		int meta = ((EntityEnderman)entity).getCarryingData();
-		if (block != null && !block.equals(Blocks.air))
-			drops.add(new MobDrop(10, new ItemStack(block, 1, meta)));
-		return drops;
-	}
+    @Override
+    public Class<? extends EntityLivingBase> getGrindableEntity() {
+        return EntityEnderman.class;
+    }
 
-	@Override
-	public boolean processEntity(EntityLivingBase entity)
-	{
-		return false;
-	}
+    @Override
+    public List<MobDrop> grind(World world, EntityLivingBase entity, Random random) {
+        List<MobDrop> drops = new LinkedList<MobDrop>();
+        Block block = ((EntityEnderman) entity).func_146080_bZ();
+        int meta = ((EntityEnderman) entity).getCarryingData();
+        if (block != null && !block.equals(Blocks.air)) drops.add(new MobDrop(10, new ItemStack(block, 1, meta)));
+        return drops;
+    }
+
+    @Override
+    public boolean processEntity(EntityLivingBase entity) {
+        return false;
+    }
 
 }

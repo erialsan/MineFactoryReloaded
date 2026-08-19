@@ -9,43 +9,49 @@ import powercrystals.minefactoryreloaded.tile.machine.TileEntityPlanter;
 
 public class GuiPlanter extends GuiUpgradeable {
 
-	private TileEntityPlanter _planter;
+    private TileEntityPlanter _planter;
 
-	private GuiButton _consumeToggle;
+    private GuiButton _consumeToggle;
 
-	public GuiPlanter(ContainerUpgradeable container, TileEntityPlanter te) {
+    public GuiPlanter(ContainerUpgradeable container, TileEntityPlanter te) {
 
-		super(container, te);
-		_planter = te;
-		ySize = 201;
-	}
+        super(container, te);
+        _planter = te;
+        ySize = 201;
+    }
 
-	@Override
-	public void initGui() {
+    @Override
+    public void initGui() {
 
-		super.initGui();
-		_consumeToggle = new GuiButton(1, (this.width - this.xSize) / 2 + 7, (this.height - this.ySize) / 2 + 87, 100, 20, "");
-		buttonList.add(_consumeToggle);
-	}
+        super.initGui();
+        _consumeToggle = new GuiButton(
+            1,
+            (this.width - this.xSize) / 2 + 7,
+            (this.height - this.ySize) / 2 + 87,
+            100,
+            20,
+            "");
+        buttonList.add(_consumeToggle);
+    }
 
-	@Override
-	protected void updateElementInformation() {
+    @Override
+    protected void updateElementInformation() {
 
-		_consumeToggle.displayString = _planter.getConsumeAll() ? "Consume Stack: Off" : "Consume Stack: On";
-	}
+        _consumeToggle.displayString = _planter.getConsumeAll() ? "Consume Stack: Off" : "Consume Stack: On";
+    }
 
-	@Override
-	protected void actionPerformed(GuiButton button) {
+    @Override
+    protected void actionPerformed(GuiButton button) {
 
-		Packets.sendToServer(Packets.RouterButton, _tileEntity, button.id);
-	}
+        Packets.sendToServer(Packets.RouterButton, _tileEntity, button.id);
+    }
 
-	@Override
-	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+    @Override
+    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 
-		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
+        super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 
-		fontRendererObj.drawString(MFRUtil.localize("info.cofh.filter"), 8, 22, 4210752);
-	}
+        fontRendererObj.drawString(MFRUtil.localize("info.cofh.filter"), 8, 22, 4210752);
+    }
 
 }

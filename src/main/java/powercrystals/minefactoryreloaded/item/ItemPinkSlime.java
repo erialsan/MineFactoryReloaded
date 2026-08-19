@@ -4,9 +4,9 @@ import powercrystals.minefactoryreloaded.item.base.ItemMulti;
 
 public class ItemPinkSlime extends ItemMulti {
 
-	public ItemPinkSlime() {
+    public ItemPinkSlime() {
 
-		setNames("ball", "gem");
-	}
+        setNames("ball", "gem");
+    }
 
 }

@@ -7,29 +7,29 @@ import powercrystals.minefactoryreloaded.tile.machine.TileEntityLiquidRouter;
 
 public class ContainerLiquidRouter extends ContainerFactoryInventory {
 
-	public ContainerLiquidRouter(TileEntityLiquidRouter router, InventoryPlayer inventoryPlayer) {
+    public ContainerLiquidRouter(TileEntityLiquidRouter router, InventoryPlayer inventoryPlayer) {
 
-		super(router, inventoryPlayer);
-	}
+        super(router, inventoryPlayer);
+    }
 
-	@Override
-	protected void addSlots() {
+    @Override
+    protected void addSlots() {
 
-		for (int i = 0; i < 6; i++) {
-			addSlotToContainer(new SlotFake(_te, i, 8 + i * 18, 20));
-		}
-	}
+        for (int i = 0; i < 6; i++) {
+            addSlotToContainer(new SlotFake(_te, i, 8 + i * 18, 20));
+        }
+    }
 
-	@Override
-	protected int getPlayerInventoryVerticalOffset() {
+    @Override
+    protected int getPlayerInventoryVerticalOffset() {
 
-		return 52;
-	}
+        return 52;
+    }
 
-	@Override
-	public boolean supportsShiftClick(int slot) {
+    @Override
+    public boolean supportsShiftClick(int slot) {
 
-		return false;
-	}
+        return false;
+    }
 
 }

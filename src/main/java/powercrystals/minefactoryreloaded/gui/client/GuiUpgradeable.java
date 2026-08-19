@@ -5,8 +5,8 @@ import powercrystals.minefactoryreloaded.tile.base.TileEntityFactoryPowered;
 
 public class GuiUpgradeable extends GuiFactoryPowered {
 
-	public GuiUpgradeable(ContainerUpgradeable container, TileEntityFactoryPowered te) {
-		super(container, te);
-		ySize = 181;
-	}
+    public GuiUpgradeable(ContainerUpgradeable container, TileEntityFactoryPowered te) {
+        super(container, te);
+        ySize = 181;
+    }
 }

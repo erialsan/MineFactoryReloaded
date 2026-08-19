@@ -1,9 +1,5 @@
 package powercrystals.minefactoryreloaded.tile.machine;
 
-import cofh.core.util.fluid.FluidTankAdv;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +13,9 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
+import cofh.core.util.fluid.FluidTankAdv;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import powercrystals.minefactoryreloaded.MFRRegistry;
 import powercrystals.minefactoryreloaded.core.ITankContainerBucketable;
 import powercrystals.minefactoryreloaded.core.OreDictionaryArbiter;
@@ -29,262 +28,260 @@ import powercrystals.minefactoryreloaded.tile.base.TileEntityFactoryInventory;
 
 public class TileEntityUnifier extends TileEntityFactoryInventory implements ITankContainerBucketable {
 
-	private boolean ignoreChange = false;
-	private static FluidStack _biofuel;
-	private static FluidStack _ethanol;
-	private int _roundingCompensation;
-
-	private Map<String, ItemStack> _preferredOutputs = new HashMap<String, ItemStack>();
-
-	public TileEntityUnifier() {
-
-		super(Machine.Unifier);
-		_roundingCompensation = 1;
-		setManageSolids(true);
-	}
-
-	public static void updateUnifierLiquids() {
-
-		_biofuel = FluidRegistry.getFluidStack("biofuel", 1);
-		_ethanol = FluidRegistry.getFluidStack("bioethanol", 1);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public GuiFactoryInventory getGui(InventoryPlayer inventoryPlayer) {
-
-		return new GuiUnifier(getContainer(inventoryPlayer), this);
-	}
-
-	@Override
-	public ContainerUnifier getContainer(InventoryPlayer inventoryPlayer) {
-
-		return new ContainerUnifier(this, inventoryPlayer);
-	}
-
-	@Override
-	public boolean canUpdate() {
-
-		return false;
-	}
-
-	private void unifyInventory() {
-
-		if (worldObj != null && !worldObj.isRemote) {
-			ItemStack output = null;
-			if (_inventory[0] != null) {
-				List<String> names = OreDictionaryArbiter.getAllOreNames(_inventory[0]);
-				// tracker does *not* also check the wildcard meta,
-				// avoiding issues with saplings and logs, etc.
-
-				if (names == null || names.size() != 1 || MFRRegistry.getUnifierBlacklist().containsKey(names.get(0))) {
-					output = _inventory[0].copy();
-				} else if (_preferredOutputs.containsKey(names.get(0))) {
-					output = _preferredOutputs.get(names.get(0)).copy();
-					output.stackSize = _inventory[0].stackSize;
-				} else {
-					output = OreDictionaryArbiter.getOres(names.get(0)).get(0).copy();
-					output.stackSize = _inventory[0].stackSize;
-				}
-
-				if (output != null && _inventory[0].getItem().equals(output.getItem()))
-					output = _inventory[0].copy();
-
-				moveItemStack(output);
-			}
-		}
-	}
-
-	private void moveItemStack(ItemStack source) {
-
-		if (source == null) {
-			return;
-		}
-
-		int amt = source.stackSize;
-
-		if (_inventory[1] == null) {
-			amt = Math.min(Math.min(getInventoryStackLimit(), source.getMaxStackSize()),
-				source.stackSize);
-		} else if (!UtilInventory.stacksEqual(source, _inventory[1], false)) {
-			return;
-		} else if (source.getTagCompound() != null || _inventory[1].getTagCompound() != null) {
-			return;
-		} else {
-			amt = Math.min(source.stackSize,
-				_inventory[1].getMaxStackSize() - _inventory[1].stackSize);
-		}
-
-		if (_inventory[1] == null) {
-			_inventory[1] = source.copy();
-			_inventory[1].stackSize = amt;
-			_inventory[0].stackSize -= amt;
-		} else {
-			_inventory[1].stackSize += amt;
-			_inventory[0].stackSize -= amt;
-		}
-
-		if (_inventory[0].stackSize == 0) {
-			_inventory[0] = null;
-		}
-	}
-
-	@Override
-	public void setInventorySlotContents(int slot, ItemStack stack) {
+    private boolean ignoreChange = false;
+    private static FluidStack _biofuel;
+    private static FluidStack _ethanol;
+    private int _roundingCompensation;
+
+    private Map<String, ItemStack> _preferredOutputs = new HashMap<String, ItemStack>();
+
+    public TileEntityUnifier() {
+
+        super(Machine.Unifier);
+        _roundingCompensation = 1;
+        setManageSolids(true);
+    }
+
+    public static void updateUnifierLiquids() {
+
+        _biofuel = FluidRegistry.getFluidStack("biofuel", 1);
+        _ethanol = FluidRegistry.getFluidStack("bioethanol", 1);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public GuiFactoryInventory getGui(InventoryPlayer inventoryPlayer) {
+
+        return new GuiUnifier(getContainer(inventoryPlayer), this);
+    }
+
+    @Override
+    public ContainerUnifier getContainer(InventoryPlayer inventoryPlayer) {
+
+        return new ContainerUnifier(this, inventoryPlayer);
+    }
+
+    @Override
+    public boolean canUpdate() {
+
+        return false;
+    }
+
+    private void unifyInventory() {
+
+        if (worldObj != null && !worldObj.isRemote) {
+            ItemStack output = null;
+            if (_inventory[0] != null) {
+                List<String> names = OreDictionaryArbiter.getAllOreNames(_inventory[0]);
+                // tracker does *not* also check the wildcard meta,
+                // avoiding issues with saplings and logs, etc.
+
+                if (names == null || names.size() != 1
+                    || MFRRegistry.getUnifierBlacklist()
+                        .containsKey(names.get(0))) {
+                    output = _inventory[0].copy();
+                } else if (_preferredOutputs.containsKey(names.get(0))) {
+                    output = _preferredOutputs.get(names.get(0))
+                        .copy();
+                    output.stackSize = _inventory[0].stackSize;
+                } else {
+                    output = OreDictionaryArbiter.getOres(names.get(0))
+                        .get(0)
+                        .copy();
+                    output.stackSize = _inventory[0].stackSize;
+                }
+
+                if (output != null && _inventory[0].getItem()
+                    .equals(output.getItem())) output = _inventory[0].copy();
+
+                moveItemStack(output);
+            }
+        }
+    }
+
+    private void moveItemStack(ItemStack source) {
+
+        if (source == null) {
+            return;
+        }
+
+        int amt = source.stackSize;
+
+        if (_inventory[1] == null) {
+            amt = Math.min(Math.min(getInventoryStackLimit(), source.getMaxStackSize()), source.stackSize);
+        } else if (!UtilInventory.stacksEqual(source, _inventory[1], false)) {
+            return;
+        } else if (source.getTagCompound() != null || _inventory[1].getTagCompound() != null) {
+            return;
+        } else {
+            amt = Math.min(source.stackSize, _inventory[1].getMaxStackSize() - _inventory[1].stackSize);
+        }
+
+        if (_inventory[1] == null) {
+            _inventory[1] = source.copy();
+            _inventory[1].stackSize = amt;
+            _inventory[0].stackSize -= amt;
+        } else {
+            _inventory[1].stackSize += amt;
+            _inventory[0].stackSize -= amt;
+        }
+
+        if (_inventory[0].stackSize == 0) {
+            _inventory[0] = null;
+        }
+    }
 
-		_inventory[slot] = stack;
-		if (slot > 1)
-			updatePreferredOutput();
-		if (stack != null && stack.stackSize <= 0)
-			_inventory[slot] = null;
-		unifyInventory();
-		ignoreChange = true;
-		markDirty();
-		ignoreChange = false;
-	}
+    @Override
+    public void setInventorySlotContents(int slot, ItemStack stack) {
 
-	protected void updatePreferredOutput() {
+        _inventory[slot] = stack;
+        if (slot > 1) updatePreferredOutput();
+        if (stack != null && stack.stackSize <= 0) _inventory[slot] = null;
+        unifyInventory();
+        ignoreChange = true;
+        markDirty();
+        ignoreChange = false;
+    }
 
-		_preferredOutputs.clear();
-		for (int i = 2; i < 11; i++) {
-			if (_inventory[i] == null) {
-				continue;
-			}
-			List<String> names = OreDictionaryArbiter.getAllOreNames(_inventory[i]);
-			if (names != null) {
-				for (String name : names) {
-					_preferredOutputs.put(name, _inventory[i].copy());
-				}
-			}
-		}
-	}
+    protected void updatePreferredOutput() {
 
-	@Override
-	protected void onFactoryInventoryChanged() {
+        _preferredOutputs.clear();
+        for (int i = 2; i < 11; i++) {
+            if (_inventory[i] == null) {
+                continue;
+            }
+            List<String> names = OreDictionaryArbiter.getAllOreNames(_inventory[i]);
+            if (names != null) {
+                for (String name : names) {
+                    _preferredOutputs.put(name, _inventory[i].copy());
+                }
+            }
+        }
+    }
 
-		super.onFactoryInventoryChanged();
-		if (!ignoreChange) {
-			updatePreferredOutput();
-			unifyInventory();
-		}
-	}
+    @Override
+    protected void onFactoryInventoryChanged() {
 
-	@Override
-	public void writePortableData(EntityPlayer player, NBTTagCompound tag) {
+        super.onFactoryInventoryChanged();
+        if (!ignoreChange) {
+            updatePreferredOutput();
+            unifyInventory();
+        }
+    }
 
-	}
+    @Override
+    public void writePortableData(EntityPlayer player, NBTTagCompound tag) {
 
-	@Override
-	public void readPortableData(EntityPlayer player, NBTTagCompound tag) {
+    }
 
-		// TODO: save/read items
-	}
+    @Override
+    public void readPortableData(EntityPlayer player, NBTTagCompound tag) {
 
-	@Override
-	public int getSizeInventory() {
+        // TODO: save/read items
+    }
 
-		return 11;
-	}
+    @Override
+    public int getSizeInventory() {
 
-	@Override
-	public boolean shouldDropSlotWhenBroken(int slot) {
+        return 11;
+    }
 
-		return slot < 2;
-	}
+    @Override
+    public boolean shouldDropSlotWhenBroken(int slot) {
 
-	@Override
-	public int getInventoryStackLimit() {
+        return slot < 2;
+    }
 
-		return 64;
-	}
+    @Override
+    public int getInventoryStackLimit() {
 
-	@Override
-	public int getSizeInventorySide(ForgeDirection side) {
+        return 64;
+    }
 
-		return 2;
-	}
+    @Override
+    public int getSizeInventorySide(ForgeDirection side) {
 
-	@Override
-	public boolean canInsertItem(int slot, ItemStack stack, int sideordinal) {
+        return 2;
+    }
 
-		return slot == 0;
-	}
+    @Override
+    public boolean canInsertItem(int slot, ItemStack stack, int sideordinal) {
 
-	@Override
-	public boolean canExtractItem(int slot, ItemStack itemstack, int sideordinal) {
+        return slot == 0;
+    }
 
-		return slot == 1;
-	}
+    @Override
+    public boolean canExtractItem(int slot, ItemStack itemstack, int sideordinal) {
 
-	@Override
-	public boolean allowBucketFill(ItemStack stack) {
+        return slot == 1;
+    }
 
-		return true;
-	}
+    @Override
+    public boolean allowBucketFill(ItemStack stack) {
 
-	@Override
-	public boolean allowBucketDrain(ItemStack stack) {
+        return true;
+    }
 
-		return true;
-	}
+    @Override
+    public boolean allowBucketDrain(ItemStack stack) {
 
-	@Override
-	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+        return true;
+    }
 
-		if (resource == null || resource.amount == 0) return 0;
+    @Override
+    public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
 
-		FluidStack converted = unifierTransformLiquid(resource, doFill);
+        if (resource == null || resource.amount == 0) return 0;
 
-		if (converted == null || converted.amount == 0) return 0;
+        FluidStack converted = unifierTransformLiquid(resource, doFill);
 
-		int filled = _tanks[0].fill(converted, doFill);
+        if (converted == null || converted.amount == 0) return 0;
 
-		if (filled == converted.amount) {
-			return resource.amount;
-		} else {
-			return filled * resource.amount / converted.amount +
-					(resource.amount & _roundingCompensation);
-		}
-	}
+        int filled = _tanks[0].fill(converted, doFill);
 
-	private FluidStack unifierTransformLiquid(FluidStack resource, boolean doFill) {
+        if (filled == converted.amount) {
+            return resource.amount;
+        } else {
+            return filled * resource.amount / converted.amount + (resource.amount & _roundingCompensation);
+        }
+    }
 
-		if (_ethanol != null & _biofuel != null) {
-			if (_ethanol.isFluidEqual(resource))
-				return new FluidStack(_biofuel, resource.amount);
-			else if (_biofuel.isFluidEqual(resource))
-				return new FluidStack(_ethanol, resource.amount);
-		}
-		return null;
-	}
+    private FluidStack unifierTransformLiquid(FluidStack resource, boolean doFill) {
 
-	@Override
-	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
+        if (_ethanol != null & _biofuel != null) {
+            if (_ethanol.isFluidEqual(resource)) return new FluidStack(_biofuel, resource.amount);
+            else if (_biofuel.isFluidEqual(resource)) return new FluidStack(_ethanol, resource.amount);
+        }
+        return null;
+    }
 
-		return drain(maxDrain, doDrain);
-	}
+    @Override
+    public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
 
-	@Override
-	public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
+        return drain(maxDrain, doDrain);
+    }
 
-		return drain(resource, doDrain);
-	}
+    @Override
+    public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
 
-	@Override
-	protected FluidTankAdv[] createTanks() {
+        return drain(resource, doDrain);
+    }
 
-		return new FluidTankAdv[] { new FluidTankAdv(4 * BUCKET_VOLUME) };
-	}
+    @Override
+    protected FluidTankAdv[] createTanks() {
 
-	@Override
-	public boolean canFill(ForgeDirection from, Fluid fluid) {
+        return new FluidTankAdv[] { new FluidTankAdv(4 * BUCKET_VOLUME) };
+    }
 
-		return true;
-	}
+    @Override
+    public boolean canFill(ForgeDirection from, Fluid fluid) {
 
-	@Override
-	public boolean canDrain(ForgeDirection from, Fluid fluid) {
+        return true;
+    }
 
-		return true;
-	}
+    @Override
+    public boolean canDrain(ForgeDirection from, Fluid fluid) {
+
+        return true;
+    }
 }

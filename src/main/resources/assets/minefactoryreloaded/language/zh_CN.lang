@@ -105,6 +105,12 @@ tile.mfr.road.light.inverted.off.name = 铺路灯(反相)
 tile.mfr.road.light.inverted.on.name = 铺路灯(反相)
 
 tile.mfr.plastic.name = 塑料块
+tile.mfr.plastic.bricks.name = 塑料砖
+tile.mfr.plastic.bricks_large.name = 大型塑料砖
+tile.mfr.plastic.chiseled.name = 轮廓分明的塑料砖
+tile.mfr.plastic.column.name = 塑料柱
+tile.mfr.plastic.paver.name = 塑料铺路石
+tile.mfr.plastic.road.name = 塑料路
 
 tile.mfr.decorative.brick.ice.name = 冰砖块
 tile.mfr.decorative.brick.glowstone.name = 荧光砖块
@@ -203,6 +209,8 @@ item.mfr.plastic.cell.name = 塑料单元
 item.mfr.plastic.cell.prefix.name =
 item.mfr.plastic.cell.suffix.name =单元
 
+item.mfr.glass.armor.helm.name = 太阳镜
+
 item.mfr.plastic.armor.helm.name  = 塑料头盔
 item.mfr.plastic.armor.chest.name = 塑料胸甲
 item.mfr.plastic.armor.legs.name  = 塑料护腿
@@ -236,7 +244,7 @@ item.mfr.safarinet.jailer.name = 狱卒的大师球
 item.mfr.safarinet.jailer.fancy.name = 狱卒的黄金大师球
 item.mfr.safarinet.launcher.name = 大师球发射器
 
-item.mfr.sugarcharcoal.name = 竹炭
+item.mfr.sugarcharcoal.name = 糖炭
 item.mfr.fertilizer.name = 工业肥料
 item.mfr.milkbottle.name = 牛奶瓶
 item.mfr.spyglass.name = 单筒望远镜
@@ -352,8 +360,8 @@ circuit.mfr.fanout = 多路输出口
 circuit.mfr.flipflop.jk = JK-触发器
 circuit.mfr.flipflop.t = T-触发器
 circuit.mfr.inverter = 反相器
-circuit.mfr.latch.d.gated = D-锁存器(门控)
 circuit.mfr.latch.d.clocked = D-锁存器(定时)
+circuit.mfr.latch.d.gated = D-锁存器(门控)
 circuit.mfr.latch.sr = SR-锁存器
 circuit.mfr.latch.sr.gated = SR-锁存器(门控)
 circuit.mfr.max.2 = 比较器：最大值(2-输入)
@@ -401,7 +409,11 @@ circuit.mfr.xor.4 = 异或(4-输入)
 
 container.mfr.radius = 半径:
 container.mfr.power = 能量图:
-container.mfr.pendingDrops = 该机器被塞满了物品
+
+container.mfr.autobrewer.resources = 资源
+
+container.mfr.pendingDrops = 此机器内有 \u00A7c堵塞的物品
+container.mfr.redstoneSignal = 此机器收到 \u00A74红石信号
 
 chat.info.mfr.safarinet.capture = 切换为捕获模式
 chat.info.mfr.safarinet.release = 切换为释放模式
@@ -426,16 +438,17 @@ chat.info.mfr.rednet.meter.dustprefix = 红石粉
 
 chat.info.mfr.rednet.memorycard.uploaded = PRC程序已经从插入PRC的内存卡载入
 chat.info.mfr.rednet.memorycard.downloaded = PRC程序已经下载到插入PRC的内存卡中
+chat.info.mfr.rednet.memorycard.empty = PRC 未包含任何程序
 chat.info.mfr.rednet.memorycard.error = PRC没有足够的元件来运行该程序
 chat.info.mfr.rednet.memorycard.error2 = 该PRC已被其他人使用
 
 chat.info.mfr.rednet.tile.standard = 设置线缆为标准连接模式
 chat.info.mfr.rednet.tile.cableonly = 设置线缆为均与线缆连接模式
 
-chat.info.mfr.rednet.connection.standard=设置线缆为标准连接模式
-chat.info.mfr.rednet.connection.forced=设置线缆为强制连接模式
-chat.info.mfr.rednet.connection.forcedstrong=设置线缆为强连接模式
-chat.info.mfr.rednet.connection.cableonly=设置线缆为均与线缆连接模式
+chat.info.mfr.rednet.connection.standard = 已将侧面设置为标准连接模式
+chat.info.mfr.rednet.connection.forced = 已将侧面设置为强制连接模式
+chat.info.mfr.rednet.connection.forcedstrong = 已将侧面设置为强连接模式
+chat.info.mfr.rednet.connection.cableonly = 已将侧面设置为仅线缆连接模式
 
 chat.info.mfr.fluid.connection.disabled = 设置为禁用连接模式
 chat.info.mfr.fluid.connection.output = 设置为输出连接模式
@@ -453,7 +466,9 @@ chat.info.mfr.chunkloader.noticket = 你的区块加载器太多了因此它不�
 # Replace "item." or "tile." with "tip.info" and remove ".name" and that tooltip will be
 # displayed under the item with exceptions, such as the PRC which uses a custom entry for legacy reasons
 
-tip.info.mfr.rubberwood.sapling.massive = Warning: Pakratt's world ship.
+tip.info.mfr.hammer = 像扳手，但更带劲（能砸）
+
+tip.info.mfr.rubberwood.sapling.massive = 警告：帕克拉特的世界之船.
 
 tip.info.mfr.prc = 如果你不知所措,请阅读(游戏内) 手册
 

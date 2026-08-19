@@ -1,14 +1,13 @@
 package powercrystals.minefactoryreloaded.tile.machine;
 
-import cofh.core.util.CoreUtils;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemRecord;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import cofh.core.util.CoreUtils;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import powercrystals.minefactoryreloaded.gui.client.GuiAutoJukebox;
 import powercrystals.minefactoryreloaded.gui.client.GuiFactoryInventory;
 import powercrystals.minefactoryreloaded.gui.container.ContainerAutoJukebox;
@@ -16,127 +15,106 @@ import powercrystals.minefactoryreloaded.setup.MFRThings;
 import powercrystals.minefactoryreloaded.setup.Machine;
 import powercrystals.minefactoryreloaded.tile.base.TileEntityFactoryInventory;
 
-public class TileEntityAutoJukebox extends TileEntityFactoryInventory
-{
-	private boolean _lastRedstoneState;
-	private boolean _canCopy;
-	private boolean _canPlay;
+public class TileEntityAutoJukebox extends TileEntityFactoryInventory {
 
-	public TileEntityAutoJukebox()
-	{
-		super(Machine.AutoJukebox);
-		setManageSolids(true);
-	}
+    private boolean _lastRedstoneState;
+    private boolean _canCopy;
+    private boolean _canPlay;
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public GuiFactoryInventory getGui(InventoryPlayer inventoryPlayer)
-	{
-		return new GuiAutoJukebox(getContainer(inventoryPlayer), this);
-	}
+    public TileEntityAutoJukebox() {
+        super(Machine.AutoJukebox);
+        setManageSolids(true);
+    }
 
-	@Override
-	public ContainerAutoJukebox getContainer(InventoryPlayer inventoryPlayer)
-	{
-		return new ContainerAutoJukebox(this, inventoryPlayer);
-	}
+    @Override
+    @SideOnly(Side.CLIENT)
+    public GuiFactoryInventory getGui(InventoryPlayer inventoryPlayer) {
+        return new GuiAutoJukebox(getContainer(inventoryPlayer), this);
+    }
 
-	@SideOnly(Side.CLIENT)
-	public void setCanCopy(boolean canCopy)
-	{
-		_canCopy = canCopy;
-	}
+    @Override
+    public ContainerAutoJukebox getContainer(InventoryPlayer inventoryPlayer) {
+        return new ContainerAutoJukebox(this, inventoryPlayer);
+    }
 
-	public boolean getCanCopy()
-	{
-		if(worldObj.isRemote)
-		{
-			return _canCopy;
-		}
-		else if(_inventory[0] != null && _inventory[0].getItem() instanceof ItemRecord && _inventory[1] != null &&
-				_inventory[1].getItem().equals(MFRThings.blankRecordItem))
-		{
-			return true;
-		}
-		return false;
-	}
+    @SideOnly(Side.CLIENT)
+    public void setCanCopy(boolean canCopy) {
+        _canCopy = canCopy;
+    }
 
-	@SideOnly(Side.CLIENT)
-	public void setCanPlay(boolean canPlay)
-	{
-		_canPlay = canPlay;
-	}
+    public boolean getCanCopy() {
+        if (worldObj.isRemote) {
+            return _canCopy;
+        } else if (_inventory[0] != null && _inventory[0].getItem() instanceof ItemRecord
+            && _inventory[1] != null
+            && _inventory[1].getItem()
+                .equals(MFRThings.blankRecordItem)) {
+                    return true;
+                }
+        return false;
+    }
 
-	public boolean getCanPlay()
-	{
-		if(worldObj.isRemote)
-		{
-			return _canPlay;
-		}
-		else if(_inventory[0] != null && _inventory[0].getItem() instanceof ItemRecord)
-		{
-			return true;
-		}
-		return false;
-	}
+    @SideOnly(Side.CLIENT)
+    public void setCanPlay(boolean canPlay) {
+        _canPlay = canPlay;
+    }
 
-	public void copyRecord()
-	{
-		if(!worldObj.isRemote && getCanCopy())
-		{
-			_inventory[1] = _inventory[0].copy();
-		}
-	}
+    public boolean getCanPlay() {
+        if (worldObj.isRemote) {
+            return _canPlay;
+        } else if (_inventory[0] != null && _inventory[0].getItem() instanceof ItemRecord) {
+            return true;
+        }
+        return false;
+    }
 
-	public void playRecord()
-	{
-		if(_inventory[0] != null && _inventory[0].getItem() instanceof ItemRecord)
-			worldObj.playAuxSFX(1005, xCoord, yCoord, zCoord, Item.getIdFromItem(_inventory[0].getItem()));
-		worldObj.notifyBlockChange(xCoord, yCoord, zCoord, worldObj.getBlock(xCoord, yCoord, zCoord));
-	}
+    public void copyRecord() {
+        if (!worldObj.isRemote && getCanCopy()) {
+            _inventory[1] = _inventory[0].copy();
+        }
+    }
 
-	public void stopRecord()
-	{
-		worldObj.playAuxSFX(1005, xCoord, yCoord, zCoord, 0);
-		worldObj.notifyBlockChange(xCoord, yCoord, zCoord, worldObj.getBlock(xCoord, yCoord, zCoord));
-	}
+    public void playRecord() {
+        if (_inventory[0] != null && _inventory[0].getItem() instanceof ItemRecord)
+            worldObj.playAuxSFX(1005, xCoord, yCoord, zCoord, Item.getIdFromItem(_inventory[0].getItem()));
+        worldObj.notifyBlockChange(xCoord, yCoord, zCoord, worldObj.getBlock(xCoord, yCoord, zCoord));
+    }
 
-	@Override
-	public void onBlockBroken()
-	{
-		stopRecord();
-		super.onBlockBroken();
-	}
+    public void stopRecord() {
+        worldObj.playAuxSFX(1005, xCoord, yCoord, zCoord, 0);
+        worldObj.notifyBlockChange(xCoord, yCoord, zCoord, worldObj.getBlock(xCoord, yCoord, zCoord));
+    }
 
-	@Override
-	public int getSizeInventory()
-	{
-		return 2;
-	}
+    @Override
+    public void onBlockBroken() {
+        stopRecord();
+        super.onBlockBroken();
+    }
 
-	@Override
-	public void updateEntity()
-	{
-		super.updateEntity();
+    @Override
+    public int getSizeInventory() {
+        return 2;
+    }
 
-		if(worldObj.isRemote)
-		{
-			return;
-		}
+    @Override
+    public void updateEntity() {
+        super.updateEntity();
 
-		boolean redstoneState = _rednetState != 0 || CoreUtils.isRedstonePowered(this);
-		if(redstoneState && !_lastRedstoneState)
-		{
-			stopRecord();
-			playRecord();
-		}
+        if (worldObj.isRemote) {
+            return;
+        }
 
-		_lastRedstoneState = redstoneState;
-	}
+        boolean redstoneState = _rednetState != 0 || CoreUtils.isRedstonePowered(this);
+        if (redstoneState && !_lastRedstoneState) {
+            stopRecord();
+            playRecord();
+        }
 
-	@Override
-	public int getSizeInventorySide(ForgeDirection side)
-	{
-		return 1;
-	}
+        _lastRedstoneState = redstoneState;
+    }
+
+    @Override
+    public int getSizeInventorySide(ForgeDirection side) {
+        return 1;
+    }
 }

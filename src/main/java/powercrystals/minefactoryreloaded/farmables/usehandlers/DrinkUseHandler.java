@@ -13,70 +13,73 @@ import powercrystals.minefactoryreloaded.MFRRegistry;
 import powercrystals.minefactoryreloaded.core.IUseHandler;
 
 public class DrinkUseHandler implements IUseHandler {
-	@Override
-	public boolean canUse(ItemStack item, EntityLivingBase entity) {
-		return entity instanceof EntityPlayer && isUsable(item);
-	}
 
-	@Override
-	public ItemStack onTryUse(ItemStack item, World world, EntityLivingBase entity) {
-		if (canUse(item, entity))
-			((EntityPlayer)entity).setItemInUse(item, item.getMaxItemUseDuration());
-		return item;
-	}
+    @Override
+    public boolean canUse(ItemStack item, EntityLivingBase entity) {
+        return entity instanceof EntityPlayer && isUsable(item);
+    }
 
-	@Override
-	public int getMaxUseDuration(ItemStack item) {
-		return 32;
-	}
+    @Override
+    public ItemStack onTryUse(ItemStack item, World world, EntityLivingBase entity) {
+        if (canUse(item, entity)) ((EntityPlayer) entity).setItemInUse(item, item.getMaxItemUseDuration());
+        return item;
+    }
 
-	@Override
-	public boolean isUsable(ItemStack item) {
-		return item.stackSize == 1 && isDrinkableLiquid(getFluidName(item));
-	}
+    @Override
+    public int getMaxUseDuration(ItemStack item) {
+        return 32;
+    }
 
-	@Override
-	public EnumAction useAction(ItemStack item) {
-		return isUsable(item) ? EnumAction.drink : EnumAction.none;
-	}
+    @Override
+    public boolean isUsable(ItemStack item) {
+        return item.stackSize == 1 && isDrinkableLiquid(getFluidName(item));
+    }
 
-	@Override
-	public ItemStack onUse(ItemStack item, EntityLivingBase entity) {
-		String liquid = getFluidName(item);
-		ItemStack r = item;
-		if (item.stackSize == 1 && liquid != null &&
-				entity instanceof EntityPlayer && isDrinkableLiquid(liquid)) {
-			EntityPlayer player = (EntityPlayer)entity;
-			if (!player.capabilities.isCreativeMode) {
-				ItemStack drop = item.splitStack(1);
-				((IFluidContainerItem)item.getItem()).drain(drop, FluidContainerRegistry.BUCKET_VOLUME, true);
-				if (drop.getItem().hasContainerItem(drop)) {
-					drop = drop.getItem().getContainerItem(drop);
-					if (drop != null && drop.isItemStackDamageable() && drop.getItemDamage() > drop.getMaxDamage())
-						drop = null;
-				}
-				if (item.stackSize < 1)
-					item = drop;
-				else if (drop != null && !player.inventory.addItemStackToInventory(drop))
-					player.func_146097_a(drop, false, true);
-			}
-			MFRRegistry.getLiquidDrinkHandlers().get(liquid).onDrink(player);
-		}
-		if (item == null)
-		{
-			item = r;
-			item.stackSize = 0;
-		}
-		return item;
-	}
+    @Override
+    public EnumAction useAction(ItemStack item) {
+        return isUsable(item) ? EnumAction.drink : EnumAction.none;
+    }
 
-	public String getFluidName(ItemStack item) {
-		FluidStack liquid = ((IFluidContainerItem)item.getItem()).getFluid(item);
-		if (liquid == null || liquid.amount < FluidContainerRegistry.BUCKET_VOLUME) return null;
-		return liquid.getFluid().getName();
-	}
+    @Override
+    public ItemStack onUse(ItemStack item, EntityLivingBase entity) {
+        String liquid = getFluidName(item);
+        ItemStack r = item;
+        if (item.stackSize == 1 && liquid != null && entity instanceof EntityPlayer && isDrinkableLiquid(liquid)) {
+            EntityPlayer player = (EntityPlayer) entity;
+            if (!player.capabilities.isCreativeMode) {
+                ItemStack drop = item.splitStack(1);
+                ((IFluidContainerItem) item.getItem()).drain(drop, FluidContainerRegistry.BUCKET_VOLUME, true);
+                if (drop.getItem()
+                    .hasContainerItem(drop)) {
+                    drop = drop.getItem()
+                        .getContainerItem(drop);
+                    if (drop != null && drop.isItemStackDamageable() && drop.getItemDamage() > drop.getMaxDamage())
+                        drop = null;
+                }
+                if (item.stackSize < 1) item = drop;
+                else if (drop != null && !player.inventory.addItemStackToInventory(drop))
+                    player.func_146097_a(drop, false, true);
+            }
+            MFRRegistry.getLiquidDrinkHandlers()
+                .get(liquid)
+                .onDrink(player);
+        }
+        if (item == null) {
+            item = r;
+            item.stackSize = 0;
+        }
+        return item;
+    }
 
-	public boolean isDrinkableLiquid(String name) {
-		return name != null && MFRRegistry.getLiquidDrinkHandlers().containsKey(name);
-	}
+    public String getFluidName(ItemStack item) {
+        FluidStack liquid = ((IFluidContainerItem) item.getItem()).getFluid(item);
+        if (liquid == null || liquid.amount < FluidContainerRegistry.BUCKET_VOLUME) return null;
+        return liquid.getFluid()
+            .getName();
+    }
+
+    public boolean isDrinkableLiquid(String name) {
+        return name != null && MFRRegistry.getLiquidDrinkHandlers()
+            .containsKey(name);
+    }
 }

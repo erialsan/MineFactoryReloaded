@@ -2,42 +2,43 @@ package powercrystals.minefactoryreloaded.gui.control;
 
 import cofh.lib.gui.element.ElementListBox;
 import cofh.lib.gui.element.listbox.IListBoxElement;
-
 import powercrystals.minefactoryreloaded.api.rednet.IRedNetLogicCircuit;
 import powercrystals.minefactoryreloaded.core.MFRUtil;
 
 public class ListBoxElementCircuit implements IListBoxElement {
 
-	private IRedNetLogicCircuit _circuit;
-	private ElementListBox gui;
+    private IRedNetLogicCircuit _circuit;
+    private ElementListBox gui;
 
-	public ListBoxElementCircuit(ElementListBox gui, IRedNetLogicCircuit circuit) {
+    public ListBoxElementCircuit(ElementListBox gui, IRedNetLogicCircuit circuit) {
 
-		_circuit = circuit;
-		this.gui = gui;
-	}
+        _circuit = circuit;
+        this.gui = gui;
+    }
 
-	@Override
-	public Object getValue() {
+    @Override
+    public Object getValue() {
 
-		return _circuit;
-	}
+        return _circuit;
+    }
 
-	@Override
-	public int getHeight() {
+    @Override
+    public int getHeight() {
 
-		return 10;
-	}
+        return 10;
+    }
 
-	@Override
-	public int getWidth() {
+    @Override
+    public int getWidth() {
 
-		return gui.getFontRenderer().getStringWidth(MFRUtil.localize(_circuit.getUnlocalizedName()));
-	}
+        return gui.getFontRenderer()
+            .getStringWidth(MFRUtil.localize(_circuit.getUnlocalizedName()));
+    }
 
-	@Override
-	public void draw(ElementListBox listBox, int x, int y, int backColor, int textColor) {
+    @Override
+    public void draw(ElementListBox listBox, int x, int y, int backColor, int textColor) {
 
-		listBox.getFontRenderer().drawString(MFRUtil.localize(_circuit.getUnlocalizedName()), x, y, textColor);
-	}
+        listBox.getFontRenderer()
+            .drawString(MFRUtil.localize(_circuit.getUnlocalizedName()), x, y, textColor);
+    }
 }

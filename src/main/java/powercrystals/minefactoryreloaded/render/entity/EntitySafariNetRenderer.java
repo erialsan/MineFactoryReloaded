@@ -13,57 +13,51 @@ import org.lwjgl.opengl.GL12;
 
 import powercrystals.minefactoryreloaded.entity.EntitySafariNet;
 
-public class EntitySafariNetRenderer extends Render
-{
-	@Override
-	public void doRender(Entity entity, double x, double y, double z, float par8, float par9)
-	{
-		ItemStack itemstack = ((EntitySafariNet)entity).getStoredEntity();
-		if (itemstack == null)
-		{
-			return;
-		}
-		GL11.glPushMatrix();
-		GL11.glTranslatef((float)x, (float)y, (float)z);
-		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-		GL11.glScalef(0.5F, 0.5F, 0.5F);
-        if (itemstack.getItemSpriteNumber() == 0)
-        {
-            this.bindTexture(TextureMap.locationBlocksTexture);
+public class EntitySafariNetRenderer extends Render {
+
+    @Override
+    public void doRender(Entity entity, double x, double y, double z, float par8, float par9) {
+        ItemStack itemstack = ((EntitySafariNet) entity).getStoredEntity();
+        if (itemstack == null) {
+            return;
         }
-        else
-        {
+        GL11.glPushMatrix();
+        GL11.glTranslatef((float) x, (float) y, (float) z);
+        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+        GL11.glScalef(0.5F, 0.5F, 0.5F);
+        if (itemstack.getItemSpriteNumber() == 0) {
+            this.bindTexture(TextureMap.locationBlocksTexture);
+        } else {
             this.bindTexture(TextureMap.locationItemsTexture);
         }
-		Tessellator var10 = Tessellator.instance;
-		
-		this.renderItemInFlight(var10, ((EntitySafariNet)entity).getIcon());
-		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-		GL11.glPopMatrix();
-	}
-	
-	private void renderItemInFlight(Tessellator par1Tessellator, IIcon par2Icon)
-	{
-		float f = par2Icon.getMinU();
-		float f1 = par2Icon.getMaxU();
-		float f2 = par2Icon.getMinV();
-		float f3 = par2Icon.getMaxV();
-		float f4 = 1.0F;
-		float f5 = 0.5F;
-		float f6 = 0.25F;
-		GL11.glRotatef(180.0F - this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-		GL11.glRotatef(-this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
-		par1Tessellator.startDrawingQuads();
-		par1Tessellator.setNormal(0.0F, 1.0F, 0.0F);
-		par1Tessellator.addVertexWithUV(0.0F - f5, 0.0F - f6, 0.0D, f, f3);
-		par1Tessellator.addVertexWithUV(f4 - f5, 0.0F - f6, 0.0D, f1, f3);
-		par1Tessellator.addVertexWithUV(f4 - f5, f4 - f6, 0.0D, f1, f2);
-		par1Tessellator.addVertexWithUV(0.0F - f5, f4 - f6, 0.0D, f, f2);
-		par1Tessellator.draw();
-	}
+        Tessellator var10 = Tessellator.instance;
 
-	@Override
-	protected ResourceLocation getEntityTexture(Entity entity) {
-		return null;
-	}
+        this.renderItemInFlight(var10, ((EntitySafariNet) entity).getIcon());
+        GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+        GL11.glPopMatrix();
+    }
+
+    private void renderItemInFlight(Tessellator par1Tessellator, IIcon par2Icon) {
+        float f = par2Icon.getMinU();
+        float f1 = par2Icon.getMaxU();
+        float f2 = par2Icon.getMinV();
+        float f3 = par2Icon.getMaxV();
+        float f4 = 1.0F;
+        float f5 = 0.5F;
+        float f6 = 0.25F;
+        GL11.glRotatef(180.0F - this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
+        GL11.glRotatef(-this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
+        par1Tessellator.startDrawingQuads();
+        par1Tessellator.setNormal(0.0F, 1.0F, 0.0F);
+        par1Tessellator.addVertexWithUV(0.0F - f5, 0.0F - f6, 0.0D, f, f3);
+        par1Tessellator.addVertexWithUV(f4 - f5, 0.0F - f6, 0.0D, f1, f3);
+        par1Tessellator.addVertexWithUV(f4 - f5, f4 - f6, 0.0D, f1, f2);
+        par1Tessellator.addVertexWithUV(0.0F - f5, f4 - f6, 0.0D, f, f2);
+        par1Tessellator.draw();
+    }
+
+    @Override
+    protected ResourceLocation getEntityTexture(Entity entity) {
+        return null;
+    }
 }

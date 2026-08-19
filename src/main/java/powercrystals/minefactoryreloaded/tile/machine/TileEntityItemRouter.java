@@ -1,8 +1,5 @@
 package powercrystals.minefactoryreloaded.tile.machine;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,6 +9,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import powercrystals.minefactoryreloaded.core.IEntityCollidable;
 import powercrystals.minefactoryreloaded.core.UtilInventory;
 import powercrystals.minefactoryreloaded.gui.client.GuiFactoryInventory;
@@ -23,309 +22,302 @@ import powercrystals.minefactoryreloaded.tile.base.TileEntityFactoryInventory;
 
 public class TileEntityItemRouter extends TileEntityFactoryInventory implements IEntityCollidable {
 
-	private boolean _routing = false;
-
-	private boolean _rejectUnmapped;
-
-	protected static final int[] _invOffsets = new int[] { 0, 0, 9, 18, 36, 27 };
-	protected static final ForgeDirection[] _outputDirections = new ForgeDirection[] { ForgeDirection.DOWN, ForgeDirection.NORTH, ForgeDirection.SOUTH, ForgeDirection.EAST,
-			ForgeDirection.WEST };
-
-	private int[] _defaultRoutes = new int[_outputDirections.length];
-
-	public TileEntityItemRouter() {
-
-		this(Machine.ItemRouter);
-	}
-
-	public TileEntityItemRouter(Machine machine) {
-
-		super(machine);
-		setManageSolids(true);
-	}
-
-	public boolean getRejectUnmapped() {
-
-		return _rejectUnmapped;
-	}
-
-	public void setRejectUnmapped(boolean rejectUnmapped) {
-
-		_rejectUnmapped = rejectUnmapped;
-	}
-
-	@Override
-	public void updateEntity() {
-
-		super.updateEntity();
-		if (!worldObj.isRemote) {
-			for (int i = 45; i < getSizeInventory(); i++) {
-				if (_inventory[i] != null) {
-					_inventory[i] = routeItem(_inventory[i]);
-				}
-			}
-		}
-	}
-
-	@Override
-	public void onEntityCollided(Entity entity) {
-
-		if (entity instanceof EntityItem && !entity.isDead) {
-			ItemStack s = routeItem(((EntityItem) entity).getEntityItem());
-			if (s == null)
-				entity.setDead();
-			else
-				((EntityItem) entity).setEntityItemStack(s);
-		}
-	}
-
-	public ItemStack routeItem(ItemStack stack) {
-
-		int[] filteredRoutes = getRoutesForItem(stack);
-
-		_routing = true;
-		if (hasRoutes(filteredRoutes)) {
-			stack = weightedRouteItem(stack, filteredRoutes);
-			stack = (stack == null || stack.stackSize <= 0) ? null : stack;
-		}
-		else if (!_rejectUnmapped && hasRoutes(_defaultRoutes)) {
-			stack = weightedRouteItem(stack, _defaultRoutes);
-			stack = (stack == null || stack.stackSize <= 0) ? null : stack;
-		}
-		_routing = false;
-		return stack;
-	}
-
-	private ItemStack weightedRouteItem(ItemStack stack, int[] routes) {
-
-		ItemStack remainingOverall = stack.copy();
-		int weight = totalWeight(routes);
-		if (stack.stackSize >= weight) {
-			int startingAmount = stack.stackSize;
-			for (int i = 0; i < routes.length; i++) {
-				ItemStack stackForThisRoute = stack.copy();
-				stackForThisRoute.stackSize = startingAmount * routes[i] / weight;
-				if (stackForThisRoute.stackSize > 0) {
-					ItemStack remainingFromThisRoute = UtilInventory.dropStack(this, stackForThisRoute, _outputDirections[i], _outputDirections[i]);
-					if (remainingFromThisRoute == null) {
-						remainingOverall.stackSize -= stackForThisRoute.stackSize;
-					}
-					else {
-						remainingOverall.stackSize -= (stackForThisRoute.stackSize - remainingFromThisRoute.stackSize);
-					}
-
-					if (remainingOverall.stackSize <= 0) {
-						break;
-					}
-				}
-			}
-		}
-
-		if (0 < remainingOverall.stackSize && remainingOverall.stackSize < totalWeight(routes)) {
-			int outdir = weightedRandomSide(routes);
-			remainingOverall = UtilInventory.dropStack(this, remainingOverall, _outputDirections[outdir], _outputDirections[outdir]);
-		}
-		return remainingOverall;
-	}
+    private boolean _routing = false;
+
+    private boolean _rejectUnmapped;
+
+    protected static final int[] _invOffsets = new int[] { 0, 0, 9, 18, 36, 27 };
+    protected static final ForgeDirection[] _outputDirections = new ForgeDirection[] { ForgeDirection.DOWN,
+        ForgeDirection.NORTH, ForgeDirection.SOUTH, ForgeDirection.EAST, ForgeDirection.WEST };
+
+    private int[] _defaultRoutes = new int[_outputDirections.length];
+
+    public TileEntityItemRouter() {
+
+        this(Machine.ItemRouter);
+    }
+
+    public TileEntityItemRouter(Machine machine) {
+
+        super(machine);
+        setManageSolids(true);
+    }
+
+    public boolean getRejectUnmapped() {
+
+        return _rejectUnmapped;
+    }
+
+    public void setRejectUnmapped(boolean rejectUnmapped) {
+
+        _rejectUnmapped = rejectUnmapped;
+    }
+
+    @Override
+    public void updateEntity() {
 
-	private int weightedRandomSide(int[] routeWeights) {
+        super.updateEntity();
+        if (!worldObj.isRemote) {
+            for (int i = 45; i < getSizeInventory(); i++) {
+                if (_inventory[i] != null) {
+                    _inventory[i] = routeItem(_inventory[i]);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onEntityCollided(Entity entity) {
+
+        if (entity instanceof EntityItem && !entity.isDead) {
+            ItemStack s = routeItem(((EntityItem) entity).getEntityItem());
+            if (s == null) entity.setDead();
+            else((EntityItem) entity).setEntityItemStack(s);
+        }
+    }
+
+    public ItemStack routeItem(ItemStack stack) {
+
+        int[] filteredRoutes = getRoutesForItem(stack);
+
+        _routing = true;
+        if (hasRoutes(filteredRoutes)) {
+            stack = weightedRouteItem(stack, filteredRoutes);
+            stack = (stack == null || stack.stackSize <= 0) ? null : stack;
+        } else if (!_rejectUnmapped && hasRoutes(_defaultRoutes)) {
+            stack = weightedRouteItem(stack, _defaultRoutes);
+            stack = (stack == null || stack.stackSize <= 0) ? null : stack;
+        }
+        _routing = false;
+        return stack;
+    }
+
+    private ItemStack weightedRouteItem(ItemStack stack, int[] routes) {
 
-		int random = worldObj.rand.nextInt(totalWeight(routeWeights));
-		for (int i = 0; i < routeWeights.length; i++) {
-			random -= routeWeights[i];
-			if (random < 0)
-				return i;
-		}
+        ItemStack remainingOverall = stack.copy();
+        int weight = totalWeight(routes);
+        if (stack.stackSize >= weight) {
+            int startingAmount = stack.stackSize;
+            for (int i = 0; i < routes.length; i++) {
+                ItemStack stackForThisRoute = stack.copy();
+                stackForThisRoute.stackSize = startingAmount * routes[i] / weight;
+                if (stackForThisRoute.stackSize > 0) {
+                    ItemStack remainingFromThisRoute = UtilInventory
+                        .dropStack(this, stackForThisRoute, _outputDirections[i], _outputDirections[i]);
+                    if (remainingFromThisRoute == null) {
+                        remainingOverall.stackSize -= stackForThisRoute.stackSize;
+                    } else {
+                        remainingOverall.stackSize -= (stackForThisRoute.stackSize - remainingFromThisRoute.stackSize);
+                    }
 
-		return -1;
-	}
+                    if (remainingOverall.stackSize <= 0) {
+                        break;
+                    }
+                }
+            }
+        }
 
-	private int totalWeight(int[] routeWeights) {
+        if (0 < remainingOverall.stackSize && remainingOverall.stackSize < totalWeight(routes)) {
+            int outdir = weightedRandomSide(routes);
+            remainingOverall = UtilInventory
+                .dropStack(this, remainingOverall, _outputDirections[outdir], _outputDirections[outdir]);
+        }
+        return remainingOverall;
+    }
 
-		int total = 0;
+    private int weightedRandomSide(int[] routeWeights) {
 
-		for (int weight : routeWeights)
-			total += weight;
-		return total;
-	}
+        int random = worldObj.rand.nextInt(totalWeight(routeWeights));
+        for (int i = 0; i < routeWeights.length; i++) {
+            random -= routeWeights[i];
+            if (random < 0) return i;
+        }
 
-	private boolean hasRoutes(int[] routeWeights) {
+        return -1;
+    }
 
-		for (int weight : routeWeights)
-			if (weight > 0) return true;
+    private int totalWeight(int[] routeWeights) {
 
-		return false;
-	}
+        int total = 0;
 
-	protected int[] getRoutesForItem(ItemStack stack) {
+        for (int weight : routeWeights) total += weight;
+        return total;
+    }
 
-		int[] routeWeights = new int[_outputDirections.length];
+    private boolean hasRoutes(int[] routeWeights) {
 
-		Item item = stack.getItem();
+        for (int weight : routeWeights) if (weight > 0) return true;
 
-		for (int i = 0; i < _outputDirections.length; i++) {
-			int sideStart = _invOffsets[_outputDirections[i].ordinal()];
-			routeWeights[i] = 0;
-			for (int j = sideStart; j < sideStart + 9; j++) {
-				if (_inventory[j] != null) {
-					if (_inventory[j].getItem().equals(item) &&
-							(stack.isItemStackDamageable() ||
-							_inventory[j].getItemDamage() == stack.getItemDamage())) {
-						routeWeights[i] += _inventory[j].stackSize;
-					}
-				}
-			}
-		}
-		return routeWeights;
-	}
+        return false;
+    }
 
-	private void recalculateDefaultRoutes() {
+    protected int[] getRoutesForItem(ItemStack stack) {
 
-		for (int i = 0; i < _outputDirections.length; i++)
-			_defaultRoutes[i] = isSideEmpty(_outputDirections[i]) ? 1 : 0;
-	}
+        int[] routeWeights = new int[_outputDirections.length];
 
-	public boolean hasRouteForItem(ItemStack stack) {
+        Item item = stack.getItem();
 
-		return hasRoutes(getRoutesForItem(stack));
-	}
+        for (int i = 0; i < _outputDirections.length; i++) {
+            int sideStart = _invOffsets[_outputDirections[i].ordinal()];
+            routeWeights[i] = 0;
+            for (int j = sideStart; j < sideStart + 9; j++) {
+                if (_inventory[j] != null) {
+                    if (_inventory[j].getItem()
+                        .equals(item)
+                        && (stack.isItemStackDamageable() || _inventory[j].getItemDamage() == stack.getItemDamage())) {
+                        routeWeights[i] += _inventory[j].stackSize;
+                    }
+                }
+            }
+        }
+        return routeWeights;
+    }
 
-	private boolean isSideEmpty(ForgeDirection side) {
+    private void recalculateDefaultRoutes() {
 
-		if (side == ForgeDirection.UNKNOWN || side == ForgeDirection.UP) {
-			return false;
-		}
+        for (int i = 0; i < _outputDirections.length; i++)
+            _defaultRoutes[i] = isSideEmpty(_outputDirections[i]) ? 1 : 0;
+    }
 
-		int sideStart = _invOffsets[side.ordinal()];
+    public boolean hasRouteForItem(ItemStack stack) {
 
-		for (int i = sideStart; i < sideStart + 9; i++) {
-			if (_inventory[i] != null) {
-				return false;
-			}
-		}
+        return hasRoutes(getRoutesForItem(stack));
+    }
 
-		return true;
-	}
+    private boolean isSideEmpty(ForgeDirection side) {
 
-	@Override
-	public int getSizeInventory() {
+        if (side == ForgeDirection.UNKNOWN || side == ForgeDirection.UP) {
+            return false;
+        }
 
-		return 48;
-	}
+        int sideStart = _invOffsets[side.ordinal()];
 
-	@Override
-	public boolean shouldDropSlotWhenBroken(int slot) {
+        for (int i = sideStart; i < sideStart + 9; i++) {
+            if (_inventory[i] != null) {
+                return false;
+            }
+        }
 
-		return slot >= 45;
-	}
+        return true;
+    }
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public GuiFactoryInventory getGui(InventoryPlayer inventoryPlayer) {
+    @Override
+    public int getSizeInventory() {
 
-		return new GuiItemRouter(getContainer(inventoryPlayer), this);
-	}
+        return 48;
+    }
 
-	@Override
-	public ContainerFactoryInventory getContainer(InventoryPlayer inventoryPlayer) {
+    @Override
+    public boolean shouldDropSlotWhenBroken(int slot) {
 
-		return new ContainerItemRouter(this, inventoryPlayer);
-	}
+        return slot >= 45;
+    }
 
-	@Override
-	public int getInventoryStackLimit() {
+    @Override
+    @SideOnly(Side.CLIENT)
+    public GuiFactoryInventory getGui(InventoryPlayer inventoryPlayer) {
 
-		return 64;
-	}
+        return new GuiItemRouter(getContainer(inventoryPlayer), this);
+    }
 
-	@Override
-	public int getStartInventorySide(ForgeDirection side) {
+    @Override
+    public ContainerFactoryInventory getContainer(InventoryPlayer inventoryPlayer) {
 
-		return 45;
-	}
+        return new ContainerItemRouter(this, inventoryPlayer);
+    }
 
-	@Override
-	public int getSizeInventorySide(ForgeDirection side) {
+    @Override
+    public int getInventoryStackLimit() {
 
-		return 3;
-	}
+        return 64;
+    }
 
-	@Override
-	public void setInventorySlotContents(int i, ItemStack stack) {
+    @Override
+    public int getStartInventorySide(ForgeDirection side) {
 
-		if (worldObj != null && !worldObj.isRemote) {
-			int start = getStartInventorySide(ForgeDirection.UNKNOWN);
-			if (i >= start && i <= (start + getSizeInventorySide(ForgeDirection.UNKNOWN))) {
-				l: if (stack != null) {
-					if (stack.stackSize <= 0) {
-						stack = null;
-						break l;
-					}
-					stack = routeItem(stack);
-					if (stack != null)
-						if (stack.stackSize > getInventoryStackLimit()) {
-							stack.stackSize = getInventoryStackLimit();
-						}
-				}
-				_inventory[i] = stack;
-				return;
-			}
-		}
-		super.setInventorySlotContents(i, stack);
-	}
+        return 45;
+    }
 
-	@Override
-	public boolean canInsertItem(int slot, ItemStack itemstack, int side) {
+    @Override
+    public int getSizeInventorySide(ForgeDirection side) {
 
-		return !_routing;
-	}
+        return 3;
+    }
 
-	@Override
-	public boolean isItemValidForSlot(int slot, ItemStack itemstack) {
+    @Override
+    public void setInventorySlotContents(int i, ItemStack stack) {
 
-		return !_routing;
-	}
+        if (worldObj != null && !worldObj.isRemote) {
+            int start = getStartInventorySide(ForgeDirection.UNKNOWN);
+            if (i >= start && i <= (start + getSizeInventorySide(ForgeDirection.UNKNOWN))) {
+                l: if (stack != null) {
+                    if (stack.stackSize <= 0) {
+                        stack = null;
+                        break l;
+                    }
+                    stack = routeItem(stack);
+                    if (stack != null) if (stack.stackSize > getInventoryStackLimit()) {
+                        stack.stackSize = getInventoryStackLimit();
+                    }
+                }
+                _inventory[i] = stack;
+                return;
+            }
+        }
+        super.setInventorySlotContents(i, stack);
+    }
 
-	@Override
-	public boolean canExtractItem(int slot, ItemStack itemstack, int side) {
+    @Override
+    public boolean canInsertItem(int slot, ItemStack itemstack, int side) {
 
-		return false;
-	}
+        return !_routing;
+    }
 
-	@Override
-	protected void onFactoryInventoryChanged() {
+    @Override
+    public boolean isItemValidForSlot(int slot, ItemStack itemstack) {
 
-		super.onFactoryInventoryChanged();
-		recalculateDefaultRoutes();
-	}
+        return !_routing;
+    }
 
-	@Override
-	public void writePortableData(EntityPlayer player, NBTTagCompound tag) {
+    @Override
+    public boolean canExtractItem(int slot, ItemStack itemstack, int side) {
 
-		tag.setBoolean("rejectUnmapped", _rejectUnmapped);
-	}
+        return false;
+    }
 
-	@Override
-	public void readPortableData(EntityPlayer player, NBTTagCompound tag) {
+    @Override
+    protected void onFactoryInventoryChanged() {
 
-		_rejectUnmapped = tag.getBoolean("rejectUnmapped");
-		recalculateDefaultRoutes();
-	}
+        super.onFactoryInventoryChanged();
+        recalculateDefaultRoutes();
+    }
 
-	@Override
-	public void writeItemNBT(NBTTagCompound tag) {
+    @Override
+    public void writePortableData(EntityPlayer player, NBTTagCompound tag) {
 
-		super.writeItemNBT(tag);
-		if (_rejectUnmapped)
-			tag.setBoolean("rejectUnmapped", _rejectUnmapped);
-	}
+        tag.setBoolean("rejectUnmapped", _rejectUnmapped);
+    }
 
-	@Override
-	public void readFromNBT(NBTTagCompound tag) {
+    @Override
+    public void readPortableData(EntityPlayer player, NBTTagCompound tag) {
 
-		super.readFromNBT(tag);
-		_rejectUnmapped = tag.getBoolean("rejectUnmapped");
-		recalculateDefaultRoutes();
-	}
+        _rejectUnmapped = tag.getBoolean("rejectUnmapped");
+        recalculateDefaultRoutes();
+    }
+
+    @Override
+    public void writeItemNBT(NBTTagCompound tag) {
+
+        super.writeItemNBT(tag);
+        if (_rejectUnmapped) tag.setBoolean("rejectUnmapped", _rejectUnmapped);
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound tag) {
+
+        super.readFromNBT(tag);
+        _rejectUnmapped = tag.getBoolean("rejectUnmapped");
+        recalculateDefaultRoutes();
+    }
 
 }

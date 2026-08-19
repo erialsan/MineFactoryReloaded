@@ -3,7 +3,7 @@ tile.mfr.machine.fisher.name = フィッシャー
 tile.mfr.machine.harvester.name = ハーヴェスター
 tile.mfr.machine.rancher.name = ランチャー
 tile.mfr.machine.fertilizer.name = フェーティライザー
-tile.mfr.machine.vet.name = Veterinary Station
+tile.mfr.machine.vet.name = ベテリナリーステーション
 tile.mfr.machine.itemcollector.name = アイテムコレクター
 tile.mfr.machine.blockbreaker.name = ブロックブレーカー
 tile.mfr.machine.weathercollector.name = ウェザーコレクター
@@ -36,7 +36,7 @@ tile.mfr.machine.laserdrill.name = レーザードリル
 tile.mfr.machine.laserdrillprecharger.name = レーザードリルプリチャージャー
 tile.mfr.machine.autoanvil.name = オートアンヴィル
 tile.mfr.machine.blocksmasher.name = ブロックスマッシャー
-tile.mfr.machine.rednote.name = RedNote Block
+tile.mfr.machine.rednote.name = レッドストーン音符ブロック
 tile.mfr.machine.autobrewer.name = オートブリューワー
 tile.mfr.machine.fruitpicker.name = フルーツピッカー
 tile.mfr.machine.blockplacer.name = ブロックプレーサー
@@ -104,37 +104,43 @@ tile.mfr.road.light.on.name = 道路照明
 tile.mfr.road.light.inverted.off.name = 反転道路照明
 tile.mfr.road.light.inverted.on.name = 反転道路照明
 
-tile.mfr.plastic.name = Block of Plastic
+tile.mfr.plastic.name = プラスチックブロック
+tile.mfr.plastic.bricks.name = プラスチックレンガ
+tile.mfr.plastic.bricks_large.name = 大きなプラスチックレンガ
+tile.mfr.plastic.chiseled.name = 模様入りプラスチックレンガ
+tile.mfr.plastic.column.name = プラスチックの柱
+tile.mfr.plastic.paver.name = プラスチック敷石
+tile.mfr.plastic.road.name = プラスチック道路
 
-tile.mfr.decorative.brick.ice.name = 氷Bricks
-tile.mfr.decorative.brick.glowstone.name = グロウストーンBricks
-tile.mfr.decorative.brick.lapis.name = ラピスラズリBricks
-tile.mfr.decorative.brick.obsidian.name = Obsidian Bricks
-tile.mfr.decorative.brick.pavedstone.name = Paved Stone Bricks
-tile.mfr.decorative.brick.snow.name = Snow Bricks
-tile.mfr.decorative.brick.ice_large.name = Large Ice Bricks
-tile.mfr.decorative.brick.glowstone_large.name = Large Glowstone Bricks
-tile.mfr.decorative.brick.lapis_large.name = Large Lapis Bricks
-tile.mfr.decorative.brick.obsidian_large.name = Large Obsidian Bricks
-tile.mfr.decorative.brick.pavedstone_large.name = Large Paved Stone Bricks
-tile.mfr.decorative.brick.snow_large.name = Large Snow Bricks
-tile.mfr.decorative.brick.meat.raw.name = Raw Meat Block
-tile.mfr.decorative.brick.meat.cooked.name = Cooked Meat Block
-tile.mfr.decorative.brick.brick_large.name = Large Bricks
-tile.mfr.decorative.brick.sugar_charcoal.name = Sugar Charcoal Block
+tile.mfr.decorative.brick.ice.name = 氷レンガ
+tile.mfr.decorative.brick.glowstone.name = グロウストーンレンガ
+tile.mfr.decorative.brick.lapis.name = ラピスラズリレンガ
+tile.mfr.decorative.brick.obsidian.name = 黒曜石レンガ
+tile.mfr.decorative.brick.pavedstone.name = 舗装石レンガ
+tile.mfr.decorative.brick.snow.name = 雪レンガ
+tile.mfr.decorative.brick.ice_large.name = 大きな氷レンガ
+tile.mfr.decorative.brick.glowstone_large.name = 大きなグロウストーンレンガ
+tile.mfr.decorative.brick.lapis_large.name = 大きなラピスラズリレンガ
+tile.mfr.decorative.brick.obsidian_large.name = 大きな黒曜石レンガ
+tile.mfr.decorative.brick.pavedstone_large.name = 大きな舗装石レンガ
+tile.mfr.decorative.brick.snow_large.name = 大きな雪レンガ
+tile.mfr.decorative.brick.meat.raw.name = 生肉ブロック
+tile.mfr.decorative.brick.meat.cooked.name = 焼肉ブロック
+tile.mfr.decorative.brick.brick_large.name = 大きなレンガ
+tile.mfr.decorative.brick.sugar_charcoal.name = 砂糖炭ブロック
 
-tile.mfr.decorative.stone.black.smooth.name = Smooth Blackstone
-tile.mfr.decorative.stone.black.cobble.name = Cobble Blackstone
-tile.mfr.decorative.stone.black.brick.small.name = Small Blackstone Bricks
-tile.mfr.decorative.stone.black.brick.large.name = Large Blackstone Bricks
-tile.mfr.decorative.stone.black.gravel.name = Blackstone Gravel
-tile.mfr.decorative.stone.black.paved.name = Paved Blackstone
-tile.mfr.decorative.stone.white.smooth.name = Smooth Whitestone
-tile.mfr.decorative.stone.white.cobble.name = Cobble Whitestone
-tile.mfr.decorative.stone.white.brick.small.name = Small Whitestone Bricks
-tile.mfr.decorative.stone.white.brick.large.name = Large Whitestone Bricks
-tile.mfr.decorative.stone.white.gravel.name = Whitestone Gravel
-tile.mfr.decorative.stone.white.paved.name = Paved Whitestone
+tile.mfr.decorative.stone.black.smooth.name = 滑らかな黒石
+tile.mfr.decorative.stone.black.cobble.name = 黒石の丸石
+tile.mfr.decorative.stone.black.brick.small.name = 黒石の石レンガ（小）
+tile.mfr.decorative.stone.black.brick.large.name = 黒石の石レンガ（大）
+tile.mfr.decorative.stone.black.gravel.name = 黒石の砂利
+tile.mfr.decorative.stone.black.paved.name = 舗装された黒石
+tile.mfr.decorative.stone.white.smooth.name = 滑らかな白石
+tile.mfr.decorative.stone.white.cobble.name = 白石の丸石
+tile.mfr.decorative.stone.white.brick.small.name = 白石の石レンガ（小）
+tile.mfr.decorative.stone.white.brick.large.name = 白石の石レンガ（大）
+tile.mfr.decorative.stone.white.gravel.name = 白石の砂利
+tile.mfr.decorative.stone.white.paved.name = 舗装された白石
 
 tile.mfr.pinkslime.block.name = ピンクスライムブロック
 
@@ -144,12 +150,12 @@ tile.mfr.vinescaffold.name = 蔦の足場
 
 tile.mfr.detcord.name = 導爆線
 
-tile.mfr.farmland.name = Fertile Soil
+tile.mfr.farmland.name = 肥沃土
 
 tile.mfr.rubberwood.sapling.name = ゴムの苗木
-tile.mfr.rubberwood.sapling.sacred.name = Sacred Rubber Sapling
-tile.mfr.rubberwood.sapling.mega.name = Mega Rubber Sapling
-tile.mfr.rubberwood.sapling.massive.name = Sacred Rubber Sapling
+tile.mfr.rubberwood.sapling.sacred.name = 神聖なゴムの苗木
+tile.mfr.rubberwood.sapling.mega.name = 巨大なゴムの苗木
+tile.mfr.rubberwood.sapling.massive.name = 神聖なゴムの苗木
 tile.mfr.rubberwood.log.name = ゴムの原木
 tile.mfr.rubberwood.leaves.name = ゴムの葉
 tile.mfr.rubberwood.leaves.dry.name = 乾燥したゴムの葉
@@ -198,27 +204,32 @@ item.mfr.bucket.mushroomsoup.name = キノコシチュー入りバケツ
 
 item.mfr.plastic.cup.name = ポリカップ
 item.mfr.plastic.cup.prefix.name =
-item.mfr.plastic.cup.suffix.name = Cup
-item.mfr.plastic.cell.name = Plastic Cell
+item.mfr.plastic.cup.suffix.name = カップ
+item.mfr.plastic.cell.name = プラスチックセル
 item.mfr.plastic.cell.prefix.name =
-item.mfr.plastic.cell.suffix.name = Cell
+item.mfr.plastic.cell.suffix.name = セル
+
+item.mfr.glass.armor.helm.name = サングラス
 
 item.mfr.plastic.armor.helm.name  = プラスチックのヘルメット
 item.mfr.plastic.armor.chest.name = プラスチックのチェストプレート
 item.mfr.plastic.armor.legs.name  = プラスチックのレギンス
 item.mfr.plastic.armor.boots.name = プラスチックのブーツ
 
-item.mfr.syringe.cure.name = De-Zombification Syringe
-item.mfr.syringe.empty.name = Empty Syringe
+item.mfr.syringe.cure.name = ゾンビ治療注射器
+item.mfr.syringe.empty.name = 空の注射器
 item.mfr.syringe.empty.prefix.name =
-item.mfr.syringe.empty.suffix.name = Syringe
-item.mfr.syringe.growth.name = Growth Syringe
-item.mfr.syringe.health.name = Health Syringe
-item.mfr.syringe.slime.name = Slime Embiggening Syringe
-item.mfr.syringe.zombie.name = Zombie Syringe
+item.mfr.syringe.empty.suffix.name = 注射器
+item.mfr.syringe.growth.name = 成長注射器
+item.mfr.syringe.health.name = 治癒注射器
+item.mfr.syringe.slime.name = スライム増殖注射器
+item.mfr.syringe.zombie.name = ゾンビ化注射器
 
 item.mfr.machineblock.name = ファクトリーマシンブロック
 item.mfr.hammer.name = 精密ハンマー
+
+item.mfr.plastic = プラスチック
+item.mfr.plastic.ability = 強靭
 item.mfr.plastic.sheet.name = プラスチックシート
 item.mfr.plastic.raw.name = 生プラスチック
 item.mfr.plastic.bag.name = ビニール袋
@@ -229,6 +240,7 @@ item.mfr.record.blank.name = 空のレコード
 item.mfr.safarinet.reusable.name = サファリネット
 item.mfr.safarinet.singleuse.name = サファリネット(シングルユース)
 item.mfr.safarinet.jailer.name = ジェイラーズ・サファリネット
+item.mfr.safarinet.jailer.fancy.name = ジェイラーズ・ゴールデンサファリネット
 item.mfr.safarinet.launcher.name = サファリネットランチャー
 
 item.mfr.sugarcharcoal.name = 砂糖炭
@@ -241,21 +253,26 @@ item.mfr.portaspawner.name = スポナー移動機
 item.mfr.straw.name = ストロー
 
 item.mfr.rednet.meter.name = レッドネット測定器
-item.mfr.rednet.meter.info.name = RedNet Multimeter
-item.mfr.rednet.meter.debug.name = Debugger
-item.mfr.rednet.memorycard.name = PRC Memory Card
+item.mfr.rednet.meter.info.name = レッドネットマルチメーター
+item.mfr.rednet.meter.debug.name = デバッガー
+item.mfr.rednet.memorycard.name = PRCメモリーカード
 
 item.mfr.meat.ingot.raw.name = 生肉インゴット
 item.mfr.meat.ingot.cooked.name = 焼肉インゴット
 item.mfr.meat.nugget.raw.name = 生肉ナゲット
 item.mfr.meat.nugget.cooked.name = 焼肉ナゲット
 
+item.mfr.pinkslime = ピンクスライム
+item.mfr.pinkslime.ability = 粘着質\nピンク色
 item.mfr.pinkslime.ball.name = ピンクスライムボール
 item.mfr.pinkslime.gem.name = ピンクスライムクリスタル
 
 item.mfr.rocket.name = 自己推進式対物ロケット
 item.mfr.rocket.smart.name = 追跡型自己推進式対物ロケット
 item.mfr.rocketlauncher.name = SPAMRランチャー
+
+item.mfr.potatolauncher.name = ジャガイモ砲
+
 item.mfr.fishingrod.name = 釣竿
 
 item.mfr.ceramicdye.white.name = セラミック染料 (White)
@@ -312,169 +329,181 @@ item.mfr.upgrade.logic.500.name = PRC LX-500 拡張論理回路
 item.mfr.needlegun.name = ニードルガン
 item.mfr.needlegun.ammo.empty.name = ニードルガンの弾倉
 item.mfr.needlegun.ammo.standard.name = ニードルガンの弾（針)
-item.mfr.needlegun.ammo.pierce.name = ニードルガンの弾（Shrapnel)
-item.mfr.needlegun.ammo.lava.name = ニードルガンの弾（針）
+item.mfr.needlegun.ammo.pierce.name = ニードルガンの弾（榴散弾)
+item.mfr.needlegun.ammo.lava.name = ニードルガンの弾（溶岩）
 item.mfr.needlegun.ammo.sludge.name = ニードルガンの弾（汚泥）
 item.mfr.needlegun.ammo.sewage.name = ニードルガンの弾（汚水）
 item.mfr.needlegun.ammo.fire.name = ニードルガンの弾（炎）
 item.mfr.needlegun.ammo.anvil.name = ニードルガンの弾（金床）
 
-circuit.mfr.noop = (No-Op)
-circuit.mfr.adder.analog = Adder (Analog)
-circuit.mfr.adder.digital.full = Adder (Digital, Full)
-circuit.mfr.adder.digital.half = Adder (Digital, Half)
-circuit.mfr.and.2 = And (2-Input)
-circuit.mfr.and.3 = And (3-Input)
-circuit.mfr.and.4 = And (4-Input)
-circuit.mfr.boolean.equal = Equals
-circuit.mfr.boolean.greater = Greater Than
-circuit.mfr.boolean.greaterequal = Greater Than Or Equal
-circuit.mfr.boolean.less = Less Than
-circuit.mfr.boolean.lessequal = Less Than Or Equal
-circuit.mfr.boolean.notequal = Not Equals
-circuit.mfr.counter = Counter
-circuit.mfr.decompose.decimal = Decompose Int -> Decimal
-circuit.mfr.delay = Delay
-circuit.mfr.delay8ch = Delay (8-Channel)
-circuit.mfr.demux.16.analog = DeMux (16-Out, Analog)
-circuit.mfr.demux.4 = DeMux (4-Output)
-circuit.mfr.fanout = Fanout
-circuit.mfr.flipflop.jk = JK-FlipFlop
-circuit.mfr.flipflop.t = T-FlipFlop
-circuit.mfr.inverter = Inverter
-circuit.mfr.latch.d.clocked = D-Latch (Clocked)
-circuit.mfr.latch.d.gated = D-Latch (Gated)
-circuit.mfr.latch.sr = SR-Latch
-circuit.mfr.latch.sr.gated = SR-Latch (Gated)
-circuit.mfr.max.2 = Maximum (2-Input)
-circuit.mfr.max.3 = Maximum (3-Input)
-circuit.mfr.max.4 = Maximum (4-Input)
-circuit.mfr.min.2 = Minimum (2-Input)
-circuit.mfr.min.3 = Minimum (3-Input)
-circuit.mfr.min.4 = Minimum (4-Input)
-circuit.mfr.multiplier = Multiplier
-circuit.mfr.multipulse = Multipulse
-circuit.mfr.mux.16.analog = Mux (15-Input, Analog)
-circuit.mfr.mux.4 = Mux (4-Input)
-circuit.mfr.nand.2 = Nand (2-Input)
-circuit.mfr.nand.3 = Nand (3-Input)
-circuit.mfr.nand.4 = Nand (4-Input)
-circuit.mfr.negator = Negator
-circuit.mfr.nor.2 = Nor (2-Input)
-circuit.mfr.nor.3 = Nor (3-Input)
-circuit.mfr.nor.4 = Nor (4-Input)
-circuit.mfr.oneshot = One-Shot Pulse
-circuit.mfr.or.2 = Or (2-Input)
-circuit.mfr.or.3 = Or (3-Input)
-circuit.mfr.or.4 = Or (4-Input)
-circuit.mfr.passthrough = Passthrough
-circuit.mfr.passthrough.gated = Passthrough (Gated)
-circuit.mfr.passthrough.roundrobin = Passthrough (Ring)
-circuit.mfr.pulselengthener = Pulse Lengthener
-circuit.mfr.randomizer.analog = Randomizer (Analog)
-circuit.mfr.randomizer.digital = Randomizer (Digital)
-circuit.mfr.scaler = Scaler
-circuit.mfr.schmitttrigger = Schmitt Trigger
-circuit.mfr.sevensegmentencoder = Seven-Segment Encoder
-circuit.mfr.subtractor = Subtractor
-circuit.mfr.wavegenerator.sawtooth.falling = Wave (Sawtooth, Falling)
-circuit.mfr.wavegenerator.sawtooth.rising = Wave (Sawtooth, Rising)
-circuit.mfr.wavegenerator.sine = Wave (Sine)
-circuit.mfr.wavegenerator.square = Wave (Square) [Timer]
-circuit.mfr.wavegenerator.triangle = Wave (Triangle)
-circuit.mfr.xnor.2 = Xnor (2-Input)
-circuit.mfr.xnor.3 = Xnor (3-Input)
-circuit.mfr.xnor.4 = Xnor (4-Input)
-circuit.mfr.xor.2 = Xor (2-Input)
-circuit.mfr.xor.3 = Xor (3-Input)
-circuit.mfr.xor.4 = Xor (4-Input)
+circuit.mfr.noop = (何もしない)
+circuit.mfr.adder.analog = 加算器 (アナログ)
+circuit.mfr.adder.digital.full = 全加算器 (デジタル)
+circuit.mfr.adder.digital.half = 半加算器 (デジタル)
+circuit.mfr.and.2 = AND (2入力)
+circuit.mfr.and.3 = AND (3入力)
+circuit.mfr.and.4 = AND (4入力)
+circuit.mfr.boolean.equal = 等しい
+circuit.mfr.boolean.greater = より大きい
+circuit.mfr.boolean.greaterequal = 以上
+circuit.mfr.boolean.less = より小さい
+circuit.mfr.boolean.lessequal = 以下
+circuit.mfr.boolean.notequal = 等しくない
+circuit.mfr.counter = カウンター
+circuit.mfr.decompose.decimal = 整数→小数変換
+circuit.mfr.delay = 遅延
+circuit.mfr.delay8ch = 遅延 (8チャンネル)
+circuit.mfr.demux.16.analog = デマルチプレクサ (16出力, アナログ)
+circuit.mfr.demux.4 = デマルチプレクサ (4出力)
+circuit.mfr.fanout = ファンアウト
+circuit.mfr.flipflop.jk = JKフリップフロップ
+circuit.mfr.flipflop.t = Tフリップフロップ
+circuit.mfr.inverter = インバーター
+circuit.mfr.latch.d.clocked = Dラッチ (クロック式)
+circuit.mfr.latch.d.gated = Dラッチ (ゲート式)
+circuit.mfr.latch.sr = SRラッチ
+circuit.mfr.latch.sr.gated = SRラッチ (ゲート式)
+circuit.mfr.max.2 = 最大値 (2入力)
+circuit.mfr.max.3 = 最大値 (3入力)
+circuit.mfr.max.4 = 最大値 (4入力)
+circuit.mfr.min.2 = 最小値 (2入力)
+circuit.mfr.min.3 = 最小値 (3入力)
+circuit.mfr.min.4 = 最小値 (4入力)
+circuit.mfr.multiplier = 乗算器
+circuit.mfr.multipulse = マルチパルス
+circuit.mfr.mux.16.analog = マルチプレクサ (15入力, アナログ)
+circuit.mfr.mux.4 = マルチプレクサ (4入力)
+circuit.mfr.nand.2 = NAND (2入力)
+circuit.mfr.nand.3 = NAND (3入力)
+circuit.mfr.nand.4 = NAND (4入力)
+circuit.mfr.negator = ネゲーター（符号反転器）
+circuit.mfr.nor.2 = NOR (2入力)
+circuit.mfr.nor.3 = NOR (3入力)
+circuit.mfr.nor.4 = NOR (4入力)
+circuit.mfr.oneshot = ワンショットパルス
+circuit.mfr.or.2 = OR (2入力)
+circuit.mfr.or.3 = OR (3入力)
+circuit.mfr.or.4 = OR (4入力)
+circuit.mfr.passthrough = パススルー
+circuit.mfr.passthrough.gated = パススルー (ゲート式)
+circuit.mfr.passthrough.roundrobin = パススルー (リング式)
+circuit.mfr.pulselengthener = パルス延長器
+circuit.mfr.randomizer.analog = ランダマイザー (アナログ)
+circuit.mfr.randomizer.digital = ランダマイザー (デジタル)
+circuit.mfr.scaler = スケーラー
+circuit.mfr.schmitttrigger = シュミットトリガー
+circuit.mfr.sevensegmentencoder = 7セグメントエンコーダー
+circuit.mfr.subtractor = 減算器
+circuit.mfr.wavegenerator.sawtooth.falling = 波形 (のこぎり波, 下降)
+circuit.mfr.wavegenerator.sawtooth.rising = 波形 (のこぎり波, 上昇)
+circuit.mfr.wavegenerator.sine = 波形 (正弦波)
+circuit.mfr.wavegenerator.square = 波形 (矩形波) [タイマー]
+circuit.mfr.wavegenerator.triangle = 波形 (三角波)
+circuit.mfr.xnor.2 = XNOR (2入力)
+circuit.mfr.xnor.3 = XNOR (3入力)
+circuit.mfr.xnor.4 = XNOR (4入力)
+circuit.mfr.xor.2 = XOR (2入力)
+circuit.mfr.xor.3 = XOR (3入力)
+circuit.mfr.xor.4 = XOR (4入力)
 
-container.mfr.radius = Radius:
-container.mfr.power = Energy draw:
+container.mfr.radius = 半径:
+container.mfr.power = 消費電力:
+
+container.mfr.autobrewer.resources = 資源
+
+container.mfr.pendingDrops = このマシンには\u00A7c詰まったアイテム\u00A7rがあります
+container.mfr.redstoneSignal = このマシンは\u00A74レッドストーン信号\u00A7rを受信しています
 
 chat.info.mfr.safarinet.capture = キャプチャモード
 chat.info.mfr.safarinet.release = リリースモード
 
-chat.info.mfr.spyglass.nosight = Nothing in sight
-chat.info.mfr.spyglass.hitentity = Found a %s at %.1f, %.1f, %.1f
-chat.info.mfr.spyglass.hitblock = Found %s [%s:%d] at %.1f, %.1f, %.1f
-chat.info.mfr.spyglass.hitunknown = Found UNKNOWN (bugged mod?) at %.1f, %.1f, %.1f
+chat.info.mfr.spyglass.nosight = 視界内に何もありません
+chat.info.mfr.spyglass.hitentity = %s を %.1f, %.1f, %.1f で発見
+chat.info.mfr.spyglass.hitblock = %s [%s:%d] を %.1f, %.1f, %.1f で発見
+chat.info.mfr.spyglass.hitunknown = 不明な物体 (MODのバグ?) を %.1f, %.1f, %.1f で発見
 
-chat.info.mfr.ruler.nosight = Nothing in sight
-chat.info.mfr.ruler.hitentity = Hit entity - measurement failed
-chat.info.mfr.ruler.startposition = Recorded start position
-chat.info.mfr.ruler.distance = distance: %d, count: %d
-chat.info.mfr.ruler.total = Total Distance: %.1f
+chat.info.mfr.ruler.nosight = 視界内に何もありません
+chat.info.mfr.ruler.hitentity = エンティティに命中 - 測定失敗
+chat.info.mfr.ruler.startposition = 開始位置を記録しました
+chat.info.mfr.ruler.distance = 距離: %d, 回数: %d
+chat.info.mfr.ruler.total = 合計距離: %.1f
 
-chat.info.mfr.rednet.meter.cable.allzero = All RedNet subnets are 0
-chat.info.mfr.rednet.meter.cable.restzero = All other RedNet subnets are 0
-chat.info.mfr.rednet.meter.varprefix = Variable
-chat.info.mfr.rednet.meter.var.allzero = All variables are 0
-chat.info.mfr.rednet.meter.var.restzero = All other variables are 0
-chat.info.mfr.rednet.meter.dustprefix = Redstone Dust
+chat.info.mfr.rednet.meter.cable.allzero = 全てのレッドネットサブネットは0です
+chat.info.mfr.rednet.meter.cable.restzero = 他の全てのレッドネットサブネットは0です
+chat.info.mfr.rednet.meter.varprefix = 変数
+chat.info.mfr.rednet.meter.var.allzero = 全ての変数は0です
+chat.info.mfr.rednet.meter.var.restzero = 他の全ての変数は0です
+chat.info.mfr.rednet.meter.dustprefix = レッドストーンダスト
 
-chat.info.mfr.rednet.memorycard.uploaded = PRC program uploaded to memory card from PRC
-chat.info.mfr.rednet.memorycard.downloaded = PRC program downloaded from memory card to PRC
-chat.info.mfr.rednet.memorycard.error = PRC contains insufficient circuits to hold this program
+chat.info.mfr.rednet.memorycard.uploaded = PRCのプログラムをメモリーカードにアップロードしました
+chat.info.mfr.rednet.memorycard.downloaded = メモリーカードのプログラムをPRCにダウンロードしました
+chat.info.mfr.rednet.memorycard.empty = PRCにはプログラムが含まれていません
+chat.info.mfr.rednet.memorycard.error = PRCの回路数が不足しているため、このプログラムを保持できません
+chat.info.mfr.rednet.memorycard.error2 = このPRCは既に他の人が使用しています
 
-chat.info.mfr.rednet.tile.standard = Set cable to standard connection mode
-chat.info.mfr.rednet.tile.cableonly = Set cable to cable-only connection mode
+chat.info.mfr.rednet.tile.standard = ケーブルを標準接続モードに設定しました
+chat.info.mfr.rednet.tile.cableonly = ケーブルをケーブル限定接続モードに設定しました
 
-chat.info.mfr.rednet.connection.standard = Set side to standard connection mode
-chat.info.mfr.rednet.connection.forced = Set side to forced-connection mode
-chat.info.mfr.rednet.connection.forcedstrong = Set side to strong-connection mode
-chat.info.mfr.rednet.connection.cableonly = Set side to cable-only connection mode
+chat.info.mfr.rednet.connection.standard = 面を標準接続モードに設定しました
+chat.info.mfr.rednet.connection.forced = 面を強制接続モードに設定しました
+chat.info.mfr.rednet.connection.forcedstrong = 面を強接続モードに設定しました
+chat.info.mfr.rednet.connection.cableonly = 面をケーブル限定接続モードに設定しました
 
-chat.info.mfr.fluid.connection.disabled = Set side to disabled connection mode
-chat.info.mfr.fluid.connection.output = Set side to output connection mode
-chat.info.mfr.fluid.connection.extract = Set side to extract connection mode
+chat.info.mfr.fluid.connection.disabled = 面を接続無効モードに設定しました
+chat.info.mfr.fluid.connection.output = 面を出力接続モードに設定しました
+chat.info.mfr.fluid.connection.extract = 面を抽出接続モードに設定しました
 
-chat.info.mfr.fluid.install.torch = Installed Redstone Torch, RS control inverted
-chat.info.mfr.fluid.install.block = Installed Redstone Block, RS control disabled
+chat.info.mfr.fluid.install.torch = レッドストーントーチを設置しました。レッドストーン制御が反転します
+chat.info.mfr.fluid.install.block = レッドストーンブロックを設置しました。レッドストーン制御が無効になります
 
-chat.info.mfr.bag.stacksize = You can only open one bag at a time
+chat.info.mfr.bag.stacksize = 一度に開けるバッグは1つだけです
 
-chat.info.mfr.chunkloader.noticket = You have too many chunk loaders and this one cannot function.
+chat.info.mfr.chunkloader.noticket = チャンクローダーが多すぎるため、このチャンクローダーは機能しません。
 
 # Tooltips: these can be added to any item by a lang file, but they cannot be removed
 # this is a limitation of the localization system.
 # Replace "item." or "tile." with "tip.info" and remove ".name" and that tooltip will be
 # displayed under the item with exceptions, such as the PRC which uses a custom entry for legacy reasons
 
-tip.info.mfr.rubberwood.sapling.massive = Warning: Pakratt's world ship.
+tip.info.mfr.hammer = レンチのようだが、もっとパワフル（叩き壊せる）
 
-tip.info.mfr.prc = If you're lost, read the (in-game) manual
+tip.info.mfr.rubberwood.sapling.massive = 警告: Pakrattの世界船。
 
-tip.info.mfr.xpextractor = Requires an empty container to fill
+tip.info.mfr.prc = 迷ったら(ゲーム内)マニュアルを読んでください
 
-tip.info.mfr.mobcounter = Emits an analog redstone signal\nproportional to the count of\nmobs that are within range.
+tip.info.mfr.xpextractor = 満たすには空の容器が必要です
 
-tip.info.mfr.laserdrill = Placed over a hole to bedrock or the void
-tip.info.mfr.laserdrillprecharger = Placed one block away from a valid laser target
+tip.info.mfr.mobcounter = 範囲内にいるモブの数に応じた\nアナログレッドストーン信号を\n発します。
+
+tip.info.mfr.laserdrill = 岩盤またはヴォイドまで続く穴の上に設置してください
+tip.info.mfr.laserdrillprecharger = 有効なレーザーの対象から1ブロック離れた場所に設置してください
 
 # These tooltips are not the entire tooltip, but part of a custom format or entry
 
-tip.info.mfr.cannotplace = Cannot place for %s more seconds.
+tip.info.mfr.cannotplace = あと%s秒間は設置できません。
 
-tip.info.mfr.safarinet.mode = Sneak-click to change mode
-tip.info.mfr.safarinet.persistent = Released creatures don't despawn normally
-tip.info.mfr.safarinet.mystery = It is a mystery
+tip.info.mfr.safarinet.mode = スニーク+クリックでモードを変更
+tip.info.mfr.safarinet.persistent = 解放された生物は通常のデスポーンをしません
+tip.info.mfr.safarinet.nametag = 解放された生物は常に名札が表示されます
+tip.info.mfr.safarinet.mystery = それは謎です
 
-tip.info.mfr.memorycard.wipe = Place in crafting grid to wipe
+tip.info.mfr.memorycard.programmedFor = プログラム対象:\n      \u00A7a%s
+tip.info.mfr.memorycard.programmed = \u0020     \u00A7a%d個の回路をプログラム済み
+tip.info.mfr.memorycard.wipe = クラフトグリッドに置くと消去されます
 
-tip.info.mfr.generator.produces = Produces RF only.
+tip.info.mfr.generator.produces = RFのみを生産します。
 
-tip.info.mfr.dsu.contains = Contains %s
+tip.info.mfr.dsu.contains = %s を格納中
 
-tip.info.mfr.needlegun.ammo = %s rounds
+tip.info.mfr.needlegun.ammo = %s発
 
-tip.info.mfr.upgrade.radius = Radius increase: %s
+tip.info.mfr.upgrade.radius = 半径増加: %s
 
-death.attack.mfr.slaughterhouse = %1$s was processed into Liquid Meat
-death.attack.mfr.slaughterhouse.player = %1$s was doomed to be processed into Liquid Meat by %2$s
-death.attack.mfr.slaughterhouse.1 = %1$s was processed into meat sauce
-death.attack.mfr.slaughterhouse.1.player = %1$s was doomed to be processed into meat sauce by %2$s
-death.attack.mfr.grinder = %1$s was ground to bits
-death.attack.mfr.grinder.player = %2$s ensured %1$s was ground to bits
-death.attack.mfr.laser = %1$s was disintegrated
-death.attack.mfr.laser.player = %2$s ensured %1$s was disintegrated
+death.attack.mfr.slaughterhouse = %1$sは液体肉に加工された
+death.attack.mfr.slaughterhouse.player = %1$sは%2$sによって液体肉に加工される運命にあった
+death.attack.mfr.slaughterhouse.1 = %1$sはミートソースに加工された
+death.attack.mfr.slaughterhouse.1.player = %1$sは%2$sによってミートソースに加工される運命にあった
+death.attack.mfr.grinder = %1$sは粉々にすり潰された
+death.attack.mfr.grinder.player = %2$sは%1$sを確実に粉々にすり潰した
+death.attack.mfr.laser = %1$sは分解された
+death.attack.mfr.laser.player = %2$sは%1$sを確実に分解した

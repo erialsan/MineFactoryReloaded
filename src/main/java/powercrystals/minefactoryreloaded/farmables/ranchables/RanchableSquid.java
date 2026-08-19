@@ -15,23 +15,22 @@ import powercrystals.minefactoryreloaded.api.RanchedItem;
 
 public class RanchableSquid implements IFactoryRanchable {
 
-	@Override
-	public Class<? extends EntityLivingBase> getRanchableEntity() {
+    @Override
+    public Class<? extends EntityLivingBase> getRanchableEntity() {
 
-		return EntitySquid.class;
-	}
+        return EntitySquid.class;
+    }
 
-	@Override
-	public List<RanchedItem> ranch(World world, EntityLivingBase entity, IInventory rancher) {
+    @Override
+    public List<RanchedItem> ranch(World world, EntityLivingBase entity, IInventory rancher) {
 
-		NBTTagCompound tag = entity.getEntityData();
-		if (tag.getLong("mfr:lastRanched") > world.getTotalWorldTime())
-			return null;
-		tag.setLong("mfr:lastRanched", world.getTotalWorldTime() + 20 * 15);
+        NBTTagCompound tag = entity.getEntityData();
+        if (tag.getLong("mfr:lastRanched") > world.getTotalWorldTime()) return null;
+        tag.setLong("mfr:lastRanched", world.getTotalWorldTime() + 20 * 15);
 
-		List<RanchedItem> drops = new ArrayList<RanchedItem>();
-		drops.add(new RanchedItem(Items.dye, 1, 0));
-		return drops;
-	}
+        List<RanchedItem> drops = new ArrayList<RanchedItem>();
+        drops.add(new RanchedItem(Items.dye, 1, 0));
+        return drops;
+    }
 
 }

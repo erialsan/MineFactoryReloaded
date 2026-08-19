@@ -6,14 +6,13 @@ import net.minecraft.potion.PotionEffect;
 
 import powercrystals.minefactoryreloaded.api.ILiquidDrinkHandler;
 
-public class DrinkHandlerPinkSlime implements ILiquidDrinkHandler
-{
-	@Override
-	public void onDrink(EntityLivingBase player)
-	{
-		player.addPotionEffect(new PotionEffect(Potion.confusion.id, 24 * 20, 0));
-		player.addPotionEffect(new PotionEffect(Potion.weakness.id, 12 * 20, 0));
-		player.addPotionEffect(new PotionEffect(Potion.hunger.id, 12 * 20, 0));
-		player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 60 * 20, 2));
-	}
+public class DrinkHandlerPinkSlime implements ILiquidDrinkHandler {
+
+    @Override
+    public void onDrink(EntityLivingBase player) {
+        player.addPotionEffect(new PotionEffect(Potion.confusion.id, 24 * 20, 0));
+        player.addPotionEffect(new PotionEffect(Potion.weakness.id, 12 * 20, 0));
+        player.addPotionEffect(new PotionEffect(Potion.hunger.id, 12 * 20, 0));
+        player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 60 * 20, 2));
+    }
 }

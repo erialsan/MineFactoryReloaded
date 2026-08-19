@@ -10,52 +10,52 @@ import powercrystals.minefactoryreloaded.item.base.ItemFactory;
 
 public class ItemMilkBottle extends ItemFactory {
 
-	public ItemMilkBottle() {
+    public ItemMilkBottle() {
 
-		setContainerItem(Items.glass_bottle);
-	}
+        setContainerItem(Items.glass_bottle);
+    }
 
-	@Override
-	public ItemStack onEaten(ItemStack stack, World world, EntityPlayer player) {
+    @Override
+    public ItemStack onEaten(ItemStack stack, World world, EntityPlayer player) {
 
-		if (!world.isRemote) {
-			player.curePotionEffects(new ItemStack(Items.milk_bucket));
-		}
+        if (!world.isRemote) {
+            player.curePotionEffects(new ItemStack(Items.milk_bucket));
+        }
 
-		if (!player.capabilities.isCreativeMode) {
-			stack.stackSize--;
+        if (!player.capabilities.isCreativeMode) {
+            stack.stackSize--;
 
-			if (stack.stackSize <= 0) {
-				return new ItemStack(Items.glass_bottle);
-			} else if (!player.inventory.addItemStackToInventory(new ItemStack(Items.glass_bottle))) {
-				player.func_146097_a(new ItemStack(Items.glass_bottle), false, true);
-			}
-		}
+            if (stack.stackSize <= 0) {
+                return new ItemStack(Items.glass_bottle);
+            } else if (!player.inventory.addItemStackToInventory(new ItemStack(Items.glass_bottle))) {
+                player.func_146097_a(new ItemStack(Items.glass_bottle), false, true);
+            }
+        }
 
-		if (stack.stackSize <= 0) {
-			stack.stackSize = 0;
-		}
+        if (stack.stackSize <= 0) {
+            stack.stackSize = 0;
+        }
 
-		return stack;
-	}
+        return stack;
+    }
 
-	@Override
-	public int getMaxItemUseDuration(ItemStack stack) {
+    @Override
+    public int getMaxItemUseDuration(ItemStack stack) {
 
-		return 32;
-	}
+        return 32;
+    }
 
-	@Override
-	public EnumAction getItemUseAction(ItemStack stack) {
+    @Override
+    public EnumAction getItemUseAction(ItemStack stack) {
 
-		return EnumAction.drink;
-	}
+        return EnumAction.drink;
+    }
 
-	@Override
-	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
+    @Override
+    public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 
-		player.setItemInUse(stack, this.getMaxItemUseDuration(stack));
-		return stack;
-	}
+        player.setItemInUse(stack, this.getMaxItemUseDuration(stack));
+        return stack;
+    }
 
 }

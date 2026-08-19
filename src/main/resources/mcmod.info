@@ -19,10 +19,10 @@
         "logoFile": "",
         "screenshots": [],
         "parent": "",
-        "requiredMods": [],
-        "dependencies": [],
+        "requiredMods": ["CoFHCore"],
+        "dependencies": ["CoFHCore"],
         "dependants": [],
-        "useDependencyInformation": false
+        "useDependencyInformation": true
     },
     {
         "modid": "MineFactoryReloaded|CompatAppliedEnergistics",

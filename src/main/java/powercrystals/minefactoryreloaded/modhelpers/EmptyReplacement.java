@@ -6,17 +6,16 @@ import net.minecraft.world.World;
 
 import powercrystals.minefactoryreloaded.api.ReplacementBlock;
 
-public class EmptyReplacement extends ReplacementBlock
-{
-	public static final EmptyReplacement INSTANCE = new EmptyReplacement();
+public class EmptyReplacement extends ReplacementBlock {
 
-	public EmptyReplacement()
-	{
-		super((Block)null);
-	}
+    public static final EmptyReplacement INSTANCE = new EmptyReplacement();
 
-	@Override
-	public boolean replaceBlock(World world, int x, int y, int z, ItemStack stack) {
-		return true;
-	}
+    public EmptyReplacement() {
+        super((Block) null);
+    }
+
+    @Override
+    public boolean replaceBlock(World world, int x, int y, int z, ItemStack stack) {
+        return true;
+    }
 }

@@ -1,9 +1,5 @@
 package powercrystals.minefactoryreloaded.block.transport;
 
-import cofh.lib.inventory.IInventoryManager;
-import cofh.lib.inventory.InventoryManager;
-import cofh.lib.util.position.BlockPosition;
-
 import java.util.Map.Entry;
 
 import net.minecraft.entity.item.EntityMinecart;
@@ -12,40 +8,44 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import cofh.lib.inventory.IInventoryManager;
+import cofh.lib.inventory.InventoryManager;
+import cofh.lib.util.position.BlockPosition;
 import powercrystals.minefactoryreloaded.core.UtilInventory;
 
-public class BlockRailCargoDropoff extends BlockFactoryRail
-{
-	public BlockRailCargoDropoff()
-	{
-		super(true, false);
-		setBlockName("mfr.rail.cargo.dropoff");
-	}
+public class BlockRailCargoDropoff extends BlockFactoryRail {
 
-	@Override
-	public void onMinecartPass(World world, EntityMinecart entity, int x, int y, int z)
-	{
-		if (world.isRemote || !(entity instanceof IInventory))
-			return;
+    public BlockRailCargoDropoff() {
+        super(true, false);
+        setBlockName("mfr.rail.cargo.dropoff");
+    }
 
-		IInventoryManager minecart = InventoryManager.create(entity, ForgeDirection.UNKNOWN);
+    @Override
+    public void onMinecartPass(World world, EntityMinecart entity, int x, int y, int z) {
+        if (world.isRemote || !(entity instanceof IInventory)) return;
 
-		for (Entry<Integer, ItemStack> contents : minecart.getContents().entrySet())
-		{
-			if (contents.getValue() == null)
-			{
-				continue;
-			}
+        IInventoryManager minecart = InventoryManager.create(entity, ForgeDirection.UNKNOWN);
 
-			ItemStack stackToAdd = contents.getValue().copy();
-			ItemStack remaining = UtilInventory.dropStack(world, new BlockPosition(x, y, z), contents.getValue(), ForgeDirection.VALID_DIRECTIONS, ForgeDirection.UNKNOWN);
+        for (Entry<Integer, ItemStack> contents : minecart.getContents()
+            .entrySet()) {
+            if (contents.getValue() == null) {
+                continue;
+            }
 
-			if (remaining != null)
-			{
-				stackToAdd.stackSize -= remaining.stackSize;
-			}
+            ItemStack stackToAdd = contents.getValue()
+                .copy();
+            ItemStack remaining = UtilInventory.dropStack(
+                world,
+                new BlockPosition(x, y, z),
+                contents.getValue(),
+                ForgeDirection.VALID_DIRECTIONS,
+                ForgeDirection.UNKNOWN);
 
-			minecart.removeItem(stackToAdd.stackSize, stackToAdd);
-		}
-	}
+            if (remaining != null) {
+                stackToAdd.stackSize -= remaining.stackSize;
+            }
+
+            minecart.removeItem(stackToAdd.stackSize, stackToAdd);
+        }
+    }
 }

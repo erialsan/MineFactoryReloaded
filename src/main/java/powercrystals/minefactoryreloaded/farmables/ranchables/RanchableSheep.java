@@ -14,26 +14,26 @@ import powercrystals.minefactoryreloaded.api.RanchedItem;
 
 public class RanchableSheep implements IFactoryRanchable {
 
-	@Override
-	public Class<? extends EntityLivingBase> getRanchableEntity() {
+    @Override
+    public Class<? extends EntityLivingBase> getRanchableEntity() {
 
-		return EntitySheep.class;
-	}
+        return EntitySheep.class;
+    }
 
-	@Override
-	public List<RanchedItem> ranch(World world, EntityLivingBase entity, IInventory rancher) {
+    @Override
+    public List<RanchedItem> ranch(World world, EntityLivingBase entity, IInventory rancher) {
 
-		EntitySheep s = (EntitySheep) entity;
+        EntitySheep s = (EntitySheep) entity;
 
-		if (s.getSheared() || s.getGrowingAge() < 0) {
-			return null;
-		}
+        if (s.getSheared() || s.getGrowingAge() < 0) {
+            return null;
+        }
 
-		List<RanchedItem> stacks = new LinkedList<RanchedItem>();
-		stacks.add(new RanchedItem(Blocks.wool, 1, s.getFleeceColor()));
-		s.setSheared(true);
+        List<RanchedItem> stacks = new LinkedList<RanchedItem>();
+        stacks.add(new RanchedItem(Blocks.wool, 1, s.getFleeceColor()));
+        s.setSheared(true);
 
-		return stacks;
-	}
+        return stacks;
+    }
 
 }

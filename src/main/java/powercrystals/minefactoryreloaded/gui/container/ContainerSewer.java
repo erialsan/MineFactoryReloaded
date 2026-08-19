@@ -6,22 +6,19 @@ import powercrystals.minefactoryreloaded.gui.slot.SlotAcceptUpgrade;
 import powercrystals.minefactoryreloaded.item.ItemUpgrade;
 import powercrystals.minefactoryreloaded.tile.base.TileEntityFactoryInventory;
 
-public class ContainerSewer extends ContainerFactoryInventory
-{
-	public ContainerSewer(TileEntityFactoryInventory te, InventoryPlayer inv)
-	{
-		super(te, inv);
-	}
+public class ContainerSewer extends ContainerFactoryInventory {
 
-	@Override
-	protected void addSlots()
-	{
-		addSlotToContainer(new SlotAcceptUpgrade(_te, 0, 152, 79, ItemUpgrade.background));
-	}
+    public ContainerSewer(TileEntityFactoryInventory te, InventoryPlayer inv) {
+        super(te, inv);
+    }
 
-	@Override
-	protected int getPlayerInventoryVerticalOffset()
-	{
-		return 99;
-	}
+    @Override
+    protected void addSlots() {
+        addSlotToContainer(new SlotAcceptUpgrade(_te, 0, 152, 79, ItemUpgrade.background));
+    }
+
+    @Override
+    protected int getPlayerInventoryVerticalOffset() {
+        return 99;
+    }
 }

@@ -8,33 +8,33 @@ import powercrystals.minefactoryreloaded.tile.base.TileEntityFactoryPowered;
 
 public class ContainerUpgradeable extends ContainerFactoryPowered {
 
-	public ContainerUpgradeable(TileEntityFactoryPowered te, InventoryPlayer inv) {
+    public ContainerUpgradeable(TileEntityFactoryPowered te, InventoryPlayer inv) {
 
-		super(te, inv);
-	}
+        super(te, inv);
+    }
 
-	@Override
-	protected void addSlots() {
+    @Override
+    protected void addSlots() {
 
-		if (_te.getSizeInventory() > 1) {
-			super.addSlots();
-		}
+        if (_te.getSizeInventory() > 1) {
+            super.addSlots();
+        }
 
-		addSlotToContainer(new SlotAcceptUpgrade(_te, _te.getUpgradeSlot(), 152, 79, ItemUpgrade.background) {
+        addSlotToContainer(new SlotAcceptUpgrade(_te, _te.getUpgradeSlot(), 152, 79, ItemUpgrade.background) {
 
-			@Override
-			public int getSlotStackLimit() {
+            @Override
+            public int getSlotStackLimit() {
 
-				return 1;
-			}
+                return 1;
+            }
 
-		});
-	}
+        });
+    }
 
-	@Override
-	protected int getPlayerInventoryVerticalOffset() {
+    @Override
+    protected int getPlayerInventoryVerticalOffset() {
 
-		return 99;
-	}
+        return 99;
+    }
 
 }

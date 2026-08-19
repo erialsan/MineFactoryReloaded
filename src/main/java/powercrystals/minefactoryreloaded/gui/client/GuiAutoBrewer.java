@@ -6,19 +6,19 @@ import powercrystals.minefactoryreloaded.tile.machine.TileEntityAutoBrewer;
 
 public class GuiAutoBrewer extends GuiFactoryPowered {
 
-	public GuiAutoBrewer(ContainerFactoryPowered container, TileEntityAutoBrewer te) {
+    public GuiAutoBrewer(ContainerFactoryPowered container, TileEntityAutoBrewer te) {
 
-		super(container, te);
-		ySize = 244;
-		_tanksOffsetX = 146;
-		_tanksOffsetY = 79;
-	}
+        super(container, te);
+        ySize = 244;
+        _tanksOffsetX = 146;
+        _tanksOffsetY = 79;
+    }
 
-	@Override
-	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+    @Override
+    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 
-		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
-		fontRendererObj.drawString(MFRUtil.localize("container.mfr.autobrewer.resources"), 79, 14, 0x808080);
-	}
+        super.drawGuiContainerForegroundLayer(mouseX, mouseY);
+        fontRendererObj.drawString(MFRUtil.localize("container.mfr.autobrewer.resources"), 79, 14, 0x808080);
+    }
 
 }

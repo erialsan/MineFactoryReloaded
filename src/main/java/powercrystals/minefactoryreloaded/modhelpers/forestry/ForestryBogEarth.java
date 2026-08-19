@@ -18,102 +18,85 @@ import powercrystals.minefactoryreloaded.api.IFactoryHarvestable;
 import powercrystals.minefactoryreloaded.api.ReplacementBlock;
 import powercrystals.minefactoryreloaded.farmables.plantables.PlantableSoil;
 
-public class ForestryBogEarth extends PlantableSoil implements IFactoryFertilizable, IFactoryHarvestable, IFactoryFruit
-{
-	private ReplacementBlock repl;
-	private Item dirt;
+public class ForestryBogEarth extends PlantableSoil
+    implements IFactoryFertilizable, IFactoryHarvestable, IFactoryFruit {
 
-	public ForestryBogEarth(Block block)
-	{
-		super(block);
-		_plantedBlock.setMeta(true);
-		repl = new ReplacementBlock(Blocks.dirt);
-		dirt = Item.getItemFromBlock(Blocks.dirt);
-	}
+    private ReplacementBlock repl;
+    private Item dirt;
 
-	@Override
-	public boolean breakBlock()
-	{
-		return true;
-	}
+    public ForestryBogEarth(Block block) {
+        super(block);
+        _plantedBlock.setMeta(true);
+        repl = new ReplacementBlock(Blocks.dirt);
+        dirt = Item.getItemFromBlock(Blocks.dirt);
+    }
 
-	@Override
-	public Block getPlant()
-	{
-		return _block;
-	}
+    @Override
+    public boolean breakBlock() {
+        return true;
+    }
 
-	@Override
-	public HarvestType getHarvestType()
-	{
-		return HarvestType.Normal;
-	}
+    @Override
+    public Block getPlant() {
+        return _block;
+    }
 
-	@Override
-	public boolean canFertilize(World world, int x, int y, int z, FertilizerType fertilizerType)
-	{
-		return fertilizerType == FertilizerType.GrowPlant && (world.getBlockMetadata(x, y, z) & 3) == 1;
-	}
+    @Override
+    public HarvestType getHarvestType() {
+        return HarvestType.Normal;
+    }
 
-	@Override
-	public boolean canBePicked(World world, int x, int y, int z)
-	{
-		return world.getBlockMetadata(x, y, z) == 13;
-	}
+    @Override
+    public boolean canFertilize(World world, int x, int y, int z, FertilizerType fertilizerType) {
+        return fertilizerType == FertilizerType.GrowPlant && (world.getBlockMetadata(x, y, z) & 3) == 1;
+    }
 
-	@Override
-	public boolean canBeHarvested(World world, Map<String, Boolean> settings, int x, int y, int z)
-	{
-		return world.getBlockMetadata(x, y, z) == 13;
-	}
+    @Override
+    public boolean canBePicked(World world, int x, int y, int z) {
+        return world.getBlockMetadata(x, y, z) == 13;
+    }
 
-	@Override
-	public boolean fertilize(World world, Random rand, int x, int y, int z, FertilizerType fertilizerType)
-	{
-		return world.setBlockMetadataWithNotify(x, y, z, 13, 3);
-	}
+    @Override
+    public boolean canBeHarvested(World world, Map<String, Boolean> settings, int x, int y, int z) {
+        return world.getBlockMetadata(x, y, z) == 13;
+    }
 
-	@Override
-	public List<ItemStack> getDrops(World world, Random rand, Map<String, Boolean> settings, int x, int y, int z)
-	{
-		return world.getBlock(x, y, z).getDrops(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
-	}
+    @Override
+    public boolean fertilize(World world, Random rand, int x, int y, int z, FertilizerType fertilizerType) {
+        return world.setBlockMetadataWithNotify(x, y, z, 13, 3);
+    }
 
-	@Override
-	public ReplacementBlock getReplacementBlock(World world, int x, int y, int z)
-	{
-		return repl;
-	}
+    @Override
+    public List<ItemStack> getDrops(World world, Random rand, Map<String, Boolean> settings, int x, int y, int z) {
+        return world.getBlock(x, y, z)
+            .getDrops(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
+    }
 
-	@Override
-	public List<ItemStack> getDrops(World world, Random rand, int x, int y, int z)
-	{
-		List<ItemStack> list = world.getBlock(x, y, z).getDrops(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
-		for (ItemStack a : list)
-			if (a.getItem() == dirt) {
-				list.remove(a);
-				break;
-			}
-		return list;
-	}
+    @Override
+    public ReplacementBlock getReplacementBlock(World world, int x, int y, int z) {
+        return repl;
+    }
 
-	@Override
-	public void preHarvest(World world, int x, int y, int z)
-	{
-	}
+    @Override
+    public List<ItemStack> getDrops(World world, Random rand, int x, int y, int z) {
+        List<ItemStack> list = world.getBlock(x, y, z)
+            .getDrops(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
+        for (ItemStack a : list) if (a.getItem() == dirt) {
+            list.remove(a);
+            break;
+        }
+        return list;
+    }
 
-	@Override
-	public void postHarvest(World world, int x, int y, int z)
-	{
-	}
+    @Override
+    public void preHarvest(World world, int x, int y, int z) {}
 
-	@Override
-	public void prePick(World world, int x, int y, int z)
-	{
-	}
+    @Override
+    public void postHarvest(World world, int x, int y, int z) {}
 
-	@Override
-	public void postPick(World world, int x, int y, int z)
-	{
-	}
+    @Override
+    public void prePick(World world, int x, int y, int z) {}
+
+    @Override
+    public void postPick(World world, int x, int y, int z) {}
 }

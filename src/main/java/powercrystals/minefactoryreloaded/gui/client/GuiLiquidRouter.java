@@ -5,10 +5,10 @@ import powercrystals.minefactoryreloaded.tile.machine.TileEntityLiquidRouter;
 
 public class GuiLiquidRouter extends GuiFactoryInventory {
 
-	public GuiLiquidRouter(ContainerFactoryInventory container, TileEntityLiquidRouter router) {
+    public GuiLiquidRouter(ContainerFactoryInventory container, TileEntityLiquidRouter router) {
 
-		super(container, router);
-		ySize = 134;
-		_renderTanks = false;
-	}
+        super(container, router);
+        ySize = 134;
+        _renderTanks = false;
+    }
 }

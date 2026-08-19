@@ -1,6 +1,5 @@
 package powercrystals.minefactoryreloaded.tile.machine;
 
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
@@ -13,93 +12,80 @@ import powercrystals.minefactoryreloaded.core.UtilInventory;
 import powercrystals.minefactoryreloaded.setup.Machine;
 import powercrystals.minefactoryreloaded.tile.base.TileEntityFactoryInventory;
 
-public class TileEntityCollector extends TileEntityFactoryInventory implements IEntityCollidable
-{
-	protected boolean canStuff;
+public class TileEntityCollector extends TileEntityFactoryInventory implements IEntityCollidable {
 
-	public TileEntityCollector()
-	{
-		super(Machine.ItemCollector);
-		setManageSolids(true);
-		canStuff = false;
-	}
+    protected boolean canStuff;
 
-	@Override
-	public void onEntityCollided(Entity entity)
-	{
-		if (failedDrops == null && entity instanceof EntityItem)
-			addToChests((EntityItem)entity);
-	}
+    public TileEntityCollector() {
+        super(Machine.ItemCollector);
+        setManageSolids(true);
+        canStuff = false;
+    }
 
-	protected void addToChests(EntityItem i)
-	{
-		if (i.isDead)
-			return;
+    @Override
+    public void onEntityCollided(Entity entity) {
+        if (failedDrops == null && entity instanceof EntityItem) addToChests((EntityItem) entity);
+    }
 
-		ItemStack s = addToChests(i.getEntityItem());
-		if (s == null)
-		{
-			i.setDead();
-			return;
-		}
-		i.setEntityItemStack(s);
-	}
+    protected void addToChests(EntityItem i) {
+        if (i.isDead) return;
 
-	protected ItemStack addToChests(ItemStack s)
-	{
-		s = UtilInventory.dropStack(this, s,
-				MFRUtil.directionsWithoutConveyors(worldObj, xCoord, yCoord, zCoord), ForgeDirection.UNKNOWN);
-		if (canStuff & failedDrops == null & s != null)
-		{
-			doDrop(s);
-			s = null;
-		}
-		return s;
-	}
+        ItemStack s = addToChests(i.getEntityItem());
+        if (s == null) {
+            i.setDead();
+            return;
+        }
+        i.setEntityItemStack(s);
+    }
 
-	@Override
-	public boolean hasWorldObj()
-	{
-		return worldObj != null & failedDrops != null;
-	}
+    protected ItemStack addToChests(ItemStack s) {
+        s = UtilInventory.dropStack(
+            this,
+            s,
+            MFRUtil.directionsWithoutConveyors(worldObj, xCoord, yCoord, zCoord),
+            ForgeDirection.UNKNOWN);
+        if (canStuff & failedDrops == null & s != null) {
+            doDrop(s);
+            s = null;
+        }
+        return s;
+    }
 
-	@Override
-	public int getComparatorOutput(int side)
-	{
-		return failedDrops != null ? 15 : 0;
-	}
+    @Override
+    public boolean hasWorldObj() {
+        return worldObj != null & failedDrops != null;
+    }
 
-	@Override
-	public ForgeDirection getDropDirection()
-	{
-		return ForgeDirection.UNKNOWN;
-	}
+    @Override
+    public int getComparatorOutput(int side) {
+        return failedDrops != null ? 15 : 0;
+    }
 
-	@Override
-	public ForgeDirection[] getDropDirections()
-	{
-		return MFRUtil.directionsWithoutConveyors(worldObj, xCoord, yCoord, zCoord);
-	}
+    @Override
+    public ForgeDirection getDropDirection() {
+        return ForgeDirection.UNKNOWN;
+    }
 
-	@Override
-	public int getSizeInventory()
-	{
-		return 0;
-	}
+    @Override
+    public ForgeDirection[] getDropDirections() {
+        return MFRUtil.directionsWithoutConveyors(worldObj, xCoord, yCoord, zCoord);
+    }
 
-	@Override
-	public void writeItemNBT(NBTTagCompound tag)
-	{
-		super.writeItemNBT(tag);
-		if (canStuff)
-			tag.setBoolean("hasTinkerStuff", true);
-	}
+    @Override
+    public int getSizeInventory() {
+        return 0;
+    }
 
-	@Override
-	public void readFromNBT(NBTTagCompound tag)
-	{
-		super.readFromNBT(tag);
-		canStuff = tag.getBoolean("hasTinkerStuff");
-		setIsActive(canStuff);
-	}
+    @Override
+    public void writeItemNBT(NBTTagCompound tag) {
+        super.writeItemNBT(tag);
+        if (canStuff) tag.setBoolean("hasTinkerStuff", true);
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound tag) {
+        super.readFromNBT(tag);
+        canStuff = tag.getBoolean("hasTinkerStuff");
+        setIsActive(canStuff);
+    }
 }

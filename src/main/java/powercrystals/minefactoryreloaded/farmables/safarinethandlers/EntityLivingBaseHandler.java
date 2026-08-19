@@ -16,55 +16,46 @@ import net.minecraft.potion.PotionEffect;
 import powercrystals.minefactoryreloaded.api.ISafariNetHandler;
 import powercrystals.minefactoryreloaded.core.MFRUtil;
 
-public class EntityLivingBaseHandler implements ISafariNetHandler
-{
-	@Override
-	public Class<?> validFor()
-	{
-		return EntityLivingBase.class;
-	}
+public class EntityLivingBaseHandler implements ISafariNetHandler {
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@Override
-	public void addInformation(ItemStack safariNetStack, EntityPlayer player, List infoList, boolean advancedTooltips)
-	{
-		NBTTagCompound tag = safariNetStack.getTagCompound();
-		float abs = tag.getFloat("AbsorptionAmount");
-		if (abs > 0)
-			infoList.add("Absorption: " + abs);
+    @Override
+    public Class<?> validFor() {
+        return EntityLivingBase.class;
+    }
 
-		if (tag.hasKey("HealF"))
-			infoList.add("Health: " + new BigDecimal(tag.getFloat("HealF")).toPlainString());
-		else
-			infoList.add("Health: " + (tag.getShort("Health")));
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @Override
+    public void addInformation(ItemStack safariNetStack, EntityPlayer player, List infoList, boolean advancedTooltips) {
+        NBTTagCompound tag = safariNetStack.getTagCompound();
+        float abs = tag.getFloat("AbsorptionAmount");
+        if (abs > 0) infoList.add("Absorption: " + abs);
 
-		if (advancedTooltips)
-		{
-			if (tag.hasKey("ActiveEffects"))
-			{
-				if (MFRUtil.isShiftKeyDown())
-				{
-					NBTTagList l = tag.getTagList("ActiveEffects", 10);
-					infoList.add("Potions:");
+        if (tag.hasKey("HealF")) infoList.add("Health: " + new BigDecimal(tag.getFloat("HealF")).toPlainString());
+        else infoList.add("Health: " + (tag.getShort("Health")));
 
-					for (int i = 0, e = l.tagCount(); i < e; ++i)
-					{
-						NBTTagCompound t = l.getCompoundTagAt(i);
-						PotionEffect f = PotionEffect.readCustomPotionEffectFromNBT(t);
-						Potion p = Potion.potionTypes[f.getPotionID()];
-						String s = MFRUtil.localize(f.getEffectName(), true).trim();
+        if (advancedTooltips) {
+            if (tag.hasKey("ActiveEffects")) {
+                if (MFRUtil.isShiftKeyDown()) {
+                    NBTTagList l = tag.getTagList("ActiveEffects", 10);
+                    infoList.add("Potions:");
 
-						int a = f.getAmplifier();
-						if (a > 0)
-							s = (s + " " + MFRUtil.localize("potion.potency." + a, true, "x" + (a + 1))).trim();
+                    for (int i = 0, e = l.tagCount(); i < e; ++i) {
+                        NBTTagCompound t = l.getCompoundTagAt(i);
+                        PotionEffect f = PotionEffect.readCustomPotionEffectFromNBT(t);
+                        Potion p = Potion.potionTypes[f.getPotionID()];
+                        String s = MFRUtil.localize(f.getEffectName(), true)
+                            .trim();
 
-						s += RESET + " - " + Potion.getDurationString(f).trim();
-						infoList.add("    " + (p.isBadEffect() ? RED : DARK_BLUE) + s + RESET);
-					}
-				}
-				else
-					infoList.add(MFRUtil.shiftForInfo());
-			}
-		}
-	}
+                        int a = f.getAmplifier();
+                        if (a > 0) s = (s + " " + MFRUtil.localize("potion.potency." + a, true, "x" + (a + 1))).trim();
+
+                        s += RESET + " - "
+                            + Potion.getDurationString(f)
+                                .trim();
+                        infoList.add("    " + (p.isBadEffect() ? RED : DARK_BLUE) + s + RESET);
+                    }
+                } else infoList.add(MFRUtil.shiftForInfo());
+            }
+        }
+    }
 }

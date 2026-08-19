@@ -1,9 +1,9 @@
 package powercrystals.minefactoryreloaded.api.rednet;
 
-import powercrystals.minefactoryreloaded.api.rednet.connectivity.IRedNetConnection;
-
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import powercrystals.minefactoryreloaded.api.rednet.connectivity.IRedNetConnection;
 
 /**
  * Defines a Block that can connect to RedNet cables. This must be implemented on your Block class.
@@ -20,33 +20,33 @@ import net.minecraftforge.common.util.ForgeDirection;
  * 0:White, 1:Orange, 2:Magenta, 3:LightBlue, 4:Yellow, 5:Lime, 6:Pink, 7:Gray,
  * 8:LightGray, 9:Cyan, 10:Purple, 11:Blue, 12:Brown, 13:Green, 14:Red, 15:Black
  */
-public interface IRedNetInputNode extends IRedNetConnection
-{
-	/**
-	 * Called when the input values to this block change. Only called if your block is connected in "All" mode.
-	 * Do not issue a network value update from inside this method call; it will be ignored. Issue your updates
-	 * on the next tick.
-	 * 
-	 * @param world The world this block is in.
-	 * @param x This block's X coordinate.
-	 * @param y This block's Y coordinate.
-	 * @param z This block's Z coordinate.
-	 * @param side The side the input values are being changed on.
-	 * @param inputValues The new set of input values. This array will be 16 elements long. Do not alter or cache.
-	 */
-	public void onInputsChanged(World world, int x, int y, int z, ForgeDirection side, int[] inputValues);
+public interface IRedNetInputNode extends IRedNetConnection {
 
-	/**
-	 * Called when the input value to this block changes. Only called if your block is connected in "Single" mode.
-	 * Do not issue a network value update from inside this method call; it will be ignored. Issue your updates
-	 * on the next tick.
-	 * 
-	 * @param world The world this block is in.
-	 * @param x This block's X coordinate.
-	 * @param y This block's Y coordinate.
-	 * @param z This block's Z coordinate.
-	 * @param side The side the input values are being changed on.
-	 * @param inputValue The new input value
-	 */
-	public void onInputChanged(World world, int x, int y, int z, ForgeDirection side, int inputValue);
+    /**
+     * Called when the input values to this block change. Only called if your block is connected in "All" mode.
+     * Do not issue a network value update from inside this method call; it will be ignored. Issue your updates
+     * on the next tick.
+     * 
+     * @param world       The world this block is in.
+     * @param x           This block's X coordinate.
+     * @param y           This block's Y coordinate.
+     * @param z           This block's Z coordinate.
+     * @param side        The side the input values are being changed on.
+     * @param inputValues The new set of input values. This array will be 16 elements long. Do not alter or cache.
+     */
+    public void onInputsChanged(World world, int x, int y, int z, ForgeDirection side, int[] inputValues);
+
+    /**
+     * Called when the input value to this block changes. Only called if your block is connected in "Single" mode.
+     * Do not issue a network value update from inside this method call; it will be ignored. Issue your updates
+     * on the next tick.
+     * 
+     * @param world      The world this block is in.
+     * @param x          This block's X coordinate.
+     * @param y          This block's Y coordinate.
+     * @param z          This block's Z coordinate.
+     * @param side       The side the input values are being changed on.
+     * @param inputValue The new input value
+     */
+    public void onInputChanged(World world, int x, int y, int z, ForgeDirection side, int inputValue);
 }
