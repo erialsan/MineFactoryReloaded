@@ -10,16 +10,13 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
 
 import cofh.core.util.fluid.FluidTankAdv;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import powercrystals.minefactoryreloaded.MFRRegistry;
 import powercrystals.minefactoryreloaded.api.IMobSpawnHandler;
-import powercrystals.minefactoryreloaded.core.ITankContainerBucketable;
 import powercrystals.minefactoryreloaded.core.UtilInventory;
 import powercrystals.minefactoryreloaded.gui.client.GuiAutoSpawner;
 import powercrystals.minefactoryreloaded.gui.client.GuiFactoryInventory;
@@ -27,9 +24,9 @@ import powercrystals.minefactoryreloaded.gui.container.ContainerAutoSpawner;
 import powercrystals.minefactoryreloaded.item.ItemSafariNet;
 import powercrystals.minefactoryreloaded.setup.MFRConfig;
 import powercrystals.minefactoryreloaded.setup.Machine;
-import powercrystals.minefactoryreloaded.tile.base.TileEntityFactoryPowered;
+import powercrystals.minefactoryreloaded.tile.base.TileEntityFactoryTanked;
 
-public class TileEntityAutoSpawner extends TileEntityFactoryPowered implements ITankContainerBucketable {
+public class TileEntityAutoSpawner extends TileEntityFactoryTanked {
 
     protected static final int _spawnRange = 4;
 
@@ -40,7 +37,7 @@ public class TileEntityAutoSpawner extends TileEntityFactoryPowered implements I
 
     public TileEntityAutoSpawner() {
 
-        super(Machine.AutoSpawner);
+        super(Machine.AutoSpawner, TankIO.FILL_ONLY);
         setManageSolids(true);
         createHAM(this, _spawnRange, 0, 2, false);
         _areaManager.setOverrideDirection(ForgeDirection.UP);
@@ -255,30 +252,6 @@ public class TileEntityAutoSpawner extends TileEntityFactoryPowered implements I
     }
 
     @Override
-    public boolean allowBucketFill(ItemStack stack) {
-
-        return true;
-    }
-
-    @Override
-    public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
-
-        return fill(resource, doFill);
-    }
-
-    @Override
-    public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
-
-        return drain(maxDrain, doDrain);
-    }
-
-    @Override
-    public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
-
-        return drain(resource, doDrain);
-    }
-
-    @Override
     public boolean canInsertItem(int slot, ItemStack itemstack, int side) {
 
         return ItemSafariNet.isSafariNet(itemstack) && !ItemSafariNet.isSingleUse(itemstack)
@@ -311,15 +284,4 @@ public class TileEntityAutoSpawner extends TileEntityFactoryPowered implements I
         _spawnExact = tag.getBoolean("spawnExact");
     }
 
-    @Override
-    public boolean canFill(ForgeDirection from, Fluid fluid) {
-
-        return true;
-    }
-
-    @Override
-    public boolean canDrain(ForgeDirection from, Fluid fluid) {
-
-        return false;
-    }
 }

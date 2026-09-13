@@ -1,5 +1,6 @@
 package powercrystals.minefactoryreloaded.tile.base;
 
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -12,6 +13,9 @@ import cofh.core.util.CoreUtils;
 import cofh.lib.util.helpers.AugmentHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import powercrystals.minefactoryreloaded.gui.client.GuiFactoryInventory;
+import powercrystals.minefactoryreloaded.gui.client.GuiFactoryPowered;
+import powercrystals.minefactoryreloaded.gui.container.ContainerFactoryPowered;
 import powercrystals.minefactoryreloaded.setup.Machine;
 
 /*
@@ -60,6 +64,19 @@ public abstract class TileEntityFactoryPowered extends TileEntityFactoryInventor
         _maxEnergyStored = machine.getMaxEnergyStorage();
         setActivationEnergy(activationCost);
         setIsActive(false);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public GuiFactoryInventory getGui(InventoryPlayer inventoryPlayer) {
+
+        return new GuiFactoryPowered(getContainer(inventoryPlayer), this);
+    }
+
+    @Override
+    public ContainerFactoryPowered getContainer(InventoryPlayer inventoryPlayer) {
+
+        return new ContainerFactoryPowered(this, inventoryPlayer);
     }
 
     // local methods

@@ -19,8 +19,6 @@ import cofh.lib.util.position.Area;
 import cofh.lib.util.position.BlockPosition;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import powercrystals.minefactoryreloaded.gui.client.GuiFactoryInventory;
-import powercrystals.minefactoryreloaded.gui.client.GuiFactoryPowered;
 import powercrystals.minefactoryreloaded.gui.container.ContainerFisher;
 import powercrystals.minefactoryreloaded.setup.MFRConfig;
 import powercrystals.minefactoryreloaded.setup.Machine;
@@ -52,13 +50,6 @@ public class TileEntityFisher extends TileEntityFactoryPowered {
             _next = _rand.nextFloat();
         }
         validateLocation();
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public GuiFactoryInventory getGui(InventoryPlayer inventoryPlayer) {
-
-        return new GuiFactoryPowered(getContainer(inventoryPlayer), this);
     }
 
     @Override

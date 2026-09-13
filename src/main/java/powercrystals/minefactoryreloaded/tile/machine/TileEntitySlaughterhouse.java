@@ -1,7 +1,5 @@
 package powercrystals.minefactoryreloaded.tile.machine;
 
-import java.util.List;
-
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityXPOrb;
@@ -37,19 +35,15 @@ public class TileEntitySlaughterhouse extends TileEntityGrinder {
     @Override
     public boolean activateMachine() {
         _grindingWorld.cleanReferences();
-        List<?> entities = worldObj.getEntitiesWithinAABB(
-            EntityLivingBase.class,
-            _areaManager.getHarvestArea()
-                .toAxisAlignedBB());
+        var entities = getEntitiesInHarvestArea(EntityLivingBase.class);
 
-        entityList: for (Object o : entities) {
-            EntityLivingBase e = (EntityLivingBase) o;
+        entityList: for (var e : entities) {
             for (Class<?> t : MFRRegistry.getSlaughterhouseBlacklist()) {
                 if (t.isInstance(e)) {
                     continue entityList;
                 }
             }
-            if ((e instanceof EntityAgeable && ((EntityAgeable) e).getGrowingAge() < 0) || e.isEntityInvulnerable()
+            if ((e instanceof EntityAgeable ageable && ageable.getGrowingAge() < 0) || e.isEntityInvulnerable()
                 || e.getHealth() <= 0
                 || !_grindingWorld.addEntityForGrinding(e)) {
                 continue;

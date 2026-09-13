@@ -1,13 +1,10 @@
 package powercrystals.minefactoryreloaded.tile.machine;
 
-import java.util.List;
-
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 
-import cofh.lib.util.position.BlockPosition;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import powercrystals.minefactoryreloaded.gui.client.GuiChronotyper;
@@ -49,20 +46,11 @@ public class TileEntityChronotyper extends TileEntityFactoryPowered {
     @Override
     protected boolean activateMachine() {
 
-        List<?> entities = worldObj.getEntitiesWithinAABB(
-            EntityAgeable.class,
-            _areaManager.getHarvestArea()
-                .toAxisAlignedBB());
+        var entities = getEntitiesInHarvestArea(EntityAgeable.class);
 
-        for (Object o : entities) {
-            if (!(o instanceof EntityAgeable)) {
-                continue;
-            }
-            EntityAgeable a = (EntityAgeable) o;
+        for (var a : entities) {
             if ((a.getGrowingAge() < 0 && !_moveOld) || (a.getGrowingAge() >= 0 && _moveOld)) {
-                BlockPosition bp = BlockPosition.fromRotateableTile(this);
-                bp.moveBackwards(1);
-                a.setPosition(bp.x + 0.5, bp.y + 0.5, bp.z + 0.5);
+                teleportEntityBehind(a);
 
                 return true;
             }

@@ -9,28 +9,25 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
 
 import cofh.core.util.fluid.FluidTankAdv;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import powercrystals.minefactoryreloaded.core.AutoEnchantmentHelper;
-import powercrystals.minefactoryreloaded.core.ITankContainerBucketable;
 import powercrystals.minefactoryreloaded.gui.client.GuiAutoEnchanter;
 import powercrystals.minefactoryreloaded.gui.client.GuiFactoryInventory;
 import powercrystals.minefactoryreloaded.gui.container.ContainerAutoEnchanter;
 import powercrystals.minefactoryreloaded.setup.Machine;
-import powercrystals.minefactoryreloaded.tile.base.TileEntityFactoryPowered;
+import powercrystals.minefactoryreloaded.tile.base.TileEntityFactoryTanked;
 
-public class TileEntityAutoEnchanter extends TileEntityFactoryPowered implements ITankContainerBucketable {
+public class TileEntityAutoEnchanter extends TileEntityFactoryTanked {
 
     private Random _rand;
     private int _targetLevel;
 
     public TileEntityAutoEnchanter() {
-        super(Machine.AutoEnchanter);
+        super(Machine.AutoEnchanter, TankIO.FILL_ONLY);
         _rand = new Random();
 
         _targetLevel = 30;
@@ -238,37 +235,8 @@ public class TileEntityAutoEnchanter extends TileEntityFactoryPowered implements
     }
 
     @Override
-    public boolean allowBucketFill(ItemStack stack) {
-        return true;
-    }
-
-    @Override
-    public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
-        return fill(resource, doFill);
-    }
-
-    @Override
-    public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
-        return drain(maxDrain, doDrain);
-    }
-
-    @Override
-    public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
-        return drain(resource, doDrain);
-    }
-
-    @Override
     protected FluidTankAdv[] createTanks() {
         return new FluidTankAdv[] { new FluidTankAdv(4 * BUCKET_VOLUME) };
     }
 
-    @Override
-    public boolean canFill(ForgeDirection from, Fluid fluid) {
-        return true;
-    }
-
-    @Override
-    public boolean canDrain(ForgeDirection from, Fluid fluid) {
-        return false;
-    }
 }

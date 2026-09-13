@@ -15,9 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.ForgeEventFactory;
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
 
 import cofh.core.util.fluid.FluidTankAdv;
 import cofh.lib.util.position.Area;
@@ -29,7 +27,6 @@ import powercrystals.minefactoryreloaded.api.HarvestType;
 import powercrystals.minefactoryreloaded.api.IFactoryHarvestable;
 import powercrystals.minefactoryreloaded.core.HarvestMode;
 import powercrystals.minefactoryreloaded.core.IHarvestManager;
-import powercrystals.minefactoryreloaded.core.ITankContainerBucketable;
 import powercrystals.minefactoryreloaded.core.SideOffset;
 import powercrystals.minefactoryreloaded.core.TreeHarvestManager;
 import powercrystals.minefactoryreloaded.gui.client.GuiFactoryInventory;
@@ -37,15 +34,15 @@ import powercrystals.minefactoryreloaded.gui.client.GuiHarvester;
 import powercrystals.minefactoryreloaded.gui.container.ContainerHarvester;
 import powercrystals.minefactoryreloaded.setup.MFRConfig;
 import powercrystals.minefactoryreloaded.setup.Machine;
-import powercrystals.minefactoryreloaded.tile.base.TileEntityFactoryPowered;
+import powercrystals.minefactoryreloaded.tile.base.TileEntityFactoryTanked;
 
-public class TileEntityHarvester extends TileEntityFactoryPowered implements ITankContainerBucketable {
+public class TileEntityHarvester extends TileEntityFactoryTanked {
 
     private static boolean skip = false;
     private static Map<String, Boolean> DEFAULT_SETTINGS;
     static {
 
-        HashMap<String, Boolean> _settings = new HashMap<String, Boolean>();
+        HashMap<String, Boolean> _settings = new HashMap<>();
         _settings.put("silkTouch", false);
         _settings.put("harvestSmallMushrooms", false);
         _settings.put("playSounds", MFRConfig.playSounds.getBoolean(true));
@@ -63,7 +60,7 @@ public class TileEntityHarvester extends TileEntityFactoryPowered implements ITa
 
     public TileEntityHarvester() {
 
-        super(Machine.Harvester);
+        super(Machine.Harvester, TankIO.DRAIN_ONLY);
         createHAM(this, 1);
         setManageSolids(true);
 
@@ -329,30 +326,6 @@ public class TileEntityHarvester extends TileEntityFactoryPowered implements ITa
     }
 
     @Override
-    public boolean allowBucketDrain(ItemStack stack) {
-
-        return true;
-    }
-
-    @Override
-    public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
-
-        return 0;
-    }
-
-    @Override
-    public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
-
-        return drain(maxDrain, doDrain);
-    }
-
-    @Override
-    public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
-
-        return drain(resource, doDrain);
-    }
-
-    @Override
     protected FluidTankAdv[] createTanks() {
 
         return new FluidTankAdv[] { new FluidTankAdv(4 * BUCKET_VOLUME) };
@@ -441,18 +414,6 @@ public class TileEntityHarvester extends TileEntityFactoryPowered implements ITa
     public int getSizeInventorySide(ForgeDirection side) {
 
         return 0;
-    }
-
-    @Override
-    public boolean canFill(ForgeDirection from, Fluid fluid) {
-
-        return false;
-    }
-
-    @Override
-    public boolean canDrain(ForgeDirection from, Fluid fluid) {
-
-        return true;
     }
 
     @Override

@@ -1,6 +1,5 @@
 package powercrystals.minefactoryreloaded.tile.machine;
 
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -10,9 +9,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import powercrystals.minefactoryreloaded.api.IFactoryLaserSource;
 import powercrystals.minefactoryreloaded.api.IFactoryLaserTarget;
-import powercrystals.minefactoryreloaded.gui.client.GuiFactoryInventory;
-import powercrystals.minefactoryreloaded.gui.client.GuiFactoryPowered;
-import powercrystals.minefactoryreloaded.gui.container.ContainerFactoryPowered;
 import powercrystals.minefactoryreloaded.setup.MFRThings;
 import powercrystals.minefactoryreloaded.setup.Machine;
 import powercrystals.minefactoryreloaded.tile.base.TileEntityFactoryPowered;
@@ -22,17 +18,6 @@ public class TileEntityLaserDrillPrecharger extends TileEntityFactoryPowered imp
     public TileEntityLaserDrillPrecharger() {
         super(Machine.LaserDrillPrecharger);
         setCanRotate(true);
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public GuiFactoryInventory getGui(InventoryPlayer inventoryPlayer) {
-        return new GuiFactoryPowered(getContainer(inventoryPlayer), this);
-    }
-
-    @Override
-    public ContainerFactoryPowered getContainer(InventoryPlayer inventoryPlayer) {
-        return new ContainerFactoryPowered(this, inventoryPlayer);
     }
 
     @Override

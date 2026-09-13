@@ -1,6 +1,5 @@
 package powercrystals.minefactoryreloaded.tile.machine;
 
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
@@ -9,11 +8,6 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidHandler;
 
 import cofh.core.util.fluid.FluidTankAdv;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import powercrystals.minefactoryreloaded.gui.client.GuiFactoryInventory;
-import powercrystals.minefactoryreloaded.gui.client.GuiFactoryPowered;
-import powercrystals.minefactoryreloaded.gui.container.ContainerFactoryPowered;
 import powercrystals.minefactoryreloaded.setup.MFRThings;
 import powercrystals.minefactoryreloaded.setup.Machine;
 import powercrystals.minefactoryreloaded.tile.base.TileEntityFactoryPowered;
@@ -28,17 +22,6 @@ public class TileEntityMeatPacker extends TileEntityFactoryPowered implements IF
     @Override
     public int getSizeInventory() {
         return 0;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public GuiFactoryInventory getGui(InventoryPlayer inventoryPlayer) {
-        return new GuiFactoryPowered(getContainer(inventoryPlayer), this);
-    }
-
-    @Override
-    public ContainerFactoryPowered getContainer(InventoryPlayer inventoryPlayer) {
-        return new ContainerFactoryPowered(this, inventoryPlayer);
     }
 
     @Override

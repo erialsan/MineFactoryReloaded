@@ -1,18 +1,12 @@
 package powercrystals.minefactoryreloaded.tile.machine;
 
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.util.FakePlayerFactory;
 
 import cofh.lib.util.position.BlockPosition;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import powercrystals.minefactoryreloaded.gui.client.GuiFactoryInventory;
-import powercrystals.minefactoryreloaded.gui.client.GuiFactoryPowered;
-import powercrystals.minefactoryreloaded.gui.container.ContainerFactoryPowered;
 import powercrystals.minefactoryreloaded.setup.MFRConfig;
 import powercrystals.minefactoryreloaded.setup.Machine;
 import powercrystals.minefactoryreloaded.tile.base.TileEntityFactoryPowered;
@@ -24,19 +18,6 @@ public class TileEntityBlockPlacer extends TileEntityFactoryPowered {
         super(Machine.BlockPlacer);
         setManageSolids(true);
         setCanRotate(true);
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public GuiFactoryInventory getGui(InventoryPlayer inventoryPlayer) {
-
-        return new GuiFactoryPowered(getContainer(inventoryPlayer), this);
-    }
-
-    @Override
-    public ContainerFactoryPowered getContainer(InventoryPlayer inventoryPlayer) {
-
-        return new ContainerFactoryPowered(this, inventoryPlayer);
     }
 
     @Override

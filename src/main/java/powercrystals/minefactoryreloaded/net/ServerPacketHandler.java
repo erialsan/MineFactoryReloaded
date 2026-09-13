@@ -47,212 +47,160 @@ public class ServerPacketHandler implements IMessageHandler<MFRMessage, IMessage
         return null;
     }
 
+    private static TileEntity readTile(World world, ByteBuf data) {
+
+        int x = data.readInt();
+        int y = data.readInt();
+        int z = data.readInt();
+        return world.getTileEntity(x, y, z);
+    }
+
     private static Packet readData(ByteBuf data) {
 
-        TileEntity te;
-        int x, y, z, a;
-        byte amt;
         World world = DimensionManager.getWorld(data.readInt());
-        EntityPlayer player;
 
         switch (data.readUnsignedShort()) {
             case Packets.HAMUpdate:
-                x = data.readInt();
-                y = data.readInt();
-                z = data.readInt();
-                te = world.getTileEntity(x, y, z);
-                if (te instanceof TileEntityFactory && ((TileEntityFactory) te).hasHAM()) {
-                    return ((TileEntityFactory) te).getHAM()
+                var te = readTile(world, data);
+                if (te instanceof TileEntityFactory factory && factory.hasHAM()) {
+                    return factory.getHAM()
                         .getUpgradePacket();
                 }
                 break;
             case Packets.EnchanterButton: // client -> server: autoenchanter GUI buttons
-                x = data.readInt();
-                y = data.readInt();
-                z = data.readInt();
-                te = world.getTileEntity(x, y, z);
+                te = readTile(world, data);
 
-                amt = data.readByte();
-                if (te instanceof TileEntityAutoEnchanter) {
-                    ((TileEntityAutoEnchanter) te)
-                        .setTargetLevel(((TileEntityAutoEnchanter) te).getTargetLevel() + amt);
-                } else if (te instanceof TileEntityBlockSmasher) {
-                    ((TileEntityBlockSmasher) te).setFortune(((TileEntityBlockSmasher) te).getFortune() + amt);
-                } else if (te instanceof TileEntityAutoDisenchanter) {
-                    ((TileEntityAutoDisenchanter) te).setRepeatDisenchant(amt == 1 ? true : false);
+                byte amt = data.readByte();
+                if (te instanceof TileEntityAutoEnchanter enchanter) {
+                    enchanter.setTargetLevel(enchanter.getTargetLevel() + amt);
+                } else if (te instanceof TileEntityBlockSmasher smasher) {
+                    smasher.setFortune(smasher.getFortune() + amt);
+                } else if (te instanceof TileEntityAutoDisenchanter disenchanter) {
+                    disenchanter.setRepeatDisenchant(amt == 1);
                 }
                 break;
             case Packets.HarvesterButton: // client -> server: harvester setting
-                x = data.readInt();
-                y = data.readInt();
-                z = data.readInt();
-                te = world.getTileEntity(x, y, z);
+                te = readTile(world, data);
 
-                if (te instanceof TileEntityHarvester) {
-                    ((TileEntityHarvester) te).getSettings()
+                if (te instanceof TileEntityHarvester harvester) {
+                    harvester.getSettings()
                         .put(ByteBufUtils.readUTF8String(data), data.readBoolean());
                 }
                 break;
             case Packets.ChronotyperButton: // client -> server: toggle chronotyper
-                x = data.readInt();
-                y = data.readInt();
-                z = data.readInt();
-                te = world.getTileEntity(x, y, z);
+                te = readTile(world, data);
 
-                if (te instanceof TileEntityChronotyper) {
-                    ((TileEntityChronotyper) te).setMoveOld(!((TileEntityChronotyper) te).getMoveOld());
-                } else if (te instanceof TileEntityDeepStorageUnit) {
-                    ((TileEntityDeepStorageUnit) te).setIsActive(!((TileEntityDeepStorageUnit) te).isActive());
-                    ((TileEntityDeepStorageUnit) te).markForUpdate();
+                if (te instanceof TileEntityChronotyper chronotyper) {
+                    chronotyper.setMoveOld(!chronotyper.getMoveOld());
+                } else if (te instanceof TileEntityDeepStorageUnit dsu) {
+                    dsu.setIsActive(!dsu.isActive());
+                    dsu.markForUpdate();
                     Packets.sendToAllPlayersWatching(te);
                 }
                 break;
             case Packets.AutoJukeboxButton: // client -> server: copy record
-                x = data.readInt();
-                y = data.readInt();
-                z = data.readInt();
-                te = world.getTileEntity(x, y, z);
+                te = readTile(world, data);
 
-                if (te instanceof TileEntityAutoJukebox) {
-                    TileEntityAutoJukebox j = ((TileEntityAutoJukebox) te);
+                if (te instanceof TileEntityAutoJukebox jukebox) {
                     int button = data.readByte();
-                    if (button == 1) j.playRecord();
-                    else if (button == 2) j.stopRecord();
-                    else if (button == 3) j.copyRecord();
+                    if (button == 1) jukebox.playRecord();
+                    else if (button == 2) jukebox.stopRecord();
+                    else if (button == 3) jukebox.copyRecord();
                 }
                 break;
             case Packets.AutoSpawnerButton: // client -> server: toggle autospawner
-                x = data.readInt();
-                y = data.readInt();
-                z = data.readInt();
-                te = world.getTileEntity(x, y, z);
+                te = readTile(world, data);
 
-                if (te instanceof TileEntityAutoSpawner) {
-                    ((TileEntityAutoSpawner) te).setSpawnExact(!((TileEntityAutoSpawner) te).getSpawnExact());
+                if (te instanceof TileEntityAutoSpawner spawner) {
+                    spawner.setSpawnExact(!spawner.getSpawnExact());
                 }
                 break;
             case Packets.CircuitDefinition: // client -> server: request circuit from server
-                x = data.readInt();
-                y = data.readInt();
-                z = data.readInt();
-                te = world.getTileEntity(x, y, z);
+                te = readTile(world, data);
 
-                if (te instanceof TileEntityRedNetLogic) {
-                    ((TileEntityRedNetLogic) te).sendCircuitDefinition(data.readInt());
+                if (te instanceof TileEntityRedNetLogic logic) {
+                    logic.sendCircuitDefinition(data.readInt());
                 }
                 break;
             case Packets.LogicSetCircuit: // client -> server: set circuit
-                x = data.readInt();
-                y = data.readInt();
-                z = data.readInt();
-                te = world.getTileEntity(x, y, z);
+                te = readTile(world, data);
 
                 int circuit = data.readInt();
-                if (te instanceof TileEntityRedNetLogic) {
-                    ((TileEntityRedNetLogic) te).initCircuit(circuit, ByteBufUtils.readUTF8String(data));
-                    ((TileEntityRedNetLogic) te).sendCircuitDefinition(circuit);
+                if (te instanceof TileEntityRedNetLogic logic) {
+                    logic.initCircuit(circuit, ByteBufUtils.readUTF8String(data));
+                    logic.sendCircuitDefinition(circuit);
                 }
                 break;
             case Packets.LogicSetPin: // client -> server: set pin
-                x = data.readInt();
-                y = data.readInt();
-                z = data.readInt();
-                te = world.getTileEntity(x, y, z);
+                te = readTile(world, data);
 
                 amt = data.readByte();
                 int circuitIndex = data.readInt(), pinIndex = data.readInt(), buffer = data.readInt(),
                     pin = data.readInt();
-                if (te instanceof TileEntityRedNetLogic) {
+                if (te instanceof TileEntityRedNetLogic logic) {
                     if (amt == 0) {
-                        ((TileEntityRedNetLogic) te).setInputPinMapping(circuitIndex, pinIndex, buffer, pin);
+                        logic.setInputPinMapping(circuitIndex, pinIndex, buffer, pin);
                     } else if (amt == 1) {
-                        ((TileEntityRedNetLogic) te).setOutputPinMapping(circuitIndex, pinIndex, buffer, pin);
+                        logic.setOutputPinMapping(circuitIndex, pinIndex, buffer, pin);
                     }
-                    ((TileEntityRedNetLogic) te).sendCircuitDefinition(circuitIndex);
+                    logic.sendCircuitDefinition(circuitIndex);
                 }
                 break;
             case Packets.LogicReinitialize: // client -> server: set circuit
-                x = data.readInt();
-                y = data.readInt();
-                z = data.readInt();
-                te = world.getTileEntity(x, y, z);
-                player = (EntityPlayer) world.getEntityByID(data.readInt());
+                te = readTile(world, data);
+                EntityPlayer player = (EntityPlayer) world.getEntityByID(data.readInt());
 
-                if (te instanceof TileEntityRedNetLogic) {
-                    ((TileEntityRedNetLogic) te).reinitialize(player);
+                if (te instanceof TileEntityRedNetLogic logic) {
+                    logic.reinitialize(player);
                 }
                 break;
             case Packets.RouterButton: // client -> server: toggle 'levels'/'reject unmapped' mode
-                x = data.readInt();
-                y = data.readInt();
-                z = data.readInt();
-                te = world.getTileEntity(x, y, z);
+                te = readTile(world, data);
 
-                a = data.readInt();
-                if (te instanceof TileEntityEnchantmentRouter) {
+                int a = data.readInt();
+                if (te instanceof TileEntityEnchantmentRouter enchantRouter) {
                     switch (a) {
-                        case 2:
-                            ((TileEntityItemRouter) te)
-                                .setRejectUnmapped(!((TileEntityItemRouter) te).getRejectUnmapped());
-                            break;
-                        case 1:
-                            ((TileEntityEnchantmentRouter) te)
-                                .setMatchLevels(!((TileEntityEnchantmentRouter) te).getMatchLevels());
-                            break;
+                        case 2 -> enchantRouter.setRejectUnmapped(!enchantRouter.getRejectUnmapped());
+                        case 1 -> enchantRouter.setMatchLevels(!enchantRouter.getMatchLevels());
                     }
-                } else if (te instanceof TileEntityItemRouter) {
-                    ((TileEntityItemRouter) te).setRejectUnmapped(!((TileEntityItemRouter) te).getRejectUnmapped());
-                } else if (te instanceof TileEntityEjector) {
+                } else if (te instanceof TileEntityItemRouter itemRouter) {
+                    itemRouter.setRejectUnmapped(!itemRouter.getRejectUnmapped());
+                } else if (te instanceof TileEntityEjector ejector) {
                     switch (a) {
-                        case 1:
-                            ((TileEntityEjector) te).setIsWhitelist(!((TileEntityEjector) te).getIsWhitelist());
-                            break;
-                        case 2:
-                            ((TileEntityEjector) te).setIsNBTMatch(!((TileEntityEjector) te).getIsNBTMatch());
-                            break;
-                        case 3:
-                            ((TileEntityEjector) te).setIsIDMatch(!((TileEntityEjector) te).getIsIDMatch());
-                            break;
+                        case 1 -> ejector.setIsWhitelist(!ejector.getIsWhitelist());
+                        case 2 -> ejector.setIsNBTMatch(!ejector.getIsNBTMatch());
+                        case 3 -> ejector.setIsIDMatch(!ejector.getIsIDMatch());
                     }
-                } else if (te instanceof TileEntityAutoAnvil) {
-                    ((TileEntityAutoAnvil) te).setRepairOnly(!((TileEntityAutoAnvil) te).getRepairOnly());
-                } else if (te instanceof TileEntityChunkLoader) {
-                    ((TileEntityChunkLoader) te).setRadius((short) a);
-                } else if (te instanceof TileEntityPlanter) {
-                    ((TileEntityPlanter) te).setConsumeAll(!((TileEntityPlanter) te).getConsumeAll());
-                } else if (te instanceof TileEntityMobRouter) {
+                } else if (te instanceof TileEntityAutoAnvil anvil) {
+                    anvil.setRepairOnly(!anvil.getRepairOnly());
+                } else if (te instanceof TileEntityChunkLoader chunkLoader) {
+                    chunkLoader.setRadius((short) a);
+                } else if (te instanceof TileEntityPlanter planter) {
+                    planter.setConsumeAll(!planter.getConsumeAll());
+                } else if (te instanceof TileEntityMobRouter mobRouter) {
                     switch (a) {
-                        case 1:
-                            ((TileEntityMobRouter) te).setWhiteList(!((TileEntityMobRouter) te).getWhiteList());
-                            break;
-                        case 2:
-                            ((TileEntityMobRouter) te).setMatchMode(((TileEntityMobRouter) te).getMatchMode() + 1);
-                            break;
-                        case 3:
-                            ((TileEntityMobRouter) te).setMatchMode(((TileEntityMobRouter) te).getMatchMode() - 1);
-                            break;
+                        case 1 -> mobRouter.setWhiteList(!mobRouter.getWhiteList());
+                        case 2 -> mobRouter.setMatchMode(mobRouter.getMatchMode() + 1);
+                        case 3 -> mobRouter.setMatchMode(mobRouter.getMatchMode() - 1);
                     }
                 }
                 break;
             case Packets.FakeSlotChange: // client -> server: client clicked on a fake slot
-                x = data.readInt();
-                y = data.readInt();
-                z = data.readInt();
-                te = world.getTileEntity(x, y, z);
+                te = readTile(world, data);
                 player = (EntityPlayer) world.getEntityByID(data.readInt());
 
                 ItemStack playerStack = player.inventory.getItemStack();
                 int slotNumber = data.readInt(), click = data.readByte();
-                if (te instanceof IInventory) {
+                if (te instanceof IInventory inventory) {
                     if (playerStack == null) {
-                        ((IInventory) te).setInventorySlotContents(slotNumber, null);
+                        inventory.setInventorySlotContents(slotNumber, null);
                     } else {
                         playerStack = playerStack.copy();
                         playerStack.stackSize = click == 1 ? -1 : 1;
-                        ItemStack s = ((IInventory) te).getStackInSlot(slotNumber);
+                        ItemStack s = inventory.getStackInSlot(slotNumber);
                         if (!UtilInventory.stacksEqual(s, playerStack)) playerStack.stackSize = 1;
                         else playerStack.stackSize = Math.max(playerStack.stackSize + s.stackSize, 1);
-                        ((IInventory) te).setInventorySlotContents(slotNumber, playerStack);
+                        inventory.setInventorySlotContents(slotNumber, playerStack);
                     }
                 }
                 break;
@@ -264,8 +212,8 @@ public class ServerPacketHandler implements IMessageHandler<MFRMessage, IMessage
                     target = world.getEntityByID(t);
                 }
 
-                if (owner instanceof EntityLivingBase) {
-                    EntityRocket r = new EntityRocket(world, ((EntityLivingBase) owner), target);
+                if (owner instanceof EntityLivingBase living) {
+                    EntityRocket r = new EntityRocket(world, living, target);
                     world.spawnEntityInWorld(r);
                 }
                 break;

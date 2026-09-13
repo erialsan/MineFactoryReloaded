@@ -3,7 +3,6 @@ package powercrystals.minefactoryreloaded.tile.machine;
 import static net.minecraftforge.fluids.FluidRegistry.WATER;
 
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.biome.BiomeGenBase;
@@ -14,12 +13,7 @@ import net.minecraftforge.fluids.FluidStack;
 import cofh.core.util.fluid.FluidTankAdv;
 import cofh.lib.util.helpers.BlockHelper;
 import cofh.lib.util.helpers.FluidHelper;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import powercrystals.minefactoryreloaded.core.ITankContainerBucketable;
-import powercrystals.minefactoryreloaded.gui.client.GuiFactoryInventory;
-import powercrystals.minefactoryreloaded.gui.client.GuiFactoryPowered;
-import powercrystals.minefactoryreloaded.gui.container.ContainerFactoryPowered;
 import powercrystals.minefactoryreloaded.setup.Machine;
 import powercrystals.minefactoryreloaded.tile.base.TileEntityFactoryPowered;
 
@@ -33,17 +27,6 @@ public class TileEntityWeather extends TileEntityFactoryPowered implements ITank
         super(Machine.WeatherCollector);
         setManageSolids(true);
         _tanks[0].setLock(WATER);
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public GuiFactoryInventory getGui(InventoryPlayer inventoryPlayer) {
-        return new GuiFactoryPowered(getContainer(inventoryPlayer), this);
-    }
-
-    @Override
-    public ContainerFactoryPowered getContainer(InventoryPlayer inventoryPlayer) {
-        return new ContainerFactoryPowered(this, inventoryPlayer);
     }
 
     @Override

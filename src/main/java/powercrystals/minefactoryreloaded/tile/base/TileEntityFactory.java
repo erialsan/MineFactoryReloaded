@@ -1,7 +1,9 @@
 package powercrystals.minefactoryreloaded.tile.base;
 
+import java.util.List;
 import java.util.Locale;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -18,6 +20,7 @@ import buildcraft.api.transport.IPipeTile.PipeType;
 import cofh.api.inventory.IInventoryConnection;
 import cofh.api.tileentity.IPortableData;
 import cofh.asm.relauncher.Strippable;
+import cofh.lib.util.position.BlockPosition;
 import cofh.lib.util.position.IRotateableTile;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -141,6 +144,22 @@ public abstract class TileEntityFactory extends TileEntityBase
         return _areaManager;
     }
 
+    @SuppressWarnings("unchecked")
+    protected final <T extends Entity> List<T> getEntitiesInHarvestArea(Class<T> type) {
+
+        return worldObj.getEntitiesWithinAABB(
+            type,
+            _areaManager.getHarvestArea()
+                .toAxisAlignedBB());
+    }
+
+    protected final void teleportEntityBehind(Entity entity) {
+
+        var bp = BlockPosition.fromRotateableTile(this);
+        bp.moveBackwards(1);
+        entity.setPosition(bp.x + 0.5, bp.y + 0.5, bp.z + 0.5);
+    }
+
     public World getWorld() {
 
         return worldObj;
@@ -178,22 +197,13 @@ public abstract class TileEntityFactory extends TileEntityBase
     public void rotate(boolean reverse) {
 
         if (worldObj != null && !worldObj.isRemote) {
-            switch ((reverse ? _forwardDirection.getOpposite() : _forwardDirection).ordinal()) {
-                case 2:// NORTH:
-                    _forwardDirection = ForgeDirection.EAST;
-                    break;
-                case 5:// EAST:
-                    _forwardDirection = ForgeDirection.SOUTH;
-                    break;
-                case 3:// SOUTH:
-                    _forwardDirection = ForgeDirection.WEST;
-                    break;
-                case 4:// WEST:
-                    _forwardDirection = ForgeDirection.NORTH;
-                    break;
-                default:
-                    _forwardDirection = ForgeDirection.NORTH;
-            }
+            _forwardDirection = switch ((reverse ? _forwardDirection.getOpposite() : _forwardDirection).ordinal()) {
+                case 2 -> ForgeDirection.EAST; // NORTH
+                case 5 -> ForgeDirection.SOUTH; // EAST
+                case 3 -> ForgeDirection.WEST; // SOUTH
+                case 4 -> ForgeDirection.NORTH; // WEST
+                default -> ForgeDirection.NORTH;
+            };
 
             onRotate();
         }

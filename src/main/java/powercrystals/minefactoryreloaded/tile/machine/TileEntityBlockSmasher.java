@@ -11,24 +11,20 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
 
 import cofh.core.util.fluid.FluidTankAdv;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import powercrystals.minefactoryreloaded.core.ITankContainerBucketable;
 import powercrystals.minefactoryreloaded.core.UtilInventory;
 import powercrystals.minefactoryreloaded.gui.client.GuiBlockSmasher;
 import powercrystals.minefactoryreloaded.gui.client.GuiFactoryInventory;
 import powercrystals.minefactoryreloaded.gui.container.ContainerBlockSmasher;
 import powercrystals.minefactoryreloaded.setup.Machine;
-import powercrystals.minefactoryreloaded.tile.base.TileEntityFactoryPowered;
+import powercrystals.minefactoryreloaded.tile.base.TileEntityFactoryTanked;
 import powercrystals.minefactoryreloaded.world.SmashingWorld;
 
-public class TileEntityBlockSmasher extends TileEntityFactoryPowered implements ITankContainerBucketable {
+public class TileEntityBlockSmasher extends TileEntityFactoryTanked {
 
     public static final int MAX_FORTUNE = 3;
     private int _fortune = 0;
@@ -41,7 +37,7 @@ public class TileEntityBlockSmasher extends TileEntityFactoryPowered implements 
 
     public TileEntityBlockSmasher() {
 
-        super(Machine.BlockSmasher);
+        super(Machine.BlockSmasher, TankIO.FILL_ONLY);
         setManageSolids(true);
         _tanks[0].setLock(FluidRegistry.getFluid("mobessence"));
     }
@@ -197,30 +193,6 @@ public class TileEntityBlockSmasher extends TileEntityFactoryPowered implements 
     }
 
     @Override
-    public boolean allowBucketFill(ItemStack stack) {
-
-        return true;
-    }
-
-    @Override
-    public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
-
-        return fill(resource, doFill);
-    }
-
-    @Override
-    public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
-
-        return drain(maxDrain, doDrain);
-    }
-
-    @Override
-    public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
-
-        return drain(resource, doDrain);
-    }
-
-    @Override
     protected FluidTankAdv[] createTanks() {
 
         return new FluidTankAdv[] { new FluidTankAdv(4 * BUCKET_VOLUME) };
@@ -287,15 +259,4 @@ public class TileEntityBlockSmasher extends TileEntityFactoryPowered implements 
         }
     }
 
-    @Override
-    public boolean canFill(ForgeDirection from, Fluid fluid) {
-
-        return true;
-    }
-
-    @Override
-    public boolean canDrain(ForgeDirection from, Fluid fluid) {
-
-        return false;
-    }
 }

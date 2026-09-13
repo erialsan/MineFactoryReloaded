@@ -2,20 +2,13 @@ package powercrystals.minefactoryreloaded.tile.machine;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import net.minecraft.entity.ai.EntityAIVillagerMate;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityVillager;
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import powercrystals.minefactoryreloaded.gui.client.GuiFactoryInventory;
-import powercrystals.minefactoryreloaded.gui.client.GuiFactoryPowered;
-import powercrystals.minefactoryreloaded.gui.container.ContainerFactoryPowered;
 import powercrystals.minefactoryreloaded.setup.MFRConfig;
 import powercrystals.minefactoryreloaded.setup.Machine;
 import powercrystals.minefactoryreloaded.tile.base.TileEntityFactoryPowered;
@@ -30,17 +23,6 @@ public class TileEntityBreeder extends TileEntityFactoryPowered {
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public GuiFactoryInventory getGui(InventoryPlayer inventoryPlayer) {
-        return new GuiFactoryPowered(getContainer(inventoryPlayer), this);
-    }
-
-    @Override
-    public ContainerFactoryPowered getContainer(InventoryPlayer inventoryPlayer) {
-        return new ContainerFactoryPowered(this, inventoryPlayer);
-    }
-
-    @Override
     public int getWorkMax() {
         return 1;
     }
@@ -52,16 +34,13 @@ public class TileEntityBreeder extends TileEntityFactoryPowered {
 
     @Override
     protected boolean activateMachine() {
-        List<EntityAnimal> entities = worldObj.getEntitiesWithinAABB(
-            EntityAnimal.class,
-            _areaManager.getHarvestArea()
-                .toAxisAlignedBB());
+        var entities = getEntitiesInHarvestArea(EntityAnimal.class);
 
         if (entities.size() > MFRConfig.breederShutdownThreshold.getInt()) {
             setIdleTicks(getIdleTicksMax());
             return false;
         }
-        ArrayList<Integer> doors = new ArrayList<Integer>();
+        ArrayList<Integer> doors = new ArrayList<>();
 
         for (int i = getSizeInventory(); i-- > 0;) {
             ItemStack item = _inventory[i];
@@ -88,10 +67,7 @@ public class TileEntityBreeder extends TileEntityFactoryPowered {
         }
 
         if (doors.size() > 0) {
-            List<EntityVillager> villagers = worldObj.getEntitiesWithinAABB(
-                EntityVillager.class,
-                _areaManager.getHarvestArea()
-                    .toAxisAlignedBB());
+            var villagers = getEntitiesInHarvestArea(EntityVillager.class);
 
             if (villagers.size() > MFRConfig.breederShutdownThreshold.getInt()) {
                 setIdleTicks(getIdleTicksMax());
@@ -106,8 +82,8 @@ public class TileEntityBreeder extends TileEntityFactoryPowered {
                         EntityVillager v = iter.next();
                         if (v.getGrowingAge() == 0 && !v.isMating()) {
                             for (Object o : v.tasks.taskEntries) {
-                                if (o instanceof EntityAIVillagerMate) {
-                                    ((EntityAIVillagerMate) o).startExecuting();
+                                if (o instanceof EntityAIVillagerMate mate) {
+                                    mate.startExecuting();
                                     decrStackSize(i, 1);
                                     iter.remove();
                                     return true;

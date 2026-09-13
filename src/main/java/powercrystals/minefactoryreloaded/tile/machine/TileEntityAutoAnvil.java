@@ -13,22 +13,20 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.AnvilUpdateEvent;
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
 import cofh.core.util.fluid.FluidTankAdv;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import powercrystals.minefactoryreloaded.core.ITankContainerBucketable;
 import powercrystals.minefactoryreloaded.gui.client.GuiAutoAnvil;
 import powercrystals.minefactoryreloaded.gui.client.GuiFactoryInventory;
 import powercrystals.minefactoryreloaded.gui.container.ContainerAutoAnvil;
 import powercrystals.minefactoryreloaded.gui.container.ContainerFactoryPowered;
 import powercrystals.minefactoryreloaded.setup.Machine;
-import powercrystals.minefactoryreloaded.tile.base.TileEntityFactoryPowered;
+import powercrystals.minefactoryreloaded.tile.base.TileEntityFactoryTanked;
 
-public class TileEntityAutoAnvil extends TileEntityFactoryPowered implements ITankContainerBucketable {
+public class TileEntityAutoAnvil extends TileEntityFactoryTanked {
 
     private float maximumCost;
     private int stackSizeToBeUsedInRepair;
@@ -38,7 +36,7 @@ public class TileEntityAutoAnvil extends TileEntityFactoryPowered implements ITa
 
     public TileEntityAutoAnvil() {
 
-        super(Machine.AutoAnvil);
+        super(Machine.AutoAnvil, TankIO.FILL_ONLY);
         setManageSolids(true);
         _tanks[0].setLock(FluidRegistry.getFluid("mobessence"));
     }
@@ -457,18 +455,6 @@ public class TileEntityAutoAnvil extends TileEntityFactoryPowered implements ITa
     }
 
     @Override
-    public boolean allowBucketFill(ItemStack stack) {
-
-        return true;
-    }
-
-    @Override
-    public int fill(ForgeDirection from, FluidStack type, boolean doFill) {
-
-        return fill(type, doFill);
-    }
-
-    @Override
     public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
 
         return null;
@@ -486,15 +472,4 @@ public class TileEntityAutoAnvil extends TileEntityFactoryPowered implements ITa
         return new FluidTankAdv[] { new FluidTankAdv(4 * BUCKET_VOLUME) };
     }
 
-    @Override
-    public boolean canFill(ForgeDirection from, Fluid fluid) {
-
-        return true;
-    }
-
-    @Override
-    public boolean canDrain(ForgeDirection from, Fluid fluid) {
-
-        return false;
-    }
 }

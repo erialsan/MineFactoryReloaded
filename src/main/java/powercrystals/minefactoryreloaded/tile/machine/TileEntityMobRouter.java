@@ -9,7 +9,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 
-import cofh.lib.util.position.BlockPosition;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import powercrystals.minefactoryreloaded.MFRRegistry;
@@ -53,10 +52,7 @@ public class TileEntityMobRouter extends TileEntityFactoryPowered {
             matchClass = getEntityClass(_inventory[0]);
         } else matchClass = EntityLivingBase.class;
 
-        List<? extends EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(
-            EntityLivingBase.class,
-            _areaManager.getHarvestArea()
-                .toAxisAlignedBB());
+        var entities = getEntitiesInHarvestArea(EntityLivingBase.class);
         List<Class<?>> blacklist = MFRRegistry.getSafariNetBlacklist();
 
         switch (_matchMode) {
@@ -69,23 +65,13 @@ public class TileEntityMobRouter extends TileEntityFactoryPowered {
         for (EntityLivingBase entity : entities) {
             Class<?> entityClass = entity.getClass();
             if (blacklist.contains(entityClass) || EntityPlayer.class.isAssignableFrom(entityClass)) continue;
-            boolean match;
-            switch (_matchMode) {
-                case 0:
-                    match = matchClass == entityClass;
-                    break;
-                case 1:
-                case 2:
-                case 3:
-                    match = matchClass.isAssignableFrom(entityClass);
-                    break;
-                default:
-                    match = false;
-            }
+            boolean match = switch (_matchMode) {
+                case 0 -> matchClass == entityClass;
+                case 1, 2, 3 -> matchClass.isAssignableFrom(entityClass);
+                default -> false;
+            };
             if (match ^ _blacklist) {
-                BlockPosition bp = BlockPosition.fromRotateableTile(this);
-                bp.moveBackwards(1);
-                entity.setPosition(bp.x + 0.5, bp.y + 0.5, bp.z + 0.5);
+                teleportEntityBehind(entity);
 
                 return true;
             }
