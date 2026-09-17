@@ -59,11 +59,6 @@ public class FruitIC2Resin implements IFactoryFruit, IFactoryFertilizable {
     }
 
     @Override
-    public boolean breakBlock() {
-        return false;
-    }
-
-    @Override
     public ReplacementBlock getReplacementBlock(World world, int x, int y, int z) {
         return _repl;
     }

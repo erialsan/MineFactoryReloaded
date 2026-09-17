@@ -89,7 +89,7 @@ public class ItemRedNetMemoryCard extends ItemFactory {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean hasEffect(ItemStack stack) {
+    public boolean hasEffect(ItemStack stack, int pass) {
 
         NBTTagCompound tag = stack.getTagCompound();
         return tag != null && (tag.hasKey("Type") || tag.hasKey("circuits", 9));

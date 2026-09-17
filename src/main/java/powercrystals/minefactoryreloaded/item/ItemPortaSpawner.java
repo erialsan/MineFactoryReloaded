@@ -187,7 +187,7 @@ public class ItemPortaSpawner extends ItemFactory {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean hasEffect(ItemStack stack) {
+    public boolean hasEffect(ItemStack stack, int pass) {
 
         return hasData(stack);
     }

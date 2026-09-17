@@ -37,13 +37,6 @@ public interface IFactoryFruit {
     public boolean canBePicked(World world, int x, int y, int z);
 
     /**
-     * @deprecated This method is no longer called. ReplacementBlock now handles
-     *             interaction.
-     */
-    @Deprecated
-    public boolean breakBlock();
-
-    /**
      * Called by the Fruit Picker to determine what block to replace the picked
      * block with. At the time this method is called, the fruit still exists.
      *

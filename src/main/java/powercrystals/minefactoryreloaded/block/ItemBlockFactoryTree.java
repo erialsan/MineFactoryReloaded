@@ -10,7 +10,7 @@ public class ItemBlockFactoryTree extends ItemBlockFactory {
     }
 
     @Override
-    public boolean hasEffect(ItemStack stack) {
+    public boolean hasEffect(ItemStack stack, int pass) {
         return stack.getItemDamage() == 3;
     }
 }
